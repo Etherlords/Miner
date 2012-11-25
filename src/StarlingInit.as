@@ -59,7 +59,8 @@ package
 			mStarling.enableErrorChecking = false;
 			
 			mStarling.start();
-			mStarling.showStats = false;
+			mStarling.showStats = true;
+			mStarling.showStatsAt('right','bottom');
 			
 			mStarling.stage3D.addEventListener(Event.CONTEXT3D_CREATE, onContextCreated);
 			

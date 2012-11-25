@@ -23,11 +23,19 @@ package view
 		private var mineField:MineFieldModel;
 		private var mineFieldInstance:Sprite;
 		private var gameModel:GameModel;
+		private var uiView:GameScreenUI;
 		
 		public function MainGaimView() 
 		{
 			super();
 			
+			var stars:StarParticlesEmmiter = new StarParticlesEmmiter();
+			addChild(stars);
+			stars.y -= 10;
+			
+			uiView = new GameScreenUI()
+			
+			GlobalUIContext.vectorUIContainer.addChild(uiView);
 		}
 		
 		public function initilize(mineField:MineFieldModel, gameModel:GameModel):void
@@ -35,21 +43,13 @@ package view
 			this.gameModel = gameModel;
 			this.mineField = mineField;
 			
+			uiView.setGameModel(gameModel);
+			
 			mineFieldInstance = new Sprite();
 			
 			craeteFieldView();
 			
-			
-			var stars:StarParticlesEmmiter = new StarParticlesEmmiter();
-			addChild(stars);
 			addChild(mineFieldInstance);
-			
-			var uiView:GameScreenUI = new GameScreenUI(gameModel)
-			
-			GlobalUIContext.vectorUIContainer.addChild(uiView);
-			
-			
-			stars.y -= 10;
 			
 			alignUI();
 		}

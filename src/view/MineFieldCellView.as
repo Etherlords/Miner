@@ -63,7 +63,7 @@ package view
 			lable = new TextField(CellConstants.MINE_FIELD_GABARITE, CellConstants.MINE_FIELD_GABARITE, '', 'Ubuntu', CellConstants.MINE_FIELD_GABARITE * 0.85, 0x0, true);
 			lable.autoScale = true
 			
-			addChild(lable);
+			
 			
 			background.scaleX = background.scaleY = flag.scaleX = flag.scaleY = scaleFactor;
 		}
@@ -105,9 +105,17 @@ package view
 			{
 				lable.color = lableColors[cellModel.fieldStatus];
 				lable.text = cellModel.fieldStatus.toString();
+				
+				if (!contains(lable))
+					addChild(lable);
 			}
 			else
+			{
+				if(contains(lable))
+					removeChild(lable);
+					
 				lable.text = '';
+			}
 				
 			alignUI();
 		}
@@ -125,6 +133,7 @@ package view
 		
 		private function drawView():void
 		{
+			
 			background.texture = TextureStore.textures[FIELD_TEXTURE_IDENT + cellModel.viewState]
 			
 			if (cellModel.isFlagged && cellModel.viewState != CellConstants.OPEN_STATE)
@@ -132,7 +141,8 @@ package view
 			else
 				removeChild(flag);
 				
-			this.setChildIndex(lable, this.numChildren - 1);
+			if(contains(lable))
+				this.setChildIndex(lable, this.numChildren - 1);
 		}
 		
 	}

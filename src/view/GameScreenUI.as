@@ -34,7 +34,7 @@ package view
 		
 		private var viewComponentPosition:Point = new Point(0, 0);
 		
-		public function GameScreenUI(gameModel:GameModel) 
+		public function GameScreenUI(gameModel:GameModel = null) 
 		{
 			super();
 			this.gameModel = gameModel;
@@ -42,15 +42,27 @@ package view
 			initilize();
 		}
 		
+		public function setGameModel(gameModel:GameModel):void
+		{
+			if (gameModel)
+			{
+				gameModel.removeEventListener(LazyModeratorEvent.UPDATE_EVENT, updateView);
+			}
+				
+			this.gameModel = gameModel;
+				
+			updateMinesCount();
+			updateMineFields();
+			align();
+			gameModel.addEventListener(LazyModeratorEvent.UPDATE_EVENT, updateView);
+		}
+		
 		private function initilize():void 
 		{
 			craeteUI();
 			
 			updateStrategy = { 'openedField':updateMineFields, 'foundedMines':updateMinesCount, 'gameTime':updateTimer }
-			gameModel.addEventListener(LazyModeratorEvent.UPDATE_EVENT, updateView);
 			
-			updateMinesCount();
-			updateMineFields();
 			
 			align();
 		}
