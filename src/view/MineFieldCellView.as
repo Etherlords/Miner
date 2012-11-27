@@ -100,7 +100,7 @@ package view
 			
 			drawView();
 			
-			unflatten();
+			
 			
 			if (cellModel.viewState == CellConstants.OPEN_STATE)
 				openState();
@@ -152,7 +152,7 @@ package view
 		private function drawView():void
 		{
 			
-			unflatten()
+			
 			background.texture = TextureStore.textures[FIELD_TEXTURE_IDENT + cellModel.viewState]
 			
 			if (cellModel.isFlagged && cellModel.viewState != CellConstants.OPEN_STATE)
