@@ -20,20 +20,22 @@ package logic
 		
 		public function makeMineField(mineFieldModel:MineFieldModel, gameModel:GameModel):void
 		{
+			var j:int;
+			var i:int;
 			this.mineFieldModel = mineFieldModel;
 			
-			mineFieldModel.actualField = new Vector.<Vector.<int>>(mineFieldModel.fieldHeight);
-			mineFieldModel.viewField = new Vector.<Vector.<MineFieldCellModel>>(mineFieldModel.fieldHeight);
+			mineFieldModel.actualField = new Vector.<Vector.<int>>(mineFieldModel.fieldHeight, true);
+			mineFieldModel.viewField = new Vector.<Vector.<MineFieldCellModel>>(mineFieldModel.fieldHeight, true);
 			gameModel.gameTime = 0;
 			gameModel.openedField = 0;
 			gameModel.foundedMines = 0;
 			
-			for (var i:int = 0; i < mineFieldModel.fieldWidth; i++)
+			for (i = 0; i < mineFieldModel.fieldWidth; i++)
 			{
-				mineFieldModel.actualField[i] = new Vector.<int>(mineFieldModel.fieldWidth);
-				mineFieldModel.viewField[i] = new Vector.<MineFieldCellModel>(mineFieldModel.fieldWidth);
+				mineFieldModel.actualField[i] = new Vector.<int>(mineFieldModel.fieldWidth, true);
+				mineFieldModel.viewField[i] = new Vector.<MineFieldCellModel>(mineFieldModel.fieldWidth, true);
 				
-				for (var j:int = 0; j < mineFieldModel.fieldHeight; j++)
+				for (j = 0; j < mineFieldModel.fieldHeight; j++)
 				{
 					mineFieldModel.actualField[i][j] = 0;
 					

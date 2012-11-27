@@ -8,6 +8,7 @@ package view
 	import model.MineFieldModel;
 	import particles.starParticles.StarParticlesEmmiter;
 	import starling.core.Starling;
+	import starling.display.BlendMode;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.events.EventDispatcher;
@@ -33,6 +34,8 @@ package view
 		public function MainGaimView() 
 		{
 			super();
+			
+			
 			
 			var stars:StarParticlesEmmiter = new StarParticlesEmmiter();
 			addChild(stars);
@@ -122,6 +125,8 @@ package view
 			
 			fieldWith = fieldView.width - 1;
 			GlobalUIContext.vectorStage.addEventListener(MouseEvent.RIGHT_MOUSE_DOWN, onRightMouse);
+			
+			//mineFieldInstance.flatten();
 		}
 		
 

@@ -4,7 +4,6 @@ package
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.display.StageDisplayState;
-	import flash.display.StageQuality;
 	import flash.display3D.Context3DRenderMode;
 	import flash.events.Event;
 	import flash.events.FullScreenEvent;
@@ -13,9 +12,7 @@ package
 	import flash.text.TextFieldAutoSize;
 	import flash.ui.Mouse;
 	import flash.ui.MouseCursorData;
-	import model.TextureStore;
 	import starling.core.Starling;
-	import starling.textures.Texture;
 	import utils.GlobalUIContext;
 	
 	
@@ -50,16 +47,16 @@ package
 			Mouse.registerCursor('noCursor', cursor);
 
 			
-			mStarling = new Starling(MainStarlingScene, stage, new Rectangle(0, 0, 1024, 768), null, Context3DRenderMode.AUTO, 'none');
+			mStarling = new Starling(MainStarlingScene, stage, new Rectangle(0, 0, 1024, 768), null, Context3DRenderMode.AUTO, 'baseline');
 			
 			stage.addEventListener(Event.RESIZE, onFullScreen);
 			stage.addEventListener(FullScreenEvent.FULL_SCREEN, fullScreenEvent);
 			mStarling.simulateMultitouch = false;
-			mStarling.antiAliasing = 16;
+			mStarling.antiAliasing = 4;
 			mStarling.enableErrorChecking = false;
 			
 			mStarling.start();
-			mStarling.showStats = true;
+			mStarling.showStats = false;
 			mStarling.showStatsAt('right','bottom');
 			
 			mStarling.stage3D.addEventListener(Event.CONTEXT3D_CREATE, onContextCreated);

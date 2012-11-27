@@ -9,7 +9,7 @@
     <movie width="1024" />
     <movie height="768" />
     <movie version="11" />
-    <movie minorVersion="2" />
+    <movie minorVersion="4" />
     <movie platform="Flash Player" />
     <movie background="#000000" />
   </output>
@@ -17,8 +17,8 @@
   <classpaths>
     <class path="..\src" />
     <class path="..\..\reality-0.1\src\main" />
-    <class path="..\..\starling\src" />
     <class path="particles" />
+    <class path="..\..\..\projects\PrimaryFeather-Starling-Framework-2a42a8e\starling\src" />
   </classpaths>
   <!-- Build options -->
   <build>

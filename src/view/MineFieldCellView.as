@@ -6,10 +6,12 @@ package view
 	import model.MineFieldCellModel;
 	import model.TextureStore;
 	import patterns.events.LazyModeratorEvent;
+	import starling.display.BlendMode;
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.text.TextField;
 	import starling.textures.Texture;
+	import starling.textures.TextureSmoothing;
 
 	
 	/**
@@ -31,6 +33,8 @@ package view
 		public function MineFieldCellView(cellModel:MineFieldCellModel) 
 		{
 			this.cellModel = cellModel;
+			
+			
 			
 			initilize();
 		}
@@ -56,16 +60,22 @@ package view
 			var scaleFactor:Number = CellConstants.MINE_FIELD_GABARITE / background.width;
 			
 			
-			
 			flag = new Image(TextureStore.textures['flagTexture']);
 			addChild(background);
+			
+			
+			background.smoothing = TextureSmoothing.TRILINEAR;
+			flag.smoothing = TextureSmoothing.TRILINEAR;
 			
 			lable = new TextField(CellConstants.MINE_FIELD_GABARITE, CellConstants.MINE_FIELD_GABARITE, '', 'Ubuntu', CellConstants.MINE_FIELD_GABARITE * 0.85, 0x0, true);
 			lable.autoScale = true
 			
-			
+			lable.touchable = false;
+			flag.touchable = false;
 			
 			background.scaleX = background.scaleY = flag.scaleX = flag.scaleY = scaleFactor;
+			
+			//this.flatten();
 		}
 		
 		private function alignUI():void
@@ -90,6 +100,8 @@ package view
 			
 			drawView();
 			
+			unflatten();
+			
 			if (cellModel.viewState == CellConstants.OPEN_STATE)
 				openState();
 				
@@ -97,10 +109,13 @@ package view
 			{
 				showMine();
 			}
+			flatten();
+			
 		}
 		
 		private function openState():void
 		{
+			
 			if (cellModel.fieldStatus != CellConstants.OPEN_FIELD && cellModel.fieldStatus != CellConstants.MINED_FIELD)
 			{
 				lable.color = lableColors[cellModel.fieldStatus];
@@ -118,12 +133,15 @@ package view
 			}
 				
 			alignUI();
+			
 		}
 		
 		private function showMine():void 
 		{
 			
 			var mineImage:Image = new Image(TextureStore.textures['mine']);
+			mineImage.smoothing = TextureSmoothing.TRILINEAR;
+			mineImage.touchable = false;
 			mineImage.scaleX = mineImage.scaleY = CellConstants.MINE_FIELD_GABARITE / mineImage.width;
 			mineImage.x = (CellConstants.MINE_FIELD_GABARITE - mineImage.width) / 2;
 			mineImage.y = (CellConstants.MINE_FIELD_GABARITE - mineImage.height) / 2;
@@ -134,6 +152,7 @@ package view
 		private function drawView():void
 		{
 			
+			unflatten()
 			background.texture = TextureStore.textures[FIELD_TEXTURE_IDENT + cellModel.viewState]
 			
 			if (cellModel.isFlagged && cellModel.viewState != CellConstants.OPEN_STATE)
@@ -143,6 +162,8 @@ package view
 				
 			if(contains(lable))
 				this.setChildIndex(lable, this.numChildren - 1);
+				
+			flatten();
 		}
 		
 	}

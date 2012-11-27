@@ -224,9 +224,11 @@ package logic
 		
 		private function showAllMines():void
 		{
-			for (var index:int = 0; index < mineField.fieldWidth; index++)
+			var jindex:int;
+			var index:int;
+			for (index = 0; index < mineField.fieldWidth; index++)
 				{
-					for (var jindex:int = 0; jindex < mineField.fieldHeight; jindex++)
+					for (jindex = 0; jindex < mineField.fieldHeight; jindex++)
 					{
 						
 						if (mineField.viewField[index][jindex].fieldStatus == -1)

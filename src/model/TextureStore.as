@@ -37,7 +37,7 @@ package model
 		
 		public static var textures:Object = { };
 		
-		private var statusColor:Array = [0x666666, 0xCCCCCC, 0xFFFFFF];
+		private var statusColor:Array = [0x666666, 0xCCCCCC, 0xFFFFFE];
 		
 		private var fillColor:uint = statusColor[0];
 		
@@ -47,8 +47,6 @@ package model
 			textures['button0Texture'] = Texture.fromBitmapData(buttonImage, true, true);
 			textures['button1Texture'] = Texture.fromBitmapData(button2Image, true, true);
 			textures['button2Texture'] = Texture.fromBitmapData(button3Image, true, true);
-			
-			
 			
 			createFlagTexture();
 			createFieldTextures();
