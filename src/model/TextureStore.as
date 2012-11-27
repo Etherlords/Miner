@@ -22,12 +22,12 @@ package model
 		private var mineImage:BitmapData = new mineSource().bitmapData;
 		
 		[Embed(source = "../../lib/button_normal.png")]
-		private var buttonSources:Class;
-		private var buttonImage:BitmapData = new buttonSources().bitmapData;
+		private static var buttonSources:Class;
+		public static var buttonImage:BitmapData = new buttonSources().bitmapData;
 		
 		[Embed(source = "../../lib/button_big.png")]
-		private var button2Sources:Class;
-		private var button2Image:BitmapData = new button2Sources().bitmapData;
+		private static var button2Sources:Class;
+		public static var button2Image:BitmapData = new button2Sources().bitmapData;
 		
 		[Embed(source = "../../lib/button_square.png")]
 		private var button3Sources:Class;

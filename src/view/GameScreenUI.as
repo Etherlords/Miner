@@ -3,10 +3,16 @@ package view
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
+	import flash.display.SimpleButton;
 	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.events.MouseEvent;
+	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.text.TextField;
+	import flash.text.TextFormat;
 	import model.GameModel;
+	import model.TextureStore;
 	import patterns.events.LazyModeratorEvent;
 	import ui.scoreboard.Scoreboard;
 	
@@ -33,14 +39,43 @@ package view
 		private var tottalFields:Scoreboard;
 		
 		private var viewComponentPosition:Point = new Point(0, 0);
+		public var fullScreen:SimpleButton;
 		
 		public function GameScreenUI(gameModel:GameModel = null) 
 		{
+			var texture:BitmapData = TextureStore.button2Image.clone();
+			var tf:TextField = new TextField();
+			tf.defaultTextFormat = new TextFormat('Ubuntu', 15, 0x0, true);
+			tf.embedFonts = true;
+			tf.text = 'TOGGLE FULL SCREEN';
+			var m:Matrix = new Matrix();
+			m.tx = 15
+			m.ty = 10
+			texture.draw(tf, m);
+			var buttonDisplay:Bitmap = new Bitmap(texture);
+			
+			
+			
+			fullScreen = new SimpleButton(buttonDisplay, buttonDisplay, buttonDisplay, buttonDisplay);
+			
+			
+			
 			super();
 			this.gameModel = gameModel;
 			
 			initilize();
+			addEventListener(Event.ADDED_TO_STAGE, onAdded);
+			
 		}
+		
+		private function onAdded(e:Event):void 
+		{
+			removeEventListener(Event.ADDED_TO_STAGE, onAdded);
+			stage.addEventListener(Event.RESIZE, align);
+			align();
+		}
+		
+	
 		
 		public function setGameModel(gameModel:GameModel):void
 		{
@@ -64,7 +99,7 @@ package view
 			updateStrategy = { 'openedField':updateMineFields, 'foundedMines':updateMinesCount, 'gameTime':updateTimer }
 			
 			
-			align();
+			
 		}
 		
 		private function updateTimer():void 
@@ -90,6 +125,8 @@ package view
 			openedFields = new Scoreboard();
 			tottalFields = new Scoreboard();
 			
+			
+			
 			mineImage.scaleX = mineImage.scaleY = 0.5;
 			clockImage.scaleX = clockImage.scaleY = 0.5;
 			
@@ -100,6 +137,7 @@ package view
 			
 			addChild(mineImage);
 			addChild(clockImage);
+			addChild(fullScreen);
 		}
 		
 		
@@ -122,7 +160,7 @@ package view
 			alignElement.y = icon.y + (icon.height - alignElement.height) / 4;
 		}
 		
-		private function align():void 
+		private function align(e:* = null):void 
 		{
 			viewComponentPosition.x = 10;
 			viewComponentPosition.y = 10;
@@ -150,7 +188,8 @@ package view
 			tottalFields.x = viewComponentPosition.x;
 			tottalFields.y = viewComponentPosition.y;
 			
-			
+			fullScreen.x = 10;
+			fullScreen.y = stage.stageHeight - 10 - fullScreen.height;
 			
 			
 			

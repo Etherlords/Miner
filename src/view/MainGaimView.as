@@ -1,15 +1,16 @@
 package view 
 {
+	import flash.display.SimpleButton;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
-	import model.CellConstants;
+	import flash.utils.getQualifiedClassName;
 	import model.GameModel;
 	import model.MineFieldModel;
 	import particles.starParticles.StarParticlesEmmiter;
 	import starling.core.Starling;
-	import starling.display.DisplayObject;
 	import starling.display.Sprite;
 	import starling.events.Event;
+	import starling.events.EventDispatcher;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
 	import utils.GlobalUIContext;
@@ -24,6 +25,10 @@ package view
 		private var mineFieldInstance:Sprite;
 		private var gameModel:GameModel;
 		private var uiView:GameScreenUI;
+		private var fieldWith:Number;
+		private var mouseTracker:Point = new Point(0, 0);
+		private var trackTarget:MineFieldCellView;
+		public var fullScreen:SimpleButton;
 		
 		public function MainGaimView() 
 		{
@@ -36,6 +41,11 @@ package view
 			uiView = new GameScreenUI()
 			
 			GlobalUIContext.vectorUIContainer.addChild(uiView);
+			
+		
+			fullScreen = uiView.fullScreen;
+			
+			
 		}
 		
 		public function initilize(mineField:MineFieldModel, gameModel:GameModel):void
@@ -46,6 +56,8 @@ package view
 			uiView.setGameModel(gameModel);
 			
 			mineFieldInstance = new Sprite();
+			
+			
 			
 			craeteFieldView();
 			
@@ -64,7 +76,7 @@ package view
 			while (mineFieldInstance.numChildren != 0)
 			{
 				var child:MineFieldCellView = mineFieldInstance.getChildAt(0) as MineFieldCellView;
-				child.removeEventListener(TouchEvent.TOUCH, onTouchEvent);
+				
 				mineFieldInstance.removeChildAt(0);
 				child.dispose();
 				mineFieldInstance.dispose();
@@ -83,6 +95,8 @@ package view
 			
 			mineFieldInstance.x = int((stage.stageWidth - mineFieldInstance.width) / 2) + 65;
 			mineFieldInstance.y = int(Math.round(stage.stageHeight - mineFieldInstance.height) / 2);
+			
+			
 		}
 		
 		public function craeteFieldView():void
@@ -106,29 +120,39 @@ package view
 				}
 			}
 			
+			fieldWith = fieldView.width - 1;
 			GlobalUIContext.vectorStage.addEventListener(MouseEvent.RIGHT_MOUSE_DOWN, onRightMouse);
 		}
 		
+
 		private function onRightMouse(e:MouseEvent):void 
 		{
-			var clickPoint:Point = new Point(e.stageX, e.stageY);
-			clickPoint = clickPoint.subtract(new Point(mineFieldInstance.x, mineFieldInstance.y));
+			if (trackTarget is MineFieldCellView)
+			{
+				var touchTarget:MineFieldCellView = trackTarget as MineFieldCellView;
+				dispatchEvent(new Event('MineCellRightClicked', false, { i:touchTarget.cellModel.i, j:touchTarget.cellModel.j } ));
+				return;
+			}
 			
-			var j:int = clickPoint.x / (CellConstants.MINE_FIELD_GABARITE-1);
-			var i:int = clickPoint.y / (CellConstants.MINE_FIELD_GABARITE-1);
-			
-			dispatchEvent(new Event('MineCellRightClicked', false, {i:i, j:j}));
 		}
 		
 		private function onTouchEvent(e:TouchEvent):void 
 		{
 			var touchTarget:MineFieldCellView = e.currentTarget as MineFieldCellView;
-			
+		
 			for (var touchIndex:int = 0; touchIndex < e.touches.length; touchIndex++)
 			{
 				if (e.touches[touchIndex].phase == TouchPhase.BEGAN)
 				{
 					dispatchEvent(new Event('MineCellClicked', false, {i:touchTarget.cellModel.i, j:touchTarget.cellModel.j}));
+				}
+				
+				if (e.touches[touchIndex].phase == TouchPhase.HOVER)
+				{
+					mouseTracker.x = e.touches[touchIndex].globalX;
+					mouseTracker.y = e.touches[touchIndex].globalY;
+					trackTarget = touchTarget;
+					
 				}
 			}
 		}

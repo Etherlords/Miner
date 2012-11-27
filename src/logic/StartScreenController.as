@@ -37,6 +37,14 @@ package logic
 											{
 												lable:'GAME FIELD 22x22 MINES COUNT 90', size:22, mines:90
 											}
+											,
+											{
+												lable:'GAME FIELD 30x30 MINES COUNT 150', size:30, mines:150
+											}
+											,
+											{
+												lable:'GAME FIELD 35x35 MINES COUNT 200', size:35, mines:200
+											}
 										]
 										
 		private var currentMode:int = 0;

@@ -1,8 +1,10 @@
 package logic
 {
 	import core.scene.AbstractSceneController;
+	import flash.display.StageDisplayState;
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
+	import flash.geom.Point;
 	import flash.utils.Dictionary;
 	import flash.utils.Timer;
 	import logic.MineFieldBuilder;
@@ -37,6 +39,7 @@ package logic
 		private var gameBuilder:MineFieldBuilder;
 		private var endGameAlert:Alert;
 		private var gameTimer:Timer;
+		private var mouse:Point;
 		
 		public function MainGameController()
 		{
@@ -107,6 +110,9 @@ package logic
 			gameModel.minesCount = SettingsModel.instance.minesCount;
 			gameModel.totalField = mineField.fieldWidth * mineField.fieldHeight;
 			
+			trace('viewInstance.fullScreen');
+			viewInstance.fullScreen.addEventListener(MouseEvent.MOUSE_DOWN, onFullScreen);
+			
 			CellConstants.MINE_FIELD_GABARITE *= 9 / (mineField.fieldWidth > mineField.fieldHeight? mineField.fieldWidth:mineField.fieldHeight);
 			
 			trace('gabarite', CellConstants.MINE_FIELD_GABARITE, mineField.fieldHeight, mineField.fieldWidth);
@@ -120,8 +126,22 @@ package logic
 			viewInstance.initilize(mineField, gameModel);
 			viewInstance.addEventListener('MineCellClicked', mineFieldClicked);
 			viewInstance.addEventListener('MineCellRightClicked', flagCell);
+			viewInstance.addEventListener(TouchEvent.TOUCH, trachMouse);
 			
-			
+		}
+		
+		private function trachMouse(e:TouchEvent):void 
+		{
+			mouse = new Point(e.touches[0].globalX, e.touches[0].globalY);
+		}
+		
+		private function onFullScreen(e:*):void 
+		{
+			trace('click');
+			if(GlobalUIContext.vectorStage.displayState == StageDisplayState.NORMAL)
+				GlobalUIContext.vectorStage.displayState = StageDisplayState.FULL_SCREEN
+			else
+				GlobalUIContext.vectorStage.displayState = StageDisplayState.NORMAL
 		}
 		 
 		override protected function initilize():void
@@ -222,8 +242,8 @@ package logic
 		private function gameOver(isShowBlow:Boolean):void
 		{
 			var blow:BoomParticle = new BoomParticle();
-			blow.x = GlobalUIContext.vectorStage.mouseX
-			blow.y = GlobalUIContext.vectorStage.mouseY;
+			blow.x = mouse.x;
+			blow.y = mouse.y;
 			viewInstance.addChild(blow);
 			blow.addEventListener(Event.COMPLETE, onBlowEnded);
 			gameTimer.stop();

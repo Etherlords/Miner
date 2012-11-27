@@ -50,7 +50,7 @@ package
 			Mouse.registerCursor('noCursor', cursor);
 
 			
-			mStarling = new Starling(MainStarlingScene, stage, new Rectangle(0, 0, 800, 600), null, Context3DRenderMode.AUTO, 'none');
+			mStarling = new Starling(MainStarlingScene, stage, new Rectangle(0, 0, 1024, 768), null, Context3DRenderMode.AUTO, 'none');
 			
 			stage.addEventListener(Event.RESIZE, onFullScreen);
 			stage.addEventListener(FullScreenEvent.FULL_SCREEN, fullScreenEvent);
@@ -64,10 +64,12 @@ package
 			
 			mStarling.stage3D.addEventListener(Event.CONTEXT3D_CREATE, onContextCreated);
 			
-			stage.quality = StageQuality.HIGH_16X16_LINEAR
+			//stage.quality = StageQuality.HIGH_16X16_LINEAR
 			
 			stageWidth = stage.stageWidth;
 			stageHeight = stage.stageHeight;
+			
+			
 			
 			
 			//addChild(new TheMiner());
@@ -77,8 +79,8 @@ package
 		{
 			if (e.fullScreen)
 			{
-				var scale:Number = stage.fullScreenHeight / 600;
-				stage.fullScreenSourceRect = new Rectangle(0, 0, 800 * scale, 600 * scale);
+				var scale:Number = stage.fullScreenHeight / 768;
+				stage.fullScreenSourceRect = new Rectangle(0, 0, 1024 * scale, 768 * scale);
 				mStarling.antiAliasing = 1;
 			}
 			else 
@@ -93,9 +95,9 @@ package
 			
 			if(stage.displayState == StageDisplayState.NORMAL)
 			{
-				Starling.current.root.x = (stageWidth - 800) / 2;
-				Starling.current.root.y = (stageHeight - 600) / 2;
-				Starling.current.viewPort = new Rectangle(Starling.current.root.x, Starling.current.root.y, 800, 600);
+				Starling.current.root.x = (stageWidth - 1024) / 2;
+				Starling.current.root.y = (stageHeight - 768) / 2;
+				Starling.current.viewPort = new Rectangle(Starling.current.root.x, Starling.current.root.y, 1024, 768);
 				trace(Starling.current.root.x, Starling.current.root.y, Starling.current.nativeStage.stageWidth);
 				Starling.current.root.x = 10
 				Starling.current.root.y = 0
@@ -104,14 +106,14 @@ package
 				return;
 			}
 			
-			var scale:Number = stage.fullScreenHeight / 600;
+			var scale:Number = stage.fullScreenHeight / 768;
 			var __x:Number
 			var __y:Number
 			__x = 0//(Starling.current.nativeStage.fullScreenWidth - 800 * scale) / 2;
-			__y = (Starling.current.nativeStage.fullScreenHeight - 600 * scale) / 2;
+			__y = (Starling.current.nativeStage.fullScreenHeight - 768 * scale) / 2;
 			trace(__x, __y);
 			//Starling.current.root.y = (Starling.current.nativeStage.stageHeight - 600) / 2;
-			mStarling.viewPort = new Rectangle( __x, __y, 834 * scale, 600 * scale);
+			mStarling.viewPort = new Rectangle( __x, __y, 1024 * scale, 768 * scale);
 			mStarling.root.x = 10;
 			
 			
@@ -136,12 +138,14 @@ package
 			GlobalUIContext.debugContainer = debugContainer;
 			GlobalUIContext.vectorUIContainer = topcontainer;
 			GlobalUIContext.vectorStage = stage;
+			
+			driver = new TextField();
+			GlobalUIContext.vectorUIContainer.addChild(driver);
 		}
 		
 		private function onContextCreated(event:Event):void
 		{
-			driver = new TextField();
-			GlobalUIContext.vectorUIContainer.addChild(driver);
+			
 			
 			driver.text = Starling.context.driverInfo.toLowerCase();
 			driver.textColor = 0xFFFFFF;

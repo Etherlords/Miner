@@ -14,7 +14,7 @@ package model
 		public static const CLOSE_STATE:int = 0;
 		public static const MINE_FINDED_STATE:int = 2;
 		
-		public static var MINE_FIELD_GABARITE:Number = 65;
+		public static var MINE_FIELD_GABARITE:Number = 85;
 		
 	}
 
