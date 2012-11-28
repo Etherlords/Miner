@@ -16,6 +16,7 @@ package logic
 	import model.SettingsModel;
 	import model.TextureStore;
 	import particles.boomParticle.BoomParticle;
+	import particles.curosrParticle.CursorParticle;
 	import starling.display.DisplayObjectContainer;
 	import starling.display.Sprite;
 	import starling.events.Event;
@@ -40,6 +41,7 @@ package logic
 		private var endGameAlert:Alert;
 		private var gameTimer:Timer;
 		private var mouse:Point;
+		private var cursorParticle:CursorParticle;
 		
 		public function MainGameController()
 		{
@@ -105,6 +107,12 @@ package logic
 		
 		private function postInitilize():void 
 		{
+			
+			cursorParticle = new CursorParticle();
+			
+			cursorParticle.emitterX = GlobalUIContext.vectorStage.mouseX;
+			cursorParticle.emitterY = GlobalUIContext.vectorStage.mouseY;
+			
 			mineField.fieldWidth = SettingsModel.instance.fieldWidth;
 			mineField.fieldHeight = SettingsModel.instance.fieldHeight;
 			gameModel.minesCount = SettingsModel.instance.minesCount;
@@ -126,13 +134,17 @@ package logic
 			viewInstance.initilize(mineField, gameModel);
 			viewInstance.addEventListener('MineCellClicked', mineFieldClicked);
 			viewInstance.addEventListener('MineCellRightClicked', flagCell);
-			viewInstance.addEventListener(TouchEvent.TOUCH, trachMouse);
+			viewInstance.stage.addEventListener(TouchEvent.TOUCH, trachMouse);
+			
+			//viewInstance.stage.addChild(cursorParticle);
 			
 		}
 		
 		private function trachMouse(e:TouchEvent):void 
 		{
 			mouse = new Point(e.touches[0].globalX, e.touches[0].globalY);
+			cursorParticle.emitterX = e.touches[0].globalX
+			cursorParticle.emitterY = e.touches[0].globalY
 		}
 		
 		private function onFullScreen(e:*):void 
@@ -307,27 +319,27 @@ package logic
 			if (i != mineField.fieldHeight - 1)
 				foundOpenNeighbors(i + 1, j, openSpace);
 		
-		/*
-		   if (i != 0 && j != 0)
-		   {
-		   foundOpenNeighbors(i - 1, j - 1, openSpace );
-		   }
 		
-		   if (i != 9 && j != 9)
-		   {
-		   foundOpenNeighbors(i + 1, j + 1, openSpace );
-		   }
-		
-		   if (i != 9 && j != 0)
-		   {
-		   foundOpenNeighbors(i + 1, j - 1, openSpace );
-		   }
-		
-		   if (i != 0 && j != 9)
-		   {
-		   foundOpenNeighbors(i - 1, j + 1, openSpace );
-		   }
-		 */
+			if (i != 0 && j != 0)
+			{
+				foundOpenNeighbors(i - 1, j - 1, openSpace );
+			}
+
+			if (i != mineField.fieldWidth - 1 && j != mineField.fieldWidth - 1)
+			{
+				foundOpenNeighbors(i + 1, j + 1, openSpace );
+			}
+
+			if (i != mineField.fieldWidth - 1 && j != 0)
+			{
+				foundOpenNeighbors(i + 1, j - 1, openSpace );
+			}
+
+			if (i != 0 && j != mineField.fieldWidth - 1)
+			{
+				foundOpenNeighbors(i - 1, j + 1, openSpace );
+			}
+		 
 		}
 		
 		private function mineFinded(i:int, j:int):void 

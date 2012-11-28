@@ -43,7 +43,7 @@ package view
 		
 		public function GameScreenUI(gameModel:GameModel = null) 
 		{
-			var texture:BitmapData = TextureStore.button2Image.clone();
+			var texture:BitmapData = new BitmapData(100, 40, false, 0xFFFFFF);
 			var tf:TextField = new TextField();
 			tf.defaultTextFormat = new TextFormat('Ubuntu', 15, 0x0, true);
 			tf.embedFonts = true;

@@ -1,7 +1,10 @@
 package logic 
 {
 	import core.scene.AbstractSceneController;
+	import core.ui.KeyBoardController;
 	import flash.display.BitmapData;
+	import starling.text.TextField;
+	import flash.ui.Keyboard;
 	import flash.ui.Mouse;
 	import flash.ui.MouseCursorData;
 	import model.SettingsModel;
@@ -24,38 +27,15 @@ package logic
 		private var viewInstance:StartScreenView;
 		private var cursorParticle:CursorParticle;
 		
-		private var gameModes:Array = 
-										[
-											{
-												lable:'GAME FIELD 9x9 MINES COUNT 10', size:9, mines:10
-											}
-											,
-											{
-												lable:'GAME FIELD 16x16 MINES COUNT 40', size:16, mines:40
-											}
-											,
-											{
-												lable:'GAME FIELD 22x22 MINES COUNT 90', size:22, mines:90
-											}
-											,
-											{
-												lable:'GAME FIELD 30x30 MINES COUNT 150', size:30, mines:150
-											}
-											,
-											{
-												lable:'GAME FIELD 35x35 MINES COUNT 200', size:35, mines:200
-											}
-											,
-											{
-												lable:'GAME FIELD 40x40 MINES COUNT 280', size:40, mines:280
-											}
-											,
-											{
-												lable:'GAME FIELD 50x50 MINES COUNT 400', size:50, mines:400
-											}
-										]
+		private var fieldSizes:Array = [9, 16, 22, 35, 40];
+		private var defaultMines:Array = [10, 40, 90, 150, 200];
+		private var minesCount:int = 10;
+		
+		private var FIELD_SIZE_LABLE:String = 'FIELD SIZE $x$';
+		private var MINES_COUNT_LABLE:String = 'MINES COUNT $';
 										
 		private var currentMode:int = 0;
+		private var keyController:KeyBoardController;
 		
 		public function StartScreenController() 
 		{
@@ -69,7 +49,7 @@ package logic
 			var cursorData:MouseCursorData = new MouseCursorData();
 			cursorData.data = new <BitmapData>[new BitmapData(1, 1, true, 0x01000000)];
 			Mouse.registerCursor('noneCursor', cursorData);
-			Mouse.cursor = 'noneCursor';
+			//Mouse.cursor = 'noneCursor';
 			
 			var stars:StarParticlesEmmiter = new StarParticlesEmmiter();
 			stars.maxNumParticles = 100;
@@ -89,20 +69,55 @@ package logic
 			viewInstance.startGameButton.addEventListener(Event.TRIGGERED, startGame);
 			viewInstance.left.addEventListener(Event.TRIGGERED, changeGameModeLeft);
 			viewInstance.right.addEventListener(Event.TRIGGERED, changeGameModeRight);
+			
+			viewInstance.leftMines.addEventListener(Event.TRIGGERED, changeMinesLeft);
+			viewInstance.rightMines.addEventListener(Event.TRIGGERED, changeMinesRight);
+			
+			keyController = new KeyBoardController(GlobalUIContext.vectorStage);
+			
+			
+			
+			
+			chageMode();
+		}
+		
+		private function changeMinesRight(e:Event):void 
+		{	
+			if (keyController.isKeyDown(Keyboard.CONTROL))
+				minesCount += 10;
+			else
+				minesCount++
+				
+			if (minesCount >= fieldSizes[currentMode] * fieldSizes[currentMode])
+				minesCount = fieldSizes[currentMode] * fieldSizes[currentMode] - 1;
+				
+			chageMode();
+		}
+		
+		private function changeMinesLeft(e:Event):void 
+		{
+			minesCount--;
+			if (minesCount <= 0)
+				minesCount = 1;
+				
+			chageMode();
 		}
 		
 		private function changeGameModeRight(e:Event):void 
 		{
 			currentMode++
-			if (currentMode == gameModes.length)
+			if (currentMode == fieldSizes.length)
 				currentMode = 0;
+				
+			minesCount = defaultMines[currentMode];
 				
 			chageMode();
 		}
 		
 		private function chageMode():void 
 		{
-			viewInstance.fieldSize.text = gameModes[currentMode].lable;
+			viewInstance.fieldSize.text = FIELD_SIZE_LABLE.split('$').join(fieldSizes[currentMode]);
+			viewInstance.minesCount.text = MINES_COUNT_LABLE.split('$').join(minesCount);
 		}
 		
 		private function changeGameModeLeft(e:Event):void 
@@ -110,16 +125,18 @@ package logic
 			currentMode--
 			
 			if (currentMode < 0)
-				currentMode = gameModes.length-1;
+				currentMode = fieldSizes.length-1;
+			
+			minesCount = defaultMines[currentMode];
 				
 			chageMode();
 		}
 		
 		private function startGame(e:Event):void 
 		{
-			SettingsModel.instance.fieldHeight = gameModes[currentMode].size
-			SettingsModel.instance.fieldWidth = gameModes[currentMode].size
-			SettingsModel.instance.minesCount = gameModes[currentMode].mines
+			SettingsModel.instance.fieldHeight = fieldSizes[currentMode]
+			SettingsModel.instance.fieldWidth = fieldSizes[currentMode]
+			SettingsModel.instance.minesCount = minesCount
 			trace(SettingsModel.instance.fieldHeight, SettingsModel.instance.fieldWidth, SettingsModel.instance.minesCount);
 			
 			super.exit();

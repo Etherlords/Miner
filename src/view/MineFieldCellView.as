@@ -20,11 +20,14 @@ package view
 	 */
 	public class MineFieldCellView extends Sprite
 	{	
-		private static const FIELD_TEXTURE_IDENT:String = 'fieldTexture';
+		private static const FIELD_TEXTGURES:Array = ['cell_normal', 'cell_down', 'cell_bomb'];
+		private static const MINE_TEXTURE:String = 'gnomemines'
+		private static const FLAG_TEXTURE:String = 'flag'
+		
 		public var cellModel:MineFieldCellModel;
 		private var lable:TextField;
 		
-		private var lableColors:Array = [0x000022, 0x000077, 0x0000EE, 0x33A3FF, 0x33CC00, 0x00AA00, 0xB6CC00, 0xF7CC00, 0xFF0000]; 
+		private var lableColors:Array = [0x0033FF, 0x222277, 0x0000EE, 0x33A3FF, 0x33CC00, 0x00AA00, 0xB6CC00, 0xF7CC00, 0xFF0000]; 
 		
 		private var updateMap:Object;
 		private var background:Image;
@@ -55,20 +58,21 @@ package view
 		private function createView():void 
 		{
 			
-			background = new Image(TextureStore.textures[FIELD_TEXTURE_IDENT + 0]);
+			background = new Image(TextureStore.texturesAtlas.getTexture(FIELD_TEXTGURES[0]));
 			
 			var scaleFactor:Number = CellConstants.MINE_FIELD_GABARITE / background.width;
 			
 			
-			flag = new Image(TextureStore.textures['flagTexture']);
+			flag = new Image(TextureStore.texturesAtlas.getTexture(FLAG_TEXTURE));
 			addChild(background);
 			
 			
 			background.smoothing = TextureSmoothing.TRILINEAR;
 			flag.smoothing = TextureSmoothing.TRILINEAR;
 			
-			lable = new TextField(CellConstants.MINE_FIELD_GABARITE, CellConstants.MINE_FIELD_GABARITE, '', 'Ubuntu', CellConstants.MINE_FIELD_GABARITE * 0.85, 0x0, true);
+			lable = new TextField(CellConstants.MINE_FIELD_GABARITE, CellConstants.MINE_FIELD_GABARITE, '', 'Desyrel', CellConstants.MINE_FIELD_GABARITE, 0x0, false);
 			lable.autoScale = true
+			
 			
 			lable.touchable = false;
 			flag.touchable = false;
@@ -109,6 +113,7 @@ package view
 			{
 				showMine();
 			}
+			
 			flatten();
 			
 		}
@@ -139,7 +144,7 @@ package view
 		private function showMine():void 
 		{
 			
-			var mineImage:Image = new Image(TextureStore.textures['mine']);
+			var mineImage:Image = new Image(TextureStore.texturesAtlas.getTexture(MINE_TEXTURE));
 			mineImage.smoothing = TextureSmoothing.TRILINEAR;
 			mineImage.touchable = false;
 			mineImage.scaleX = mineImage.scaleY = CellConstants.MINE_FIELD_GABARITE / mineImage.width;
@@ -153,7 +158,7 @@ package view
 		{
 			
 			
-			background.texture = TextureStore.textures[FIELD_TEXTURE_IDENT + cellModel.viewState]
+			background.texture = TextureStore.texturesAtlas.getTexture(FIELD_TEXTGURES[cellModel.viewState]);
 			
 			if (cellModel.isFlagged && cellModel.viewState != CellConstants.OPEN_STATE)
 				addChild(flag)
