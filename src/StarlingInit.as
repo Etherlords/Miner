@@ -4,6 +4,7 @@ package
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.display.StageDisplayState;
+	import flash.display.StageQuality;
 	import flash.display3D.Context3DRenderMode;
 	import flash.events.Event;
 	import flash.events.FullScreenEvent;
@@ -52,7 +53,7 @@ package
 			stage.addEventListener(Event.RESIZE, onFullScreen);
 			stage.addEventListener(FullScreenEvent.FULL_SCREEN, fullScreenEvent);
 			mStarling.simulateMultitouch = false;
-			mStarling.antiAliasing = 4;
+			mStarling.antiAliasing = 16;
 			mStarling.enableErrorChecking = false;
 			
 			mStarling.start();
@@ -61,7 +62,7 @@ package
 			
 			mStarling.stage3D.addEventListener(Event.CONTEXT3D_CREATE, onContextCreated);
 			
-			//stage.quality = StageQuality.HIGH_16X16_LINEAR
+			stage.quality = StageQuality.LOW
 			
 			stageWidth = stage.stageWidth;
 			stageHeight = stage.stageHeight;
@@ -78,11 +79,11 @@ package
 			{
 				var scale:Number = stage.fullScreenHeight / 768;
 				stage.fullScreenSourceRect = new Rectangle(0, 0, 1024 * scale, 768 * scale);
-				mStarling.antiAliasing = 1;
+				mStarling.antiAliasing = 16
 			}
 			else 
 			{
-				mStarling.antiAliasing = 4;
+				mStarling.antiAliasing = 16
 				stage.fullScreenSourceRect =  null;// new Rectangle(0, 0, stageWidth, stageHeight);
 			}
 		}

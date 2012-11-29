@@ -27,8 +27,8 @@ package logic
 		private var viewInstance:StartScreenView;
 		private var cursorParticle:CursorParticle;
 		
-		private var fieldSizes:Array = [9, 16, 22, 35, 40];
-		private var defaultMines:Array = [10, 40, 90, 150, 200];
+		private var fieldSizes:Array =	 [9, 	16, 	22, 	35, 	40,	 	50,		60,		70, 	80, 	90, 	100];
+		private var defaultMines:Array = [10,	 40, 	90, 	180, 	250, 	420, 	612, 	880, 	1200, 	1620, 	2100];
 		private var minesCount:int = 10;
 		
 		private var FIELD_SIZE_LABLE:String = 'FIELD SIZE $x$';
@@ -36,6 +36,8 @@ package logic
 										
 		private var currentMode:int = 0;
 		private var keyController:KeyBoardController;
+		
+		private var softcore:Boolean = true;
 		
 		public function StartScreenController() 
 		{
@@ -61,7 +63,7 @@ package logic
 			
 			this.viewInstance.stage.addEventListener(TouchEvent.TOUCH, onTouch);
 			
-			viewInstance.addChild(cursorParticle);
+			//viewInstance.addChild(cursorParticle);
 			
 			cursorParticle.emitterX = GlobalUIContext.vectorStage.mouseX;
 			cursorParticle.emitterY = GlobalUIContext.vectorStage.mouseY;
@@ -72,12 +74,19 @@ package logic
 			
 			viewInstance.leftMines.addEventListener(Event.TRIGGERED, changeMinesLeft);
 			viewInstance.rightMines.addEventListener(Event.TRIGGERED, changeMinesRight);
+			viewInstance.difficle.addEventListener(Event.TRIGGERED, changeDifficle);
 			
 			keyController = new KeyBoardController(GlobalUIContext.vectorStage);
 			
 			
 			
 			
+			chageMode();
+		}
+		
+		private function changeDifficle(e:Event):void 
+		{
+			softcore = !softcore
 			chageMode();
 		}
 		
@@ -96,7 +105,11 @@ package logic
 		
 		private function changeMinesLeft(e:Event):void 
 		{
-			minesCount--;
+			if (keyController.isKeyDown(Keyboard.CONTROL))
+				minesCount -= 10;
+			else
+				minesCount--
+				
 			if (minesCount <= 0)
 				minesCount = 1;
 				
@@ -118,6 +131,7 @@ package logic
 		{
 			viewInstance.fieldSize.text = FIELD_SIZE_LABLE.split('$').join(fieldSizes[currentMode]);
 			viewInstance.minesCount.text = MINES_COUNT_LABLE.split('$').join(minesCount);
+			viewInstance.difficleLable.text = softcore? 'SOFT':'HARD'
 		}
 		
 		private function changeGameModeLeft(e:Event):void 

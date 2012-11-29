@@ -1,6 +1,7 @@
 package particles.boomParticle
 {
 	import flash.display3D.Context3DBlendFactor;
+	import model.TextureStore;
 	import starling.core.Starling;
 	import starling.events.EnterFrameEvent;
 	import starling.events.Event;
@@ -14,12 +15,9 @@ package particles.boomParticle
 		[Embed(source="particle.pex", mimeType="application/octet-stream")]
 		private var InitValues:Class
 		
-		[Embed(source = "texture.png")]
-		private var Sample:Class
-		
 		public function BoomParticle() 
 		{
-			super(	XML(new InitValues()), Texture.fromBitmap(new Sample(), false, true)		);
+			super(	XML(new InitValues()), TextureStore.starParticle		);
 			
 			maxNumParticles = 500;
 			this.alpha = 5;

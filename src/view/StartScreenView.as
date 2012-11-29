@@ -22,6 +22,8 @@ package view
 		public var fieldSize:Button;
 		public var left:Button;
 		public var right:Button;
+		public var difficle:Button;
+		public var difficleLable:Button;
 		
 		private var buttonAssets:Array = [
 											{
@@ -37,6 +39,7 @@ package view
 											}
 											
 											]
+											
 		
 		public function StartScreenView() 
 		{
@@ -47,16 +50,20 @@ package view
 		
 		private function initilize():void 
 		{
-			startGameButton = craeteButton('START GAME', 0, 25);
-			fieldSize = craeteButton('FIELD SIZE 9x9', 1);
-			minesCount = craeteButton('MINES COUNT', 1);
+			startGameButton = craeteButton('START GAME', 0, -1);
+			fieldSize = craeteButton('FIELD SIZE 9x9', 1, 25);
+			minesCount = craeteButton('MINES COUNT', 1, 25);
+			difficle = craeteButton('CHANGE DIFFICLE', 1, 25);
 			
-			minesCount.scaleX = minesCount.scaleY = fieldSize.scaleX = fieldSize.scaleY = 1.2
-			left = craeteButton('<', 2, 25);
-			leftMines = craeteButton('<', 2, 25);
+			minesCount.scaleX = minesCount.scaleY = fieldSize.scaleX = fieldSize.scaleY = difficle.scaleX = difficle.scaleY = 1.3
 			
-			right = craeteButton('>', 2, 25);
-			rightMines = craeteButton('>', 2, 25);
+			left = craeteButton('<', 2, -1);
+			leftMines = craeteButton('<', 2, -1);
+			
+			right = craeteButton('>', 2, -1);
+			rightMines = craeteButton('>', 2, -1);
+			
+			difficleLable = craeteButton('SOFT', 2, 10);
 			
 			
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
@@ -75,10 +82,12 @@ package view
 			startGameButton.y = 200;
 			fieldSize.y = startGameButton.y + startGameButton.height + PADDING;
 			minesCount.y = fieldSize.y + fieldSize.height + PADDING;
+			difficle.y = minesCount.y + minesCount.height + PADDING;
 			
 			centerByX(startGameButton);
 			centerByX(fieldSize);
 			centerByX(minesCount);
+			centerByX(difficle);
 			
 			left.x = fieldSize.x - PADDING - left.width;
 			right.x = fieldSize.x + fieldSize.width + PADDING;
@@ -88,7 +97,10 @@ package view
 			leftMines.x = minesCount.x - PADDING - leftMines.width;
 			rightMines.x = minesCount.x + minesCount.width + PADDING;
 			
-			rightMines.y = leftMines.y = minesCount.y +  + (minesCount.height - left.height)/2;
+			rightMines.y = leftMines.y = minesCount.y +  + (minesCount.height - left.height) / 2;
+			
+			difficleLable.x = difficle.x + difficle.width + PADDING;
+			difficleLable.y = difficle.y +  + (difficle.height - difficleLable.height) / 2;
 		}
 		
 		private function centerByX(element:DisplayObject):void

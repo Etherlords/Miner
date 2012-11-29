@@ -1,6 +1,7 @@
 package particles.curosrParticle
 {
 	import flash.display3D.Context3DBlendFactor;
+	import model.TextureStore;
 	import starling.core.Starling;
 	import starling.extensions.PDParticleSystem;
 	import starling.textures.Texture;
@@ -12,12 +13,10 @@ package particles.curosrParticle
 		[Embed(source="particle.pex", mimeType="application/octet-stream")]
 		private var InitValues:Class
 		
-		[Embed(source = "texture.png")]
-		private var Sample:Class
 		
 		public function CursorParticle() 
 		{
-			super(	XML(new InitValues()), Texture.fromBitmap(new Sample(), false, true)		);
+			super(	XML(new InitValues()), TextureStore.starParticle		);
 			
 			test();
 		}

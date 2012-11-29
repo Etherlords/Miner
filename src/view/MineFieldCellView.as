@@ -1,12 +1,9 @@
 package view 
 {
-	import core.view.skin.Skin;
-	import flash.display.BitmapData;
 	import model.CellConstants;
 	import model.MineFieldCellModel;
 	import model.TextureStore;
 	import patterns.events.LazyModeratorEvent;
-	import starling.display.BlendMode;
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.text.TextField;
@@ -25,13 +22,14 @@ package view
 		private static const FLAG_TEXTURE:String = 'flag'
 		
 		public var cellModel:MineFieldCellModel;
-		private var lable:TextField;
+		private var lable:Image;
 		
 		private var lableColors:Array = [0x0033FF, 0x222277, 0x0000EE, 0x33A3FF, 0x33CC00, 0x00AA00, 0xB6CC00, 0xF7CC00, 0xFF0000]; 
 		
 		private var updateMap:Object;
 		private var background:Image;
 		private var flag:Image;
+		public var scaleFactor:Number;
 		
 		public function MineFieldCellView(cellModel:MineFieldCellModel) 
 		{
@@ -60,26 +58,25 @@ package view
 			
 			background = new Image(TextureStore.texturesAtlas.getTexture(FIELD_TEXTGURES[0]));
 			
-			var scaleFactor:Number = CellConstants.MINE_FIELD_GABARITE / background.width;
+			scaleFactor = CellConstants.MINE_FIELD_GABARITE / background.width;
 			
-			
+			lable = new Image(TextureStore.numbers[0]);
 			flag = new Image(TextureStore.texturesAtlas.getTexture(FLAG_TEXTURE));
 			addChild(background);
 			
 			
 			background.smoothing = TextureSmoothing.TRILINEAR;
 			flag.smoothing = TextureSmoothing.TRILINEAR;
-			
-			lable = new TextField(CellConstants.MINE_FIELD_GABARITE, CellConstants.MINE_FIELD_GABARITE, '', 'Desyrel', CellConstants.MINE_FIELD_GABARITE, 0x0, false);
-			lable.autoScale = true
-			
+			lable.smoothing = TextureSmoothing.TRILINEAR;
 			
 			lable.touchable = false;
 			flag.touchable = false;
+			background.touchable = false;
 			
 			background.scaleX = background.scaleY = flag.scaleX = flag.scaleY = scaleFactor;
 			
-			//this.flatten();
+			if(scaleFactor != 1)
+				lable.scaleX = lable.scaleY = scaleFactor * 2.5
 		}
 		
 		private function alignUI():void
@@ -114,7 +111,7 @@ package view
 				showMine();
 			}
 			
-			flatten();
+			//flatten();
 			
 		}
 		
@@ -123,18 +120,19 @@ package view
 			
 			if (cellModel.fieldStatus != CellConstants.OPEN_FIELD && cellModel.fieldStatus != CellConstants.MINED_FIELD)
 			{
-				lable.color = lableColors[cellModel.fieldStatus];
-				lable.text = cellModel.fieldStatus.toString();
+				//lable.color = lableColors[cellModel.fieldStatus];
+				lable.texture = TextureStore.numbers[cellModel.fieldStatus];
 				
+				//background.texture
 				if (!contains(lable))
 					addChild(lable);
+				
+				
 			}
 			else
 			{
 				if(contains(lable))
 					removeChild(lable);
-					
-				lable.text = '';
 			}
 				
 			alignUI();
@@ -168,7 +166,7 @@ package view
 			if(contains(lable))
 				this.setChildIndex(lable, this.numChildren - 1);
 				
-			flatten();
+			//flatten();
 		}
 		
 	}
