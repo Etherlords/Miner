@@ -5,6 +5,8 @@ package model
 	import flash.display.Shape;
 	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
+	import flash.system.Capabilities;
+	import flash.system.System;
 	import flash.utils.ByteArray;
 	import starling.text.BitmapFont;
 	import starling.text.TextField;
@@ -20,6 +22,10 @@ package model
 		
 		[Embed(source="../../FDBuild/asset/desyrel.fnt", mimeType="application/octet-stream")]
         public static const DesyrelXml:Class;
+		
+		[Embed(source = "../../FDBuild/asset/arts.png")]
+		private var assetBitmapSource:Class;
+		private var assetBitmap:BitmapData = new assetBitmapSource().bitmapData;
 		
 		[Embed(source = "../../FDBuild/asset/starParticle.png")]
 		private var starsSource:Class;
@@ -42,10 +48,21 @@ package model
 		
 		public function TextureStore() 
 		{
-			starParticle = Texture.fromBitmapData(starsBitmap, true,true);
+			starParticle = Texture.fromBitmapData(starsBitmap, true, true);
 			
-			//texturesAtlas = new TextureAtlas(Texture.fromBitmapData(artsBitmap, true, true), assetConfig)
-			texturesAtlas = new TextureAtlas(Texture.fromAtfData(assetStream), assetConfig)
+			var version:Array = Capabilities.version.split(' ')[1].split(',');
+			
+			if (version[0] == 11 && version[1] >= 4)
+			{
+				trace('create atf atlas');
+				texturesAtlas = new TextureAtlas(Texture.fromAtfData(assetStream), assetConfig);
+			}
+			else
+			{
+				trace('create bitmap atlas');
+				texturesAtlas = new TextureAtlas(Texture.fromBitmapData(assetBitmap, true, true), assetConfig)
+			}
+			
 			
 			
 			var texture:Texture = texturesAtlas.getTexture('desyrel');// getTexture("DesyrelTexture");

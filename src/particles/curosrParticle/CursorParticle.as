@@ -16,7 +16,10 @@ package particles.curosrParticle
 		
 		public function CursorParticle() 
 		{
-			super(	XML(new InitValues()), TextureStore.starParticle		);
+			super(	XML(new InitValues()), TextureStore.texturesAtlas.getTexture('starParticle')		);
+			
+			blendFactorSource = Context3DBlendFactor.SOURCE_ALPHA, 
+			blendFactorDestination =  Context3DBlendFactor.ONE
 			
 			test();
 		}

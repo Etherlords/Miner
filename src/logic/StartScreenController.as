@@ -63,7 +63,7 @@ package logic
 			
 			this.viewInstance.stage.addEventListener(TouchEvent.TOUCH, onTouch);
 			
-			//viewInstance.addChild(cursorParticle);
+			viewInstance.addChild(cursorParticle);
 			
 			cursorParticle.emitterX = GlobalUIContext.vectorStage.mouseX;
 			cursorParticle.emitterY = GlobalUIContext.vectorStage.mouseY;
