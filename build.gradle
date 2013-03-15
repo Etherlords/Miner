@@ -1,0 +1,32 @@
+buildscript {
+    repositories {
+        mavenLocal()
+    }
+}
+
+apply plugin: 'gradlefx'
+
+type = 'swf'
+
+flexHome = System.getenv()['FLEX_HOME']
+
+
+playerVersion = '11.4'
+targetPlayerMajorVersion = 11;
+targetPlayerMinorVersion = 4;
+mainClass = 'StarlingInit.as'
+frameworkLinkage = 'merged'
+
+additionalCompilerOptions << '-default-background-color'
+additionalCompilerOptions << '0x000000'
+
+//todo remove workaround, see at https://github.com/GradleFx/GradleFx/issues/75
+gradle.afterProject { project ->
+     additionalCompilerOptions << "-target-player=${playerVersion}"
+     additionalCompilerOptions << "-external-library-path=${project.flexHome}/frameworks/libs/player/${playerVersion}/playerglobal.swc"
+}
+
+srcDirs = ['src', 
+			'external-libs/reality/src/main', 
+			'external-libs/starling/starling/src',
+			'external-libs/Starling-Extension-Particle-System/src']
