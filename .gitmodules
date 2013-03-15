@@ -7,3 +7,6 @@
 [submodule "external-libs/Starling-Extension-Particle-System"]
 	path = external-libs/Starling-Extension-Particle-System
 	url = https://github.com/PrimaryFeather/Starling-Extension-Particle-System.git
+[submodule "buildSrc/gradlefx"]
+	path = buildSrc/gradlefx
+	url = https://github.com/chaos-adept/GradleFx.git
