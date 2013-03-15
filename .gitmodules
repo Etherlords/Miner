@@ -1,0 +1,9 @@
+[submodule "external-libs/reality"]
+	path = external-libs/reality
+	url = https://github.com/Etherlords/reality-0.1
+[submodule "external-libs/starling"]
+	path = external-libs/starling
+	url = https://github.com/PrimaryFeather/Starling-Framework.git
+[submodule "external-libs/Starling-Extension-Particle-System"]
+	path = external-libs/Starling-Extension-Particle-System
+	url = https://github.com/PrimaryFeather/Starling-Extension-Particle-System.git
