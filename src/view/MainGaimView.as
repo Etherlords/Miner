@@ -1,4 +1,4 @@
-package view 
+package view
 {
 	import flash.display.SimpleButton;
 	import flash.events.MouseEvent;
@@ -19,9 +19,9 @@ package view
 	
 	/**
 	 * ...
-	 * @author 
+	 * @author
 	 */
-	public class MainGaimView extends Sprite 
+	public class MainGaimView extends Sprite
 	{
 		private var mineField:MineFieldModel;
 		private var mineFieldInstance:Sprite;
@@ -33,14 +33,13 @@ package view
 		private var mouseTracker:Point = new Point(0, 0);
 		private var trackTarget:MineFieldCellView;
 		private var scaleFactor:Number;
+		private var _zoom:int = 0;
 		
 		public var fullScreen:SimpleButton;
 		
-		public function MainGaimView() 
+		public function MainGaimView()
 		{
 			super();
-			
-			
 			
 			var stars:StarParticlesEmmiter = new StarParticlesEmmiter();
 			addChild(stars);
@@ -50,10 +49,26 @@ package view
 			
 			GlobalUIContext.vectorUIContainer.addChild(uiView);
 			
-		
 			fullScreen = uiView.fullScreen;
+		}
+		
+		public function set zoom(value:int):void
+		{
+			_zoom = value;
 			
+			if (_zoom > 100)
+				_zoom = 100;
+			if (_zoom < -96)
+				_zoom = -96;
 			
+			trace(1 + _zoom);
+			//mineFieldInstance.scaleX = mineFieldInstance.scaleY = 1 + _zoom / 100;
+			//mineFieldInstance.flatten();
+		}
+		
+		public function get zoom():int
+		{
+			return _zoom;
 		}
 		
 		public function initilize(mineField:MineFieldModel, gameModel:GameModel):void
@@ -64,8 +79,6 @@ package view
 			uiView.setGameModel(gameModel);
 			
 			mineFieldInstance = new Sprite();
-			
-			
 			
 			craeteFieldView();
 			
@@ -78,7 +91,7 @@ package view
 		{
 			if (!mineFieldInstance)
 				return;
-				
+			
 			removeChild(mineFieldInstance);
 			
 			while (mineFieldInstance.numChildren != 0)
@@ -86,31 +99,27 @@ package view
 				var child:MineFieldCellView = mineFieldInstance.getChildAt(0) as MineFieldCellView;
 				//child.removeEventListener(TouchEvent.TOUCH, onTouchEvent);
 				mineFieldInstance.removeChildAt(0);
-				//child.dispose();
-				//mineFieldInstance.dispose();
+					//child.dispose();
+					//mineFieldInstance.dispose();
 			}
 			
-		//	Starling.context.clear();
-		//	Starling.context.dispose();
+			//	Starling.context.clear();
+			//	Starling.context.dispose();
 			mineFieldInstance = null;
 			initilize(mineField, gameModel);
-			
-			
+		
 		}
 		
-		private function alignUI():void 
+		private function alignUI():void
 		{
 			
 			mineFieldInstance.x = int((stage.stageWidth - mineFieldInstance.width) / 2) + 65;
 			mineFieldInstance.y = int(Math.round(stage.stageHeight - mineFieldInstance.height) / 2);
-			
-			
+		
 		}
 		
 		public function craeteFieldView():void
 		{
-			
-			
 			
 			for (var i:int = 0; i < mineField.fieldWidth; i++)
 			{
@@ -133,8 +142,9 @@ package view
 			scaleFactor = fieldView.scaleFactor
 			
 			fieldWith = fieldView.width
-			fieldHeight= fieldView.height
+			fieldHeight = fieldView.height
 			GlobalUIContext.vectorStage.addEventListener(MouseEvent.RIGHT_MOUSE_DOWN, onRightMouse);
+			GlobalUIContext.vectorStage.addEventListener(MouseEvent.MOUSE_WHEEL, onMouseWheel);
 			GlobalUIContext.vectorStage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 			
 			mineFieldInstance.flatten();
@@ -143,7 +153,12 @@ package view
 			this.touchable = false;
 		}
 		
-		private function onMouseDown(e:MouseEvent):void 
+		private function onMouseWheel(e:MouseEvent):void
+		{
+			zoom += e.delta;
+		}
+		
+		private function onMouseDown(e:MouseEvent):void
 		{
 			
 			var j:int = (e.localX - mineFieldInstance.x - fieldWith / 8 / scaleFactor) / fieldWith;
@@ -151,19 +166,18 @@ package view
 			
 			if (i >= mineField.fieldWidth)
 				return;
-				
+			
 			if (j >= mineField.fieldHeight)
 				return;
-				
+			
 			if (i < 0 || j < 0)
 				return;
 			
-			dispatchEvent(new Event('MineCellClicked', false, { i:i, j:j } ));
-				mineFieldInstance.flatten();
+			dispatchEvent(new Event('MineCellClicked', false, {i: i, j: j}));
+			mineFieldInstance.flatten();
 		}
 		
-
-		private function onRightMouse(e:MouseEvent):void 
+		private function onRightMouse(e:MouseEvent):void
 		{
 			
 			var j:int = (e.localX - mineFieldInstance.x - fieldWith / 8 / scaleFactor) / fieldWith;
@@ -171,30 +185,29 @@ package view
 			
 			if (i >= mineField.fieldWidth)
 				return;
-				
+			
 			if (j >= mineField.fieldHeight)
 				return;
-				
+			
 			if (i < 0 || j < 0)
 				return;
 			
-			dispatchEvent(new Event('MineCellRightClicked', false, { i:i, j:j } ));
-				mineFieldInstance.flatten();
-			
-			
+			dispatchEvent(new Event('MineCellRightClicked', false, {i: i, j: j}));
+			mineFieldInstance.flatten();
+		
 		}
 		
-		private function onTouchEvent(e:TouchEvent):void 
+		private function onTouchEvent(e:TouchEvent):void
 		{
 			
 			return;
 			var touchTarget:MineFieldCellView = e.currentTarget as MineFieldCellView;
-		
+			
 			for (var touchIndex:int = 0; touchIndex < e.touches.length; touchIndex++)
 			{
 				if (e.touches[touchIndex].phase == TouchPhase.BEGAN)
 				{
-					dispatchEvent(new Event('MineCellClicked', false, { i:touchTarget.cellModel.i, j:touchTarget.cellModel.j } ));
+					dispatchEvent(new Event('MineCellClicked', false, {i: touchTarget.cellModel.i, j: touchTarget.cellModel.j}));
 					mineFieldInstance.flatten();
 				}
 				
@@ -207,7 +220,7 @@ package view
 				}
 			}
 		}
-		
+	
 	}
 
 }
