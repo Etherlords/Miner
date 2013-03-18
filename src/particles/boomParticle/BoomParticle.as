@@ -17,7 +17,7 @@ package particles.boomParticle
 		
 		public function BoomParticle() 
 		{
-			super(	XML(new InitValues()), TextureStore.starParticle		);
+			super(	XML(new InitValues()), TextureStore.texturesAtlas.getTexture('starParticle')		);
 			
 			maxNumParticles = 500;
 			this.alpha = 5;

@@ -1,20 +1,15 @@
 package view 
 {
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
-	import flash.display.DisplayObject;
-	import flash.display.SimpleButton;
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.geom.Matrix;
 	import flash.geom.Point;
-	import flash.text.TextField;
-	import flash.text.TextFormat;
 	import model.GameModel;
 	import model.TextureStore;
 	import patterns.events.LazyModeratorEvent;
-	import ui.scoreboard.Scoreboard;
+	import starling.display.Button;
+	import starling.display.DisplayObject;
+	import starling.display.Image;
+	import starling.display.Sprite;
+	import starling.events.Event;
+	import ui.scoreboard.ScoreboardStarling;
 	
 	/**
 	 * ...
@@ -23,41 +18,29 @@ package view
 	public class GameScreenUI extends Sprite 
 	{
 		
-		[Embed(source = "../../lib/gnomemines.png")]
-		private var mineSource:Class;
-		private var mineImage:Bitmap = new mineSource();
 		
-		[Embed(source = "../../lib/gnomepanelclock.png")]
-		private var clockSource:Class;
-		private var clockImage:Bitmap = new clockSource();
-		
-		private var timer:Scoreboard;
-		private var minesOnField:Scoreboard;
+		private var timer:ScoreboardStarling;
+		private var minesOnField:ScoreboardStarling;
 		private var gameModel:GameModel;
 		private var updateStrategy:Object;
-		private var openedFields:Scoreboard;
-		private var tottalFields:Scoreboard;
+		private var openedFields:ScoreboardStarling;
+		private var tottalFields:ScoreboardStarling;
 		
 		private var viewComponentPosition:Point = new Point(0, 0);
-		public var fullScreen:SimpleButton;
+		private var clockImage:Image;
+		private var mineImage:Image;
+		public var backButton:Button;
+		
+		public var fullScreen:Button;
 		
 		public function GameScreenUI(gameModel:GameModel = null) 
 		{
-			var texture:BitmapData = new BitmapData(100, 40, false, 0xFFFFFF);
-			var tf:TextField = new TextField();
-			tf.defaultTextFormat = new TextFormat('Ubuntu', 15, 0x0, true);
-			tf.embedFonts = true;
-			tf.text = 'TOGGLE FULL SCREEN';
-			var m:Matrix = new Matrix();
-			m.tx = 15
-			m.ty = 10
-			texture.draw(tf, m);
-			var buttonDisplay:Bitmap = new Bitmap(texture);
 			
 			
 			
-			fullScreen = new SimpleButton(buttonDisplay, buttonDisplay, buttonDisplay, buttonDisplay);
 			
+			fullScreen = createButton('large_button_normal', 'large_button_down', 'Toggle full screen', 'Desyrel', -1, 0xFFFFFF, true);
+			backButton = createButton('large_button_normal', 'large_button_down', 'Back to menu', 'Desyrel', -1, 0xFFFFFF, true);
 			
 			
 			super();
@@ -66,6 +49,25 @@ package view
 			initilize();
 			addEventListener(Event.ADDED_TO_STAGE, onAdded);
 			
+			
+		}
+		
+		public function deactivate():void
+		{
+			stage.removeEventListener(Event.RESIZE, align);
+			gameModel.removeEventListener(LazyModeratorEvent.UPDATE_EVENT, updateView);
+			
+		}
+		
+		public function createButton(textureNormal:String, textureDown:String, text:String, fontName:String, size:int = -1, color:uint = 0x0, bold:Boolean =false ):Button
+		{
+			var button:Button = new Button(TextureStore.texturesAtlas.getTexture(textureNormal), text, TextureStore.texturesAtlas.getTexture(textureDown))
+			button.fontName = fontName;
+			button.fontBold = bold;
+			button.fontSize = size;
+			button.fontColor = color;
+			
+			return button;
 		}
 		
 		private function onAdded(e:Event):void 
@@ -88,7 +90,10 @@ package view
 				
 			updateMinesCount();
 			updateMineFields();
+			
+			
 			align();
+			
 			gameModel.addEventListener(LazyModeratorEvent.UPDATE_EVENT, updateView);
 		}
 		
@@ -120,12 +125,13 @@ package view
 		
 		private function craeteUI():void 
 		{
-			timer = new Scoreboard();
-			minesOnField = new Scoreboard();
-			openedFields = new Scoreboard();
-			tottalFields = new Scoreboard();
+			timer = new ScoreboardStarling();
+			minesOnField = new ScoreboardStarling();
+			openedFields = new ScoreboardStarling();
+			tottalFields = new ScoreboardStarling();
 			
-			
+			mineImage = new Image(TextureStore.texturesAtlas.getTexture('gnomemines'));
+			clockImage = new Image(TextureStore.texturesAtlas.getTexture('gnomepanelclock'));
 			
 			mineImage.scaleX = mineImage.scaleY = 0.5;
 			clockImage.scaleX = clockImage.scaleY = 0.5;
@@ -138,6 +144,7 @@ package view
 			addChild(mineImage);
 			addChild(clockImage);
 			addChild(fullScreen);
+			addChild(backButton);
 		}
 		
 		
@@ -162,6 +169,8 @@ package view
 		
 		private function align(e:* = null):void 
 		{
+
+				
 			viewComponentPosition.x = 10;
 			viewComponentPosition.y = 10;
 			
@@ -188,9 +197,14 @@ package view
 			tottalFields.x = viewComponentPosition.x;
 			tottalFields.y = viewComponentPosition.y;
 			
+			if(!stage)
+				return;
+			
 			fullScreen.x = 10;
 			fullScreen.y = stage.stageHeight - 10 - fullScreen.height;
 			
+			backButton.x = 10;
+			backButton.y = fullScreen.y - backButton.height - 10;
 			
 			
 		}

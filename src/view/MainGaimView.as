@@ -1,18 +1,13 @@
 package view
 {
-	import flash.display.SimpleButton;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
-	import flash.utils.getQualifiedClassName;
-	import model.CellConstants;
 	import model.GameModel;
 	import model.MineFieldModel;
 	import particles.starParticles.StarParticlesEmmiter;
-	import starling.core.Starling;
-	import starling.display.BlendMode;
+	import starling.display.Button;
 	import starling.display.Sprite;
 	import starling.events.Event;
-	import starling.events.EventDispatcher;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
 	import utils.GlobalUIContext;
@@ -29,27 +24,30 @@ package view
 		private var uiView:GameScreenUI;
 		private var fieldWith:Number;
 		private var fieldHeight:Number;
-		
+		private var _zoom:int = 0;
 		private var mouseTracker:Point = new Point(0, 0);
 		private var trackTarget:MineFieldCellView;
 		private var scaleFactor:Number;
-		private var _zoom:int = 0;
+		private var stars:StarParticlesEmmiter;
 		
-		public var fullScreen:SimpleButton;
+		public var fullScreen:Button;
+		public var backButton:Button;
 		
 		public function MainGaimView()
 		{
 			super();
 			
-			var stars:StarParticlesEmmiter = new StarParticlesEmmiter();
+			stars = new StarParticlesEmmiter();
 			addChild(stars);
 			stars.y -= 10;
 			
 			uiView = new GameScreenUI()
 			
-			GlobalUIContext.vectorUIContainer.addChild(uiView);
+			addChild(uiView);
 			
 			fullScreen = uiView.fullScreen;
+			backButton = uiView.backButton;
+		
 		}
 		
 		public function set zoom(value:int):void
@@ -71,6 +69,13 @@ package view
 			return _zoom;
 		}
 		
+		public function deactivate():void
+		{
+			//uiView.deactivate();
+			
+			clean();
+		}
+		
 		public function initilize(mineField:MineFieldModel, gameModel:GameModel):void
 		{
 			this.gameModel = gameModel;
@@ -85,10 +90,18 @@ package view
 			addChild(mineFieldInstance);
 			
 			alignUI();
+			
+			GlobalUIContext.vectorStage.addEventListener(MouseEvent.RIGHT_MOUSE_DOWN, onRightMouse);
+			GlobalUIContext.vectorStage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+			GlobalUIContext.vectorStage.addEventListener(MouseEvent.MOUSE_WHEEL, onMouseWheel);
 		}
 		
-		public function reset():void
+		private function clean():void
 		{
+			
+			GlobalUIContext.vectorStage.removeEventListener(MouseEvent.RIGHT_MOUSE_DOWN, onRightMouse);
+			GlobalUIContext.vectorStage.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+			GlobalUIContext.vectorStage.removeEventListener(MouseEvent.MOUSE_WHEEL, onMouseWheel);
 			if (!mineFieldInstance)
 				return;
 			
@@ -97,17 +110,21 @@ package view
 			while (mineFieldInstance.numChildren != 0)
 			{
 				var child:MineFieldCellView = mineFieldInstance.getChildAt(0) as MineFieldCellView;
-				//child.removeEventListener(TouchEvent.TOUCH, onTouchEvent);
+				
 				mineFieldInstance.removeChildAt(0);
-					//child.dispose();
-					//mineFieldInstance.dispose();
+				
 			}
 			
-			//	Starling.context.clear();
-			//	Starling.context.dispose();
 			mineFieldInstance = null;
-			initilize(mineField, gameModel);
+		}
 		
+		public function reset():void
+		{
+			if (mineFieldInstance)
+				clean();
+			
+			if (gameModel)
+				initilize(mineField, gameModel);
 		}
 		
 		private function alignUI():void
@@ -143,14 +160,11 @@ package view
 			
 			fieldWith = fieldView.width
 			fieldHeight = fieldView.height
-			GlobalUIContext.vectorStage.addEventListener(MouseEvent.RIGHT_MOUSE_DOWN, onRightMouse);
-			GlobalUIContext.vectorStage.addEventListener(MouseEvent.MOUSE_WHEEL, onMouseWheel);
-			GlobalUIContext.vectorStage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 			
 			mineFieldInstance.flatten();
 			
 			mineFieldInstance.touchable = false;
-			this.touchable = false;
+			//this.touchable = false;
 		}
 		
 		private function onMouseWheel(e:MouseEvent):void
@@ -160,9 +174,9 @@ package view
 		
 		private function onMouseDown(e:MouseEvent):void
 		{
-			
-			var j:int = (e.localX - mineFieldInstance.x - fieldWith / 8 / scaleFactor) / fieldWith;
+			//var j:int = (e.localX - mineFieldInstance.x - fieldWith / 8 / scaleFactor) / fieldWith;
 			var i:int = (e.localY - mineFieldInstance.y) / fieldHeight;
+			var j:int = Math.floor((e.localX - mineFieldInstance.x - 11) / fieldWith);
 			
 			if (i >= mineField.fieldWidth)
 				return;
@@ -180,7 +194,7 @@ package view
 		private function onRightMouse(e:MouseEvent):void
 		{
 			
-			var j:int = (e.localX - mineFieldInstance.x - fieldWith / 8 / scaleFactor) / fieldWith;
+			var j:int = Math.floor((e.localX - mineFieldInstance.x - 11) / fieldWith);
 			var i:int = (e.stageY - mineFieldInstance.y) / fieldHeight;
 			
 			if (i >= mineField.fieldWidth)

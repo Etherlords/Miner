@@ -6,6 +6,7 @@ package view
 	import starling.display.DisplayObject;
 	import starling.display.Sprite;
 	import starling.events.Event;
+	import starling.text.BitmapFont;
 	import utils.GlobalUIContext;
 	
 	/**
@@ -50,7 +51,7 @@ package view
 		
 		private function initilize():void 
 		{
-			startGameButton = craeteButton('START GAME', 0, -1);
+			startGameButton = craeteButton('START GAME', 0, BitmapFont.NATIVE_SIZE);
 			fieldSize = craeteButton('FIELD SIZE 9x9', 1, 25);
 			minesCount = craeteButton('MINES COUNT', 1, 25);
 			difficle = craeteButton('CHANGE DIFFICLE', 1, 25);
