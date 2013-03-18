@@ -18,7 +18,8 @@
     <class path="..\src" />
     <class path="..\..\reality-0.1\src\main" />
     <class path="particles" />
-    <class path="..\..\starling\src" />
+    <class path="..\..\Starling-Framework\starling\src" />
+    <class path="..\..\Starling-Extension-Particle-System\src" />
   </classpaths>
   <!-- Build options -->
   <build>
