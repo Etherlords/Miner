@@ -73,10 +73,15 @@ package logic
 		
 		private function setField():void
 		{
-			CellConstants.MINE_FIELD_GABARITE = 85;
 			mineField.fieldWidth = SettingsModel.instance.fieldWidth;
 			mineField.fieldHeight = SettingsModel.instance.fieldHeight;
-			CellConstants.MINE_FIELD_GABARITE *= 8.5 / (mineField.fieldWidth > mineField.fieldHeight? mineField.fieldWidth:mineField.fieldHeight);
+			
+			var lowestSide:Number = Math.min(CellConstants.APPLICATION_HEIGHT, CellConstants.APPLICATION_WIDTH);
+			var largestFieldSide:Number = mineField.fieldWidth > mineField.fieldHeight? mineField.fieldWidth:mineField.fieldHeight
+			CellConstants.MINE_FIELD_GABARITE = lowestSide / largestFieldSide;
+
+			//CellConstants.MINE_FIELD_GABARITE *= 8.5 / largestFieldSide;
+			
 			gameModel.minesCount = SettingsModel.instance.minesCount;
 			gameModel.totalField = mineField.fieldWidth * mineField.fieldHeight;
 		}

@@ -9,11 +9,15 @@ package
 	import flash.events.Event;
 	import flash.events.FullScreenEvent;
 	import flash.geom.Rectangle;
+	import flash.system.Capabilities;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.ui.Mouse;
 	import flash.ui.MouseCursorData;
+	import model.CellConstants;
 	import starling.core.Starling;
+	import starling.utils.RectangleUtil;
+	import starling.utils.ScaleMode;
 	import utils.GlobalUIContext;
 	
 	
@@ -42,37 +46,54 @@ package
 			stage.align = 'TL';
 			stage.scaleMode = 'noScale';
 			
+			stageWidth = 480//stage.stageWidth;
+			stageHeight = 768//stage.stageHeight;\
 			
-			Starling.handleLostContext = true; // deactivate on mobile devices (to save memory)
+			CellConstants.APPLICATION_WIDTH = stageWidth;
+			CellConstants.APPLICATION_HEIGHT = stageHeight;
 			
-			//TweenPlugin.activate([ColorTransformPlugin, TintPlugin]);
-
+			var iOS:Boolean = Capabilities.manufacturer.indexOf("iOS") != -1;
+			
+			
+			Starling.multitouchEnabled = true; // useful on mobile devices
+			Starling.handleLostContext = false;
+			
+			var viewPort:Rectangle = RectangleUtil.fit(new Rectangle(0, 0, stageWidth, stageHeight), new Rectangle(0, 0, stage.fullScreenWidth, stage.fullScreenHeight), ScaleMode.NO_BORDER, iOS);
+			trace(viewPort);
+			var scaleFactor:int = viewPort.width < stageWidth ? 1 : 2;
 
 			var cursor:MouseCursorData = new MouseCursorData();
 			cursor.data = new <BitmapData>[new BitmapData(1, 1, true, 0x01000000)];
 			Mouse.registerCursor('noCursor', cursor);
 
 			
-			mStarling = new Starling(MainStarlingScene, stage, new Rectangle(0, 0, 1024, 768), null, Context3DRenderMode.AUTO, 'baseline');
+			mStarling = new Starling(MainStarlingScene, stage, viewPort, null, Context3DRenderMode.AUTO, 'baseline');
 			
-			stage.addEventListener(Event.RESIZE, onFullScreen);
-			stage.addEventListener(FullScreenEvent.FULL_SCREEN, fullScreenEvent);
+			//stage.addEventListener(Event.RESIZE, onFullScreen);
+			//stage.addEventListener(FullScreenEvent.FULL_SCREEN, fullScreenEvent);
+			
 			mStarling.simulateMultitouch = false;
-			mStarling.antiAliasing = 16;
 			mStarling.enableErrorChecking = false;
+			mStarling.antiAliasing = 16;
 			
 			mStarling.start();
+			
 			mStarling.showStats = false;
 			mStarling.showStatsAt('right','bottom');
 			
 			mStarling.stage3D.addEventListener(Event.CONTEXT3D_CREATE, onContextCreated);
 			
+		
 			stage.quality = StageQuality.LOW
 			
-			stageWidth = stage.stageWidth;
-			stageHeight = stage.stageHeight;
+			
 			
 			//addChild(new TheMiner());
+			
+		}
+		
+		private function initAirSection():void
+		{
 			
 		}
 		

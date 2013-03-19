@@ -55,11 +55,11 @@ package
 			
 			stateManager.start();
 			
-			Starling.current.root.x = (Starling.current.nativeStage.stageWidth - 1024) / 2;
-			Starling.current.root.y = (Starling.current.nativeStage.stageHeight - 768) / 2;
-			Starling.current.viewPort = new Rectangle(Starling.current.root.x, Starling.current.root.y, 1024, 768);
-			Starling.current.root.x = 10
-			Starling.current.root.y = 0
+			//Starling.current.root.x = (Starling.current.nativeStage.stageWidth - 1024) / 2;
+			//Starling.current.root.y = (Starling.current.nativeStage.stageHeight - 768) / 2;
+			//Starling.current.viewPort = new Rectangle(Starling.current.root.x, Starling.current.root.y, 1024, 768);
+			//Starling.current.root.x = 10
+			//Starling.current.root.y = 0
 		}
 		
 		

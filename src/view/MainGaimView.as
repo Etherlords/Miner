@@ -2,6 +2,7 @@ package view
 {
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
+	import model.CellConstants;
 	import model.GameModel;
 	import model.MineFieldModel;
 	import particles.starParticles.StarParticlesEmmiter;
@@ -155,11 +156,7 @@ package view
 					fieldView.touchable = false;
 				}
 			}
-			
 			scaleFactor = fieldView.scaleFactor
-			
-			fieldWith = fieldView.width
-			fieldHeight = fieldView.height
 			
 			mineFieldInstance.flatten();
 			
@@ -174,9 +171,8 @@ package view
 		
 		private function onMouseDown(e:MouseEvent):void
 		{
-			//var j:int = (e.localX - mineFieldInstance.x - fieldWith / 8 / scaleFactor) / fieldWith;
-			var i:int = (e.localY - mineFieldInstance.y) / fieldHeight;
-			var j:int = Math.floor((e.localX - mineFieldInstance.x - 11) / fieldWith);
+			var i:int = (e.localY - mineFieldInstance.y) / CellConstants.MINE_FIELD_GABARITE;
+			var j:int = Math.floor((e.localX - mineFieldInstance.x) / CellConstants.MINE_FIELD_GABARITE);
 			
 			if (i >= mineField.fieldWidth)
 				return;
@@ -194,8 +190,8 @@ package view
 		private function onRightMouse(e:MouseEvent):void
 		{
 			
-			var j:int = Math.floor((e.localX - mineFieldInstance.x - 11) / fieldWith);
-			var i:int = (e.stageY - mineFieldInstance.y) / fieldHeight;
+			var j:int = Math.floor((e.localX - mineFieldInstance.x) / CellConstants.MINE_FIELD_GABARITE);
+			var i:int = (e.stageY - mineFieldInstance.y) / CellConstants.MINE_FIELD_GABARITE;
 			
 			if (i >= mineField.fieldWidth)
 				return;

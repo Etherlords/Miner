@@ -35,21 +35,14 @@ package view
 		
 		public function GameScreenUI(gameModel:GameModel = null) 
 		{
-			
-			
-			
-			
 			fullScreen = createButton('large_button_normal', 'large_button_down', 'Toggle full screen', 'Desyrel', -1, 0xFFFFFF, true);
 			backButton = createButton('large_button_normal', 'large_button_down', 'Back to menu', 'Desyrel', -1, 0xFFFFFF, true);
-			
 			
 			super();
 			this.gameModel = gameModel;
 			
 			initilize();
 			addEventListener(Event.ADDED_TO_STAGE, onAdded);
-			
-			
 		}
 		
 		public function deactivate():void
@@ -76,8 +69,6 @@ package view
 			stage.addEventListener(Event.RESIZE, align);
 			align();
 		}
-		
-	
 		
 		public function setGameModel(gameModel:GameModel):void
 		{

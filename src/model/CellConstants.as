@@ -15,6 +15,8 @@ package model
 		public static const MINE_FINDED_STATE:int = 2;
 		
 		public static var MINE_FIELD_GABARITE:Number = 85;
+		public static var APPLICATION_WIDTH:Number = 0;
+		public static var APPLICATION_HEIGHT:Number = 0;
 		
 	}
 
