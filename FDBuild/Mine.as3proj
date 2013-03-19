@@ -16,10 +16,10 @@
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
     <class path="..\src" />
-    <class path="..\..\reality-0.1\src\main" />
     <class path="particles" />
-    <class path="..\..\Starling-Framework\starling\src" />
-    <class path="..\..\Starling-Extension-Particle-System\src" />
+    <class path="..\external-libs\reality\src\main" />
+    <class path="..\external-libs\starling\starling\src" />
+    <class path="..\external-libs\Starling-Extension-Particle-System\src" />
   </classpaths>
   <!-- Build options -->
   <build>
