@@ -170,6 +170,7 @@ package view
 		
 		private function align(e:* = null):void 
 		{
+			uiPanel.x = uiPanel.y = 10;
 			
 			if(!stage)
 				return;
