@@ -73,10 +73,14 @@ package view
 			flag.touchable = false;
 			background.touchable = false;
 			
-			background.scaleX = background.scaleY = flag.scaleX = flag.scaleY = scaleFactor;
+			background.width = Math.ceil(background.width * scaleFactor);
+			background.height = Math.ceil(background.height * scaleFactor);
+			flag.width = Math.ceil(flag.width * scaleFactor);
+			flag.height = Math.ceil(flag.height * scaleFactor);
 			
-			if(scaleFactor != 1)
-				lable.scaleX = lable.scaleY = scaleFactor * 2.5
+			
+			if(scaleFactor < 0.94)
+				lable.scaleX = lable.scaleY = scaleFactor * 3
 		}
 		
 		private function alignUI():void

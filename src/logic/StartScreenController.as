@@ -173,12 +173,18 @@ package logic
 		
 		override public function activate(instance:DisplayObjectContainer):void 
 		{
-			viewInstance = new StartScreenView();
+			
+			var initilzie:Boolean = !viewInstance;
+			
+			if(initilzie)
+				viewInstance = new StartScreenView();
+			
 			setViewComponent(viewInstance);
 			
 			super.activate(instance);
 			
-			postInitilize();
+			if(initilzie)
+				postInitilize();
 		}
 		
 		

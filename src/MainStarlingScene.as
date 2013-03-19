@@ -30,9 +30,15 @@ package
 		private function onAdded(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAdded);
+			var textures:TextureStore = new TextureStore();
 			
-			
-			
+			textures.addEventListener(Event.COMPLETE, hereGo);
+			textures.preload();
+		
+		}
+		
+		private function hereGo(e:Event):void 
+		{
 			var stateManager:StatesManager = new StatesManager(this as DisplayObjectContainer);
 			
 			var gameStateConfig:StateConfig = new StateConfig('Game', MainGameController);
@@ -45,6 +51,7 @@ package
 			
 			stateManager.nextState(startScreenState);
 			stateManager.nextState(gameState);
+			
 			
 			stateManager.start();
 			

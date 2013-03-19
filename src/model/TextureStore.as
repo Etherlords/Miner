@@ -1,76 +1,129 @@
 package model 
 {
-	import flash.display.BitmapData;
-	import flash.display.Graphics;
-	import flash.display.Shape;
-	import flash.geom.Matrix;
-	import flash.geom.Rectangle;
-	import flash.system.Capabilities;
+	import flash.system.Security;
 	import flash.system.System;
-	import flash.utils.ByteArray;
+	import starling.events.Event;
+	import flash.net.URLLoader;
+	import flash.net.URLLoaderDataFormat;
+	import flash.net.URLRequest;
+	import flash.system.Capabilities;
+	import starling.events.EventDispatcher;
 	import starling.text.BitmapFont;
 	import starling.text.TextField;
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
 	import starling.textures.TextureSmoothing;
+	import utils.decoders.ATFDecoder;
+	import utils.decoders.IDecoder;
+	import utils.decoders.PngDecoder;
+	import utils.decoders.XMLDecoder;
 	/**
 	 * ...
 	 * @author 
 	 */
-	public class TextureStore 
+	public class TextureStore extends EventDispatcher
 	{
+	
 		
-		[Embed(source="../../FDBuild/asset/desyrel.fnt", mimeType="application/octet-stream")]
-        public static const DesyrelXml:Class;
-		
-		[Embed(source = "../../FDBuild/asset/arts.png")]
-		private var assetBitmapSource:Class;
-		private var assetBitmap:BitmapData = new assetBitmapSource().bitmapData;
-		
-		[Embed(source = "../../FDBuild/asset/starParticle.png")]
-		private var starsSource:Class;
-		private var starsBitmap:BitmapData = new starsSource().bitmapData;
-		
-		[Embed(source="../../FDBuild/asset/arts.xml", mimeType="application/octet-stream")]
-		private static var assetConfigSoruce:Class;
-		private static var assetConfigStream:ByteArray = new assetConfigSoruce();
-		private var assetConfig:XML = new XML(assetConfigStream.readUTFBytes(assetConfigStream.length));
-		
-		[Embed(source="../../FDBuild/asset/arts.atf", mimeType="application/octet-stream")]
-		private static var assetSource:Class;
-		private static var assetStream:ByteArray = (new assetSource() as ByteArray)
-		
-		public static var starParticle:Texture;
 		
 		public static var texturesAtlas:TextureAtlas;
 		
 		public static var numbers:Array = [];
 		
-		public function TextureStore() 
+		private var toLoad:Array = ['desyrel.fnt', 'arts.xml']
+		private var files:Object = { };
+		private var decoders:Object = { 'fnt':new XMLDecoder(), 'xml':new XMLDecoder(), 'png':new PngDecoder(), 'atf':new ATFDecoder()};
+		private var toDecode:Number;
+		
+		public function preload():void
 		{
-			starParticle = Texture.fromBitmapData(starsBitmap, true, true);
+			var asset:String = 'arts';
 			
 			var version:Array = Capabilities.version.split(' ')[1].split(',');
+	
+			if (version[0] == 11 && version[1] >= 4 && Security.sandboxType != Security.APPLICATION)
+			{
+				asset += '.atf';
+			}
+			else
+			{
+				asset += '.png';
+			}
 			
-			if (version[0] == 11 && version[1] >= 4)
+			toLoad.push(asset);
+			toDecode = toLoad.length;
+			load();
+		}
+		
+		private function load():void
+		{
+			if (toLoad.length == 0)
+			{
+				loadingComplete()
+				return;
+			}
+				
+				
+			var file:String = toLoad.pop();
+			var r:URLRequest = new URLRequest(file);
+			
+			var loader:URLLoader = new URLLoader(r);
+			loader.dataFormat = URLLoaderDataFormat.BINARY;
+			loader.addEventListener(Event.COMPLETE, Delegate.create(onLoaded, file, loader));
+		}
+		
+		private function loadingComplete():void 
+		{
+			
+			for (var file:String in files)
+			{
+				
+				var format:String = file.split('.')[1];
+				var decoder:IDecoder = decoders[format];
+				
+				decoder.addEventListener(Event.COMPLETE, Delegate.create(onFileDecoded, decoder, file))
+				decoder.decode(files[file]);
+			}
+		}
+		
+		private function onFileDecoded(decoder:IDecoder, file:String):void 
+		{
+			trace('onDecoded', arguments);
+			files[file] = decoder.data;
+			toDecode--;
+			
+			if (toDecode == 0)
+				allComplete();
+		}
+		
+		private function onLoaded(e:*, f:String, loader:URLLoader):void 
+		{
+			files[f] = loader.data;
+			load();
+		}
+		
+		private function allComplete():void 
+		{
+			if(files.hasOwnProperty('arts.atf'))
 			{
 				trace('create atf atlas');
-				texturesAtlas = new TextureAtlas(Texture.fromAtfData(assetStream), assetConfig);
+				texturesAtlas = new TextureAtlas(Texture.fromAtfData(files['arts.atf']), files['arts.xml']);
 			}
 			else
 			{
 				trace('create bitmap atlas');
-				texturesAtlas = new TextureAtlas(Texture.fromBitmapData(assetBitmap, true, true), assetConfig)
+				texturesAtlas = new TextureAtlas(Texture.fromBitmapData(files['arts.png'], true, true), files['arts.xml'])
 			}
 			
 			
 			
 			var texture:Texture = texturesAtlas.getTexture('desyrel');// getTexture("DesyrelTexture");
 			
-			var xml:XML = XML(new DesyrelXml);
+			var xml:XML = XML(files['desyrel.fnt']);
 			var bitmapFont:BitmapFont = new BitmapFont(texture, xml)
 			bitmapFont.smoothing = TextureSmoothing.TRILINEAR;
 			TextField.registerBitmapFont(bitmapFont);
+			
 			
 			for (var i:int = 0; i < 10; i++)
 			{
@@ -79,6 +132,13 @@ package model
 				
 				numbers.push(Texture.fromTexture(key));
 			}
+			
+			dispatchEvent(new Event(Event.COMPLETE));
+		}
+		
+		public function TextureStore() 
+		{
+			
 		}
 		
 		

@@ -30,8 +30,13 @@ package
 
 		public function StarlingInit()
 		{
-			
-			
+			addEventListener(Event.ADDED_TO_STAGE, onAdded);
+			//addChild(new TheMiner());
+		}
+		
+		private function onAdded(e:Event):void 
+		{
+			removeEventListener(Event.ADDED_TO_STAGE, onAdded);
 			initilizeContext();
 			
 			stage.align = 'TL';
@@ -67,10 +72,8 @@ package
 			stageWidth = stage.stageWidth;
 			stageHeight = stage.stageHeight;
 			
-			
-			
-			
 			//addChild(new TheMiner());
+			
 		}
 		
 		private function fullScreenEvent(e:FullScreenEvent):void 
@@ -90,7 +93,16 @@ package
 		
 		private function onFullScreen(e:Event):void 
 		{
-			
+			try
+			{
+				if (!Starling.current.root)
+					return;
+			}
+			catch (e:*)
+			{
+				return;
+			}
+				
 			if(stage.displayState == StageDisplayState.NORMAL)
 			{
 				Starling.current.root.x = (stageWidth - 1024) / 2;

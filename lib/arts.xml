@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://texturepacker.com-->
-<!-- $TexturePacker:SmartUpdate:e4c826d7edd24e146b4e373a8287b647$ -->
+<!-- $TexturePacker:SmartUpdate:abd7cec3b1f487964adf920e332a0aab$ -->
 <TextureAtlas imagePath="arts.png">
-    <SubTexture name="cell_bomb" x="340" y="242" width="85" height="85"/>
-    <SubTexture name="cell_down" x="255" y="219" width="85" height="85"/>
-    <SubTexture name="cell_normal" x="375" y="99" width="85" height="85"/>
-    <SubTexture name="desyrel" x="1" y="1" width="254" height="248" frameX="0" frameY="-1" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="flag" x="433" y="1" width="65" height="65" frameX="-10" frameY="-10" frameWidth="85" frameHeight="85"/>
-    <SubTexture name="gnomemines" x="255" y="99" width="120" height="120" frameX="-3" frameY="-4" frameWidth="128" frameHeight="128"/>
-    <SubTexture name="large_button_down" x="255" y="50" width="178" height="49" frameX="-2" frameY="-2" frameWidth="180" frameHeight="51"/>
-    <SubTexture name="large_button_normal" x="255" y="1" width="178" height="49" frameX="-2" frameY="-2" frameWidth="180" frameHeight="51"/>
-    <SubTexture name="options" x="433" y="66" width="32" height="30"/>
-    <SubTexture name="small_button_down" x="375" y="213" width="98" height="29" frameX="-2" frameY="-2" frameWidth="100" frameHeight="31"/>
-    <SubTexture name="small_button_normal" x="375" y="184" width="98" height="29" frameX="-2" frameY="-2" frameWidth="100" frameHeight="31"/>
-    <SubTexture name="square_button_down" x="465" y="95" width="29" height="29" frameX="-2" frameY="-2" frameWidth="31" frameHeight="31"/>
-    <SubTexture name="square_button_normal" x="465" y="66" width="29" height="29" frameX="-2" frameY="-2" frameWidth="31" frameHeight="31"/>
+    <SubTexture name="cell_bomb" x="359" y="1" width="85" height="85"/>
+    <SubTexture name="cell_down" x="1" y="86" width="85" height="85"/>
+    <SubTexture name="cell_normal" x="171" y="86" width="85" height="85"/>
+    <SubTexture name="desyrel" x="129" y="222" width="256" height="256"/>
+    <SubTexture name="flag" x="86" y="86" width="85" height="85"/>
+    <SubTexture name="fontRegular" x="256" y="86" width="128" height="64"/>
+    <SubTexture name="gnomemines" x="1" y="222" width="128" height="128"/>
+    <SubTexture name="large_button_down" x="181" y="171" width="180" height="51"/>
+    <SubTexture name="large_button_normal" x="1" y="171" width="180" height="51"/>
+    <SubTexture name="options" x="1" y="1" width="32" height="30"/>
+    <SubTexture name="small_button_down" x="95" y="1" width="100" height="31"/>
+    <SubTexture name="small_button_normal" x="195" y="1" width="100" height="31"/>
+    <SubTexture name="square_button_down" x="33" y="1" width="31" height="31"/>
+    <SubTexture name="square_button_normal" x="64" y="1" width="31" height="31"/>
+    <SubTexture name="starParticle" x="295" y="1" width="64" height="64"/>
 </TextureAtlas>
