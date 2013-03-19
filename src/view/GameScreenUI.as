@@ -1,6 +1,7 @@
 package view 
 {
 	import flash.geom.Point;
+	import model.CellConstants;
 	import model.GameModel;
 	import model.TextureStore;
 	import patterns.events.LazyModeratorEvent;
@@ -33,6 +34,7 @@ package view
 		public var fullScreen:Button;
 		
 		private var viewComponentPosition:Point = new Point(0, 0);
+		private var uiPanel:AlignContainer;
 		
 		public function GameScreenUI(gameModel:GameModel = null) 
 		{
@@ -135,7 +137,7 @@ package view
 			timer.addElements(timerIcon, timerValue);
 			minesCount.addElements(mineIcon, minesOnFieldValue);
 			
-			var uiPanel:AlignContainer = new AlignContainer(AlignContainer.RIGHT, 10);
+			uiPanel = new AlignContainer(CellConstants.APPLICATION_HEIGHT > CellConstants.APPLICATION_WIDTH? AlignContainer.RIGHT:AlignContainer.BOTTOM, 10);
 			
 			uiPanel.addElements(timer, minesCount, openedFieldsValue, tottalFieldsValue);
 			
@@ -156,6 +158,8 @@ package view
 					updateStrategy[fieldName]();
 				
 			align();
+			
+			uiPanel.flatten();
 		}
 		
 		private function aligneToIcon(icon:DisplayObject, alignElement:DisplayObject):void
