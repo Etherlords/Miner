@@ -1,5 +1,6 @@
 package
 {
+	import flash.desktop.*;
 	import flash.display.BitmapData;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
@@ -9,6 +10,7 @@ package
 	import flash.events.Event;
 	import flash.events.FullScreenEvent;
 	import flash.geom.Rectangle;
+	import flash.system.ApplicationDomain;
 	import flash.system.Capabilities;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
@@ -49,6 +51,15 @@ package
 			stageWidth = stage.stageWidth;
 			stageHeight = stage.stageHeight;
 			
+			if (stage.orientation != 'default')
+			{
+				stageWidth = stage.stageHeight;
+				stageHeight = stage.stageWidth;
+			}
+			
+			trace(stageWidth, stageHeight, stage.orientation, stage.deviceOrientation);
+			
+			
 			CellConstants.APPLICATION_WIDTH = stageWidth;
 			CellConstants.APPLICATION_HEIGHT = stageHeight;
 			
@@ -57,7 +68,7 @@ package
 			Starling.multitouchEnabled = true; // useful on mobile devices
 			//Starling.handleLostContext = false;
 			
-			var viewPort:Rectangle = RectangleUtil.fit(new Rectangle(0, 0, stageWidth, stageHeight), new Rectangle(0, 0, stage.stageWidth, stage.stageHeight), ScaleMode.NO_BORDER, iOS);
+			var viewPort:Rectangle = RectangleUtil.fit(new Rectangle(0, 0, stageWidth, stageHeight), new Rectangle(0, 0, stageWidth, stageHeight), ScaleMode.NO_BORDER, iOS);
 			
 			var scaleFactor:int = viewPort.width < stageWidth ? 1 : 2;
 
@@ -89,11 +100,26 @@ package
 			
 			//addChild(new TheMiner());
 			
+			initAirSection();
+			
 		}
 		
 		private function initAirSection():void
 		{
+			if (!ApplicationDomain.currentDomain.hasDefinition('flash.desktop.NativeApplication'))
+				return;
 			
+			var nativeApp:Object = ApplicationDomain.currentDomain.getDefinition('flash.desktop.NativeApplication');
+				
+			nativeApp.nativeApplication.addEventListener(flash.events.Event.ACTIVATE, function(e:*):void
+			{
+				mStarling.start();
+			});
+		
+			nativeApp.nativeApplication.addEventListener(flash.events.Event.DEACTIVATE, function(e:*):void
+			{
+				mStarling.stop();
+			});
 		}
 		
 		private function fullScreenEvent(e:FullScreenEvent):void 
