@@ -18,6 +18,8 @@ package view.components
 		private var padding:Number;
 		private var align:uint;
 		
+		private var alignFunc:Object = { };
+		
 		public function DIAlignContainer(element1:Sprite, element2:Sprite, align:uint = LEFT, padding:Number = 0) 
 		{
 			this.align = align;
@@ -29,30 +31,35 @@ package view.components
 		
 		private function initilize():void 
 		{
+			alignFunc[TOP] = topAlign
+			alignFunc[BOTTOM] = bottomAlign
+			alignFunc[LEFT] = leftAlign
+			alignFunc[RIGHT] = rightAlign
+			
 			this.addChild(element1);
 			this.addChild(element2);
 			
-			
+			alignFunc[align]();
 		}
 		
 		private function bottomAlign():void
 		{
-			
+			element2.y = element1.height + padding;
 		}
 		
 		private function rightAlign():void
 		{
-			
+			element2.x = element1.width + padding;
 		}
 		
 		private function leftAlign():void
 		{
-			
+			element2.x = -padding;
 		}
 		
 		private function topAlign():void
 		{
-			
+			element2.y = -padding;
 		}
 		
 	}

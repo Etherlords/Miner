@@ -131,7 +131,7 @@ package view
 		private function alignUI():void
 		{
 			
-			mineFieldInstance.x = int((stage.stageWidth - mineFieldInstance.width) / 2) + 65;
+			mineFieldInstance.x = int((stage.stageWidth - mineFieldInstance.width) / 2);
 			mineFieldInstance.y = int(Math.round(stage.stageHeight - mineFieldInstance.height) / 2);
 		
 		}

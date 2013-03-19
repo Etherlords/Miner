@@ -10,6 +10,7 @@ package view
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import ui.scoreboard.ScoreboardStarling;
+	import view.components.AlignContainer;
 	
 	/**
 	 * ...
@@ -17,21 +18,21 @@ package view
 	 */
 	public class GameScreenUI extends Sprite 
 	{
-		
-		
-		private var timer:ScoreboardStarling;
-		private var minesOnField:ScoreboardStarling;
-		private var gameModel:GameModel;
 		private var updateStrategy:Object;
-		private var openedFields:ScoreboardStarling;
-		private var tottalFields:ScoreboardStarling;
+		private var gameModel:GameModel;
+		
+		private var timerValue:ScoreboardStarling;
+		private var minesOnFieldValue:ScoreboardStarling;
+		private var openedFieldsValue:ScoreboardStarling;
+		private var tottalFieldsValue:ScoreboardStarling;
+		
+		private var timerIcon:Image;
+		private var mineIcon:Image;
+		
+		public var backButton:Button;
+		public var fullScreen:Button;
 		
 		private var viewComponentPosition:Point = new Point(0, 0);
-		private var clockImage:Image;
-		private var mineImage:Image;
-		public var backButton:Button;
-		
-		public var fullScreen:Button;
 		
 		public function GameScreenUI(gameModel:GameModel = null) 
 		{
@@ -100,40 +101,45 @@ package view
 		
 		private function updateTimer():void 
 		{
-			timer.scores = gameModel.gameTime;
+			timerValue.scores = gameModel.gameTime;
 		}
 		
 		private function updateMinesCount():void 
 		{
-			minesOnField.scores = gameModel.minesCount - gameModel.foundedMines;
+			minesOnFieldValue.scores = gameModel.minesCount - gameModel.foundedMines;
 		}
 		
 		private function updateMineFields():void 
 		{
-			openedFields.scores = gameModel.openedField;
-			tottalFields.scores = gameModel.totalField;
+			openedFieldsValue.scores = gameModel.openedField;
+			tottalFieldsValue.scores = gameModel.totalField;
 		}
 		
 		private function craeteUI():void 
 		{
-			timer = new ScoreboardStarling();
-			minesOnField = new ScoreboardStarling();
-			openedFields = new ScoreboardStarling();
-			tottalFields = new ScoreboardStarling();
+			var timer:AlignContainer = new AlignContainer(AlignContainer.BOTTOM);
+			var minesCount:AlignContainer = new AlignContainer(AlignContainer.BOTTOM);
 			
-			mineImage = new Image(TextureStore.texturesAtlas.getTexture('gnomemines'));
-			clockImage = new Image(TextureStore.texturesAtlas.getTexture('gnomepanelclock'));
+			timerValue = new ScoreboardStarling();
+			minesOnFieldValue = new ScoreboardStarling();
+			openedFieldsValue = new ScoreboardStarling();
+			tottalFieldsValue = new ScoreboardStarling();
 			
-			mineImage.scaleX = mineImage.scaleY = 0.5;
-			clockImage.scaleX = clockImage.scaleY = 0.5;
+			mineIcon = new Image(TextureStore.texturesAtlas.getTexture('gnomemines'));
+			timerIcon = new Image(TextureStore.texturesAtlas.getTexture('gnomepanelclock'));
 			
-			addChild(timer);
-			addChild(minesOnField);
-			addChild(openedFields);
-			addChild(tottalFields);
+			mineIcon.scaleX = mineIcon.scaleY = 0.5;
+			timerIcon.scaleX = timerIcon.scaleY = 0.5;
 			
-			addChild(mineImage);
-			addChild(clockImage);
+			
+			timer.addElements(timerIcon, timerValue);
+			minesCount.addElements(mineIcon, minesOnFieldValue);
+			
+			var uiPanel:AlignContainer = new AlignContainer(AlignContainer.RIGHT, 10);
+			
+			uiPanel.addElements(timer, minesCount, openedFieldsValue, tottalFieldsValue);
+			
+			addChild(uiPanel);
 			addChild(fullScreen);
 			addChild(backButton);
 		}
@@ -160,33 +166,6 @@ package view
 		
 		private function align(e:* = null):void 
 		{
-
-				
-			viewComponentPosition.x = 10;
-			viewComponentPosition.y = 10;
-			
-			clockImage.x = viewComponentPosition.x;
-			clockImage.y = viewComponentPosition.y;
-			
-			aligneToIcon(clockImage, timer);
-			
-			viewComponentPosition.y = clockImage.y + clockImage.height + 10;
-			
-			mineImage.x = viewComponentPosition.x;
-			mineImage.y = viewComponentPosition.y;
-			
-			aligneToIcon(mineImage, minesOnField);
-			
-			
-			viewComponentPosition.y = mineImage.y + mineImage.height + 10;
-			
-			openedFields.x = viewComponentPosition.x;
-			openedFields.y = viewComponentPosition.y;
-			
-			viewComponentPosition.y = openedFields.y + openedFields.height + 10;
-			
-			tottalFields.x = viewComponentPosition.x;
-			tottalFields.y = viewComponentPosition.y;
 			
 			if(!stage)
 				return;
