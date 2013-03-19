@@ -6,6 +6,7 @@ package
 	import flash.geom.Rectangle;
 	import logic.MainGameController;
 	import logic.StartScreenController;
+	import model.CellConstants;
 	import model.TextureStore;
 	import starling.core.Starling;
 	import starling.display.DisplayObjectContainer;
@@ -55,9 +56,9 @@ package
 			
 			stateManager.start();
 			
-			//Starling.current.root.x = (Starling.current.nativeStage.stageWidth - 1024) / 2;
-			//Starling.current.root.y = (Starling.current.nativeStage.stageHeight - 768) / 2;
-			//Starling.current.viewPort = new Rectangle(Starling.current.root.x, Starling.current.root.y, 1024, 768);
+			//Starling.current.root.x = (Starling.current.nativeStage.stageWidth - CellConstants.APPLICATION_WIDTH) / 2;
+			//Starling.current.root.y = (Starling.current.nativeStage.stageHeight - CellConstants.APPLICATION_HEIGHT) / 2;
+			//Starling.current.viewPort = new Rectangle(Starling.current.root.x, Starling.current.root.y, Starling.current.viewPort.width, Starling.current.viewPort.height);
 			//Starling.current.root.x = 10
 			//Starling.current.root.y = 0
 		}

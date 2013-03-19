@@ -98,6 +98,8 @@ package logic
 			if (initilize)
 			{
 				viewInstance = new MainGaimView();
+				
+			
 			}
 			
 			setViewComponent(viewInstance);

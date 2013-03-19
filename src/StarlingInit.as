@@ -46,19 +46,19 @@ package
 			stage.align = 'TL';
 			stage.scaleMode = 'noScale';
 			
-			stageWidth = 480//stage.stageWidth;
-			stageHeight = 768//stage.stageHeight;\
+			stageWidth = stage.stageWidth;
+			stageHeight = stage.stageHeight;
 			
 			CellConstants.APPLICATION_WIDTH = stageWidth;
 			CellConstants.APPLICATION_HEIGHT = stageHeight;
 			
 			var iOS:Boolean = Capabilities.manufacturer.indexOf("iOS") != -1;
-			
+			var win:Boolean = Capabilities.manufacturer.indexOf("iOS") != -1;
 			
 			Starling.multitouchEnabled = true; // useful on mobile devices
-			Starling.handleLostContext = false;
+			//Starling.handleLostContext = false;
 			
-			var viewPort:Rectangle = RectangleUtil.fit(new Rectangle(0, 0, stageWidth, stageHeight), new Rectangle(0, 0, stage.fullScreenWidth, stage.fullScreenHeight), ScaleMode.NO_BORDER, iOS);
+			var viewPort:Rectangle = RectangleUtil.fit(new Rectangle(0, 0, stageWidth, stageHeight), new Rectangle(0, 0, stage.stageWidth, stage.stageHeight), ScaleMode.NO_BORDER, iOS);
 			trace(viewPort);
 			var scaleFactor:int = viewPort.width < stageWidth ? 1 : 2;
 
