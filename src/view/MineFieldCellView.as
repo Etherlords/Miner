@@ -40,6 +40,20 @@ package view
 			initilize();
 		}
 		
+		override public function dispose():void 
+		{
+			cellModel.removeEventListener(LazyModeratorEvent.UPDATE_EVENT, processViewUpdate);
+			textureStore = null;
+			cellModel = null;
+			lable.dispose();
+			updateMap = null;
+			background.dispose();
+			flag.dispose();
+			unflatten();
+			
+			super.dispose();
+		}
+		
 		private function initilize():void 
 		{
 			cellModel.addEventListener(LazyModeratorEvent.UPDATE_EVENT, processViewUpdate);
@@ -79,8 +93,10 @@ package view
 			flag.height = Math.ceil(flag.height * scaleFactor);
 			
 			
-			if(scaleFactor < 0.94)
+			if(scaleFactor < 0.54)
 				lable.scaleX = lable.scaleY = scaleFactor * 3
+			
+			
 		}
 		
 		private function alignUI():void

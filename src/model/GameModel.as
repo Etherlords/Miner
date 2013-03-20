@@ -13,6 +13,7 @@ package model
 		private var _foundedMines:int = 0;
 		private var _minesCount:int = 0;
 		private var _gameTime:Number = 0;
+		private var _gameStatus:int = 0;
 		
 		public function GameModel() 
 		{
@@ -77,6 +78,16 @@ package model
 		{
 			_gameTime = value;
 			moderateField('gameTime');
+		}
+		
+		public function get gameStatus():int 
+		{
+			return _gameStatus;
+		}
+		
+		public function set gameStatus(value:int):void 
+		{
+			_gameStatus = value;
 		}
 		
 	}

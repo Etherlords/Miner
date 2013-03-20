@@ -116,9 +116,10 @@ package view
 				var child:MineFieldCellView = mineFieldInstance.getChildAt(0) as MineFieldCellView;
 				
 				mineFieldInstance.removeChildAt(0);
+				child.dispose();
 				
 			}
-			
+			mineFieldInstance.dispose();
 			mineFieldInstance = null;
 		}
 		
@@ -155,8 +156,8 @@ package view
 					//fieldView.addEventListener(TouchEvent.TOUCH, onTouchEvent);
 					
 					mineFieldInstance.addChild(fieldView);
-					fieldView.y = i * (fieldView.width);
-					fieldView.x = j * (fieldView.height);
+					fieldView.y = i * (CellConstants.MINE_FIELD_GABARITE);
+					fieldView.x = j * (CellConstants.MINE_FIELD_GABARITE);
 					fieldView.touchable = false;
 				}
 			}

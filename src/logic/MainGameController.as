@@ -17,11 +17,15 @@ package logic
 	import model.TextureStore;
 	import particles.boomParticle.BoomParticle;
 	import particles.curosrParticle.CursorParticle;
+	import starling.animation.Transitions;
+	import starling.animation.Tween;
+	import starling.display.DisplayObject;
 	import starling.display.DisplayObjectContainer;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
+	import starling.filters.BlurFilter;
 	import ui.Alert;
 	import utils.GlobalUIContext;
 	import view.MainGaimView;
@@ -205,12 +209,11 @@ package logic
 		override protected function initilize():void
 		{
 
-			endGameAlert = new Alert(Alerts.START_SCREEN)
+			endGameAlert = new Alert()
 			
 			endGameAlert.addEventListener('restart', reset);
 			
-			endGameAlert.x = (GlobalUIContext.vectorStage.stageWidth - endGameAlert.width) / 2;
-			endGameAlert.y = (GlobalUIContext.vectorStage.stageHeight - endGameAlert.height) / 2;
+			
 			
 			mineField = new MineFieldModel();
 			gameModel = new GameModel();
@@ -224,7 +227,7 @@ package logic
 		
 		private function reset(e:* = null):void 
 		{
-			trace('restart game');
+			gameModel.gameStatus = 0;
 			gameBuilder.makeMineField(mineField, gameModel);
 			
 			if(GlobalUIContext.vectorUIContainer.contains(endGameAlert))
@@ -273,7 +276,6 @@ package logic
 			
 			if (gameModel.openedField == gameModel.totalField - gameModel.minesCount)
 			{
-				trace('game end');
 				gameOver(false);
 			}
 		
@@ -300,6 +302,9 @@ package logic
 		
 		private function gameOver(isShowBlow:Boolean):void
 		{
+			
+			gameModel.gameStatus = isShowBlow? -1:1;
+			
 			var blow:BoomParticle = new BoomParticle();
 			blow.x = mouse.x;
 			blow.y = mouse.y;
@@ -311,10 +316,57 @@ package logic
 			viewInstance.removeEventListener('MineCellRightClicked', flagCell);
 			
 			if (!isShowBlow)
+			{
 				blow.x = -1000;
+			}
+			else
+			{
+				shakeTween(view);
+			}
 			
 			showAllMines();
 			
+		}
+		
+		private function shakeTween( item:DisplayObject ):void 
+		{
+			item.filter = new BlurFilter(0, 0);
+			
+			var blurTween:Tween = new Tween(item.filter, 0.1);
+			blurTween.animate('blurX', item.y + (1 + Math.random() * 2));
+			blurTween.animate('blurY', item.y + (1 + Math.random() * 2));
+			blurTween.repeatCount = 6;
+			
+			var shake:Tween = new Tween(item, 0.1, Transitions.EASE_IN_BOUNCE);
+			shake.animate('y', item.y + (1 + Math.random() * 2));
+			shake.animate('x', item.x + (1 + Math.random() * 2));
+			shake.delay = 0;
+			shake.repeatCount = 6;
+			
+			var shake2:Tween = new Tween(item, 0.1);
+			shake2.animate('y', item.y+(Math.random()*0));
+			shake2.animate('x', item.x + (Math.random() * 0));
+			shake.delay = 0.05;
+			shake.repeatCount = 8;
+			shake.onComplete = Delegate.create(onFinishTween, item);
+			
+			GlobalUIContext.starlingInstance.juggler.add(shake);
+			GlobalUIContext.starlingInstance.juggler.add(shake2);
+			GlobalUIContext.starlingInstance.juggler.add(blurTween);
+			
+		   function onFinishTween(item:DisplayObject):void
+		   {
+			  
+				var blurTweenOut:Tween = new Tween(item.filter, 0.1);
+				blurTweenOut.animate('blurX', 0);
+				blurTweenOut.animate('blurY', 0);
+				
+			   GlobalUIContext.starlingInstance.juggler.add(blurTweenOut);
+			
+			   item.x = 0;
+			   item.y = 0;
+		   }
+
 		}
 		
 		private function onBlowEnded(e:Event):void 
@@ -322,6 +374,9 @@ package logic
 			viewInstance.removeChild(e.target as Sprite);
 			e.target.removeEventListener(Event.COMPLETE, onBlowEnded);
 			
+			endGameAlert.alertText = Alerts.getEndGameText(gameModel.gameTime, gameModel.foundedMines, SettingsModel.instance.fieldWidth, gameModel.gameStatus > 0);
+			endGameAlert.x = (GlobalUIContext.vectorStage.stageWidth - endGameAlert.width) / 2;
+			endGameAlert.y = (GlobalUIContext.vectorStage.stageHeight - endGameAlert.height) / 2;
 			GlobalUIContext.vectorUIContainer.addChild(endGameAlert)
 		}
 		

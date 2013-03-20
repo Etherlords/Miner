@@ -22,9 +22,6 @@ package
 	import starling.utils.ScaleMode;
 	import utils.GlobalUIContext;
 	
-	
-	
-	
 	public class StarlingInit extends Sprite
 	{
 		private var mStarling:Starling;
@@ -33,14 +30,13 @@ package
 		private var stageHeight:Number = 0;
 		private var driver:TextField;
 		
-
 		public function StarlingInit()
 		{
 			addEventListener(Event.ADDED_TO_STAGE, onAdded);
 			//addChild(new TheMiner());
 		}
 		
-		private function onAdded(e:Event):void 
+		private function onAdded(e:Event):void
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAdded);
 			initilizeContext();
@@ -68,14 +64,13 @@ package
 			var viewPort:Rectangle = RectangleUtil.fit(new Rectangle(0, 0, stageWidth, stageHeight), new Rectangle(0, 0, stageWidth, stageHeight), ScaleMode.SHOW_ALL, iOS);
 			
 			var scaleFactor:int = viewPort.width < stageWidth ? 1 : 2;
-
+			
 			var cursor:MouseCursorData = new MouseCursorData();
 			cursor.data = new <BitmapData>[new BitmapData(1, 1, true, 0x01000000)];
 			Mouse.registerCursor('noCursor', cursor);
-
 			
 			mStarling = new Starling(MainStarlingScene, stage, viewPort, null, Context3DRenderMode.AUTO, 'baseline');
-			
+			GlobalUIContext.starlingInstance = mStarling;
 			//stage.addEventListener(Event.RESIZE, onFullScreen);
 			//stage.addEventListener(FullScreenEvent.FULL_SCREEN, fullScreenEvent);
 			
@@ -86,19 +81,16 @@ package
 			mStarling.start();
 			
 			mStarling.showStats = false;
-			mStarling.showStatsAt('right','bottom');
+			mStarling.showStatsAt('right', 'bottom');
 			
 			mStarling.stage3D.addEventListener(Event.CONTEXT3D_CREATE, onContextCreated);
 			
-		
 			stage.quality = StageQuality.LOW
-			
-			
 			
 			//addChild(new TheMiner());
 			
 			initAirSection();
-			
+		
 		}
 		
 		private function initAirSection():void
@@ -107,19 +99,19 @@ package
 				return;
 			
 			var nativeApp:Object = ApplicationDomain.currentDomain.getDefinition('flash.desktop.NativeApplication');
-				
+			
 			nativeApp.nativeApplication.addEventListener(flash.events.Event.ACTIVATE, function(e:*):void
-			{
-				mStarling.start();
-			});
-		
+				{
+					mStarling.start();
+				});
+			
 			nativeApp.nativeApplication.addEventListener(flash.events.Event.DEACTIVATE, function(e:*):void
-			{
-				mStarling.stop();
-			});
+				{
+					mStarling.stop();
+				});
 		}
 		
-		private function fullScreenEvent(e:FullScreenEvent):void 
+		private function fullScreenEvent(e:FullScreenEvent):void
 		{
 			if (e.fullScreen)
 			{
@@ -127,14 +119,14 @@ package
 				stage.fullScreenSourceRect = new Rectangle(0, 0, 1024 * scale, 768 * scale);
 				mStarling.antiAliasing = 16
 			}
-			else 
+			else
 			{
 				mStarling.antiAliasing = 16
-				stage.fullScreenSourceRect =  null;// new Rectangle(0, 0, stageWidth, stageHeight);
+				stage.fullScreenSourceRect = null; // new Rectangle(0, 0, stageWidth, stageHeight);
 			}
 		}
 		
-		private function onFullScreen(e:Event):void 
+		private function onFullScreen(e:Event):void
 		{
 			try
 			{
@@ -145,8 +137,8 @@ package
 			{
 				return;
 			}
-				
-			if(stage.displayState == StageDisplayState.NORMAL)
+			
+			if (stage.displayState == StageDisplayState.NORMAL)
 			{
 				Starling.current.root.x = (stageWidth - 1024) / 2;
 				Starling.current.root.y = (stageHeight - 768) / 2;
@@ -162,25 +154,24 @@ package
 			var scale:Number = stage.fullScreenHeight / 768;
 			var __x:Number
 			var __y:Number
-			__x = 0//(Starling.current.nativeStage.fullScreenWidth - 800 * scale) / 2;
+			__x = 0 //(Starling.current.nativeStage.fullScreenWidth - 800 * scale) / 2;
 			__y = (Starling.current.nativeStage.fullScreenHeight - 768 * scale) / 2;
 			trace(__x, __y);
 			//Starling.current.root.y = (Starling.current.nativeStage.stageHeight - 600) / 2;
-			mStarling.viewPort = new Rectangle( __x, __y, 1024 * scale, 768 * scale);
+			mStarling.viewPort = new Rectangle(__x, __y, 1024 * scale, 768 * scale);
 			mStarling.root.x = 10;
-			
 			
 			//mStarling.root.y = 0
 			//mStarling.root.scaleX = 0.9
 			
 			driver.x = stage.fullScreenWidth - driver.textWidth - 2;
-			
+		
 			//mStarling.root.scaleY = mStarling.root.scaleX = scale;
-			
+		
 			//mStarling.root.scaleX = mStarling.root.scaleY = 2;
 		}
 		
-		private function initilizeContext():void 
+		private function initilizeContext():void
 		{
 			var topcontainer:DisplayObjectContainer = new Sprite();
 			var debugContainer:DisplayObjectContainer = new Sprite();
@@ -199,13 +190,11 @@ package
 		private function onContextCreated(event:Event):void
 		{
 			
-			
 			driver.text = Starling.context.driverInfo.toLowerCase();
 			driver.textColor = 0xFFFFFF;
 			driver.autoSize = TextFieldAutoSize.LEFT;
 			driver.x = stage.stageWidth - driver.textWidth - 2;
 			// set framerate to 30 in software mode
-			
 		
 		}
 	}

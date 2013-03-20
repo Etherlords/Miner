@@ -126,7 +126,7 @@ package model
 			else
 			{
 				trace('create bitmap atlas');
-				texturesAtlas = new TextureAtlas(Texture.fromBitmapData(files['arts.png'], true, true), files['arts.xml'])
+				texturesAtlas = new TextureAtlas(Texture.fromBitmapData(files['arts.png']), files['arts.xml'])
 			}
 			
 			
