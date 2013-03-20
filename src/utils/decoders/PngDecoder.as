@@ -3,9 +3,9 @@ package utils.decoders
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Loader;
+	import flash.utils.ByteArray;
 	import starling.events.Event;
 	import starling.events.EventDispatcher;
-	import flash.utils.ByteArray;
 	/**
 	 * ...
 	 * @author 
@@ -29,10 +29,21 @@ package utils.decoders
 			loader.loadBytes(data);
 		}
 		
+		/* INTERFACE utils.decoders.IDecoder */
+		
+		public function destroy():void 
+		{
+			_data = null;
+			loader = null;
+		}
+		
 		private function onComplete(e:*):void 
 		{
+			loader.contentLoaderInfo.removeEventListener(Event.COMPLETE, onComplete);
+			
 			var bitmap:BitmapData = (loader.content as Bitmap).bitmapData;
 			_data = bitmap;
+			
 			dispatchEvent(new Event(Event.COMPLETE));
 		}
 		

@@ -12,6 +12,7 @@ package view
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
 	import utils.GlobalUIContext;
+	import view.components.Background;
 	
 	/**
 	 * ...
@@ -38,6 +39,8 @@ package view
 		{
 			super();
 			
+			var bg:Background = new Background();
+			addChild(bg);
 			stars = new StarParticlesEmmiter();
 			addChild(stars);
 			stars.y -= 10;
@@ -130,10 +133,11 @@ package view
 		
 		private function alignUI():void
 		{
+			mineFieldInstance.x = int((CellConstants.APPLICATION_WIDTH - mineFieldInstance.width) / 2);
+			mineFieldInstance.y = int(Math.round(CellConstants.APPLICATION_HEIGHT - mineFieldInstance.height) / 2);
 			
-			mineFieldInstance.x = int((stage.stageWidth - mineFieldInstance.width) / 2);
-			mineFieldInstance.y = int(Math.round(stage.stageHeight - mineFieldInstance.height) / 2);
-		
+			if (CellConstants.APPLICATION_WIDTH > CellConstants.APPLICATION_HEIGHT)
+				mineFieldInstance.x = uiView.width + 10;
 		}
 		
 		public function craeteFieldView():void
@@ -189,9 +193,8 @@ package view
 		
 		private function onRightMouse(e:MouseEvent):void
 		{
-			
-			var j:int = Math.floor((e.localX - mineFieldInstance.x) / CellConstants.MINE_FIELD_GABARITE);
 			var i:int = (e.stageY - mineFieldInstance.y) / CellConstants.MINE_FIELD_GABARITE;
+			var j:int = Math.floor((e.localX - mineFieldInstance.x) / CellConstants.MINE_FIELD_GABARITE);
 			
 			if (i >= mineField.fieldWidth)
 				return;

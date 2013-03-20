@@ -1,5 +1,6 @@
 package view 
 {
+	import core.services.ServicesLocator;
 	import flash.geom.Point;
 	import model.CellConstants;
 	import model.GameModel;
@@ -19,6 +20,9 @@ package view
 	 */
 	public class GameScreenUI extends Sprite 
 	{
+		
+		private var textureStore:TextureStore = ServicesLocator.instance.getService(TextureStore) as TextureStore;
+		
 		private var updateStrategy:Object;
 		private var gameModel:GameModel;
 		
@@ -57,7 +61,7 @@ package view
 		
 		public function createButton(textureNormal:String, textureDown:String, text:String, fontName:String, size:int = -1, color:uint = 0x0, bold:Boolean =false ):Button
 		{
-			var button:Button = new Button(TextureStore.texturesAtlas.getTexture(textureNormal), text, TextureStore.texturesAtlas.getTexture(textureDown))
+			var button:Button = new Button(textureStore.getTexture(textureNormal), text, textureStore.getTexture(textureDown))
 			button.fontName = fontName;
 			button.fontBold = bold;
 			button.fontSize = size;
@@ -127,8 +131,8 @@ package view
 			openedFieldsValue = new ScoreboardStarling();
 			tottalFieldsValue = new ScoreboardStarling();
 			
-			mineIcon = new Image(TextureStore.texturesAtlas.getTexture('gnomemines'));
-			timerIcon = new Image(TextureStore.texturesAtlas.getTexture('gnomepanelclock'));
+			mineIcon = new Image(textureStore.getTexture('gnomemines'));
+			timerIcon = new Image(textureStore.getTexture('gnomepanelclock'));
 			
 			mineIcon.scaleX = mineIcon.scaleY = 0.5;
 			timerIcon.scaleX = timerIcon.scaleY = 0.5;

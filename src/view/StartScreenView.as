@@ -1,5 +1,6 @@
 package view 
 {
+	import core.services.ServicesLocator;
 	import logic.StartScreenController;
 	import model.TextureStore;
 	import starling.display.Button;
@@ -15,6 +16,8 @@ package view
 	 */
 	public class StartScreenView extends Sprite 
 	{
+		private var textureStore:TextureStore = ServicesLocator.instance.getService(TextureStore) as TextureStore;
+		
 		static private const PADDING:Number = 5;
 		public var minesCount:Button;
 		public var rightMines:Button;
@@ -112,7 +115,7 @@ package view
 		
 		private function craeteButton(lable:String, textureIndex:int = 1, size:int = 12):Button
 		{
-			var button:Button = new Button(TextureStore.texturesAtlas.getTexture(buttonAssets[textureIndex].normal), lable, TextureStore.texturesAtlas.getTexture(buttonAssets[textureIndex].down))
+			var button:Button = new Button(textureStore.getTexture(buttonAssets[textureIndex].normal), lable, textureStore.getTexture(buttonAssets[textureIndex].down))
 			button.fontName = 'Desyrel';
 			button.fontBold = true;
 			button.fontSize = size;

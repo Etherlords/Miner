@@ -1,22 +1,22 @@
 package view 
 {
+	import core.services.ServicesLocator;
 	import model.CellConstants;
 	import model.MineFieldCellModel;
 	import model.TextureStore;
 	import patterns.events.LazyModeratorEvent;
 	import starling.display.Image;
 	import starling.display.Sprite;
-	import starling.text.TextField;
-	import starling.textures.Texture;
 	import starling.textures.TextureSmoothing;
 
-	
 	/**
 	 * ...
 	 * @author Nikro
 	 */
 	public class MineFieldCellView extends Sprite
 	{	
+		private var textureStore:TextureStore = ServicesLocator.instance.getService(TextureStore) as TextureStore;
+		
 		private static const FIELD_TEXTGURES:Array = ['cell_normal', 'cell_down', 'cell_bomb'];
 		private static const MINE_TEXTURE:String = 'gnomemines'
 		private static const FLAG_TEXTURE:String = 'flag'
@@ -56,12 +56,12 @@ package view
 		private function createView():void 
 		{
 			
-			background = new Image(TextureStore.texturesAtlas.getTexture(FIELD_TEXTGURES[0]));
+			background = new Image(textureStore.getTexture(FIELD_TEXTGURES[0]));
 			
 			scaleFactor = CellConstants.MINE_FIELD_GABARITE / background.width;
 			
 			lable = new Image(TextureStore.numbers[0]);
-			flag = new Image(TextureStore.texturesAtlas.getTexture(FLAG_TEXTURE));
+			flag = new Image(textureStore.getTexture(FLAG_TEXTURE));
 			addChild(background);
 			
 			
@@ -146,7 +146,7 @@ package view
 		private function showMine():void 
 		{
 			
-			var mineImage:Image = new Image(TextureStore.texturesAtlas.getTexture(MINE_TEXTURE));
+			var mineImage:Image = new Image(textureStore.getTexture(MINE_TEXTURE));
 			mineImage.smoothing = TextureSmoothing.TRILINEAR;
 			mineImage.touchable = false;
 			mineImage.scaleX = mineImage.scaleY = CellConstants.MINE_FIELD_GABARITE / mineImage.width;
@@ -160,7 +160,7 @@ package view
 		{
 			
 			
-			background.texture = TextureStore.texturesAtlas.getTexture(FIELD_TEXTGURES[cellModel.viewState]);
+			background.texture = textureStore.getTexture(FIELD_TEXTGURES[cellModel.viewState]);
 			
 			if (cellModel.isFlagged && cellModel.viewState != CellConstants.OPEN_STATE)
 				addChild(flag)

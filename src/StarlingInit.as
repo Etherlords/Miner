@@ -51,14 +51,11 @@ package
 			stageWidth = stage.stageWidth;
 			stageHeight = stage.stageHeight;
 			
-			if (stage.orientation != 'default')
+			if ('orientation' in stage && stage['orientation'] != 'default')
 			{
 				stageWidth = stage.stageHeight;
 				stageHeight = stage.stageWidth;
 			}
-			
-			trace(stageWidth, stageHeight, stage.orientation, stage.deviceOrientation);
-			
 			
 			CellConstants.APPLICATION_WIDTH = stageWidth;
 			CellConstants.APPLICATION_HEIGHT = stageHeight;
@@ -66,9 +63,9 @@ package
 			var iOS:Boolean = Capabilities.manufacturer.indexOf("iOS") != -1;
 			
 			Starling.multitouchEnabled = true; // useful on mobile devices
-			//Starling.handleLostContext = false;
+			Starling.handleLostContext = true;
 			
-			var viewPort:Rectangle = RectangleUtil.fit(new Rectangle(0, 0, stageWidth, stageHeight), new Rectangle(0, 0, stageWidth, stageHeight), ScaleMode.NO_BORDER, iOS);
+			var viewPort:Rectangle = RectangleUtil.fit(new Rectangle(0, 0, stageWidth, stageHeight), new Rectangle(0, 0, stageWidth, stageHeight), ScaleMode.SHOW_ALL, iOS);
 			
 			var scaleFactor:int = viewPort.width < stageWidth ? 1 : 2;
 

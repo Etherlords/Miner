@@ -11,6 +11,7 @@ package utils.decoders
 		function addEventListener(type:String, listener:Function):void
 		function decode(data:ByteArray):void
 		function get data():*
+		function destroy():void
 	}
 	
 }

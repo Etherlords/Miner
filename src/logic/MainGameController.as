@@ -78,8 +78,8 @@ package logic
 			
 			var lowestSide:Number = Math.min(CellConstants.APPLICATION_HEIGHT, CellConstants.APPLICATION_WIDTH);
 			var largestFieldSide:Number = mineField.fieldWidth > mineField.fieldHeight? mineField.fieldWidth:mineField.fieldHeight
-			CellConstants.MINE_FIELD_GABARITE = lowestSide / largestFieldSide;
-
+			CellConstants.MINE_FIELD_GABARITE = Math.ceil(lowestSide / largestFieldSide);
+			trace('CellConstants.MINE_FIELD_GABARITE', CellConstants.MINE_FIELD_GABARITE);
 			//CellConstants.MINE_FIELD_GABARITE *= 8.5 / largestFieldSide;
 			
 			gameModel.minesCount = SettingsModel.instance.minesCount;
@@ -218,10 +218,7 @@ package logic
 			gameTimer = new Timer(1000);
 			
 			gameTimer.addEventListener(TimerEvent.TIMER, onSecondDelay);
-			
-			var textures:TextureStore = new TextureStore();
-			
-			
+		
 			super.initilize();
 		}
 		

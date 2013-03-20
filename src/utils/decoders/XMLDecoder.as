@@ -1,11 +1,8 @@
 package utils.decoders 
 {
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
-	import flash.display.Loader;
+	import flash.utils.ByteArray;
 	import starling.events.Event;
 	import starling.events.EventDispatcher;
-	import flash.utils.ByteArray;
 	/**
 	 * ...
 	 * @author 
@@ -28,6 +25,13 @@ package utils.decoders
 			dispatchEvent(new Event(Event.COMPLETE));
 		}
 		
+		/* INTERFACE utils.decoders.IDecoder */
+		
+		public function destroy():void 
+		{
+			//System.disposeXML(_data);
+			_data = null
+		}
 		
 		public function get data():* 
 		{

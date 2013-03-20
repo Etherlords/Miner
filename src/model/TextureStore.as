@@ -1,8 +1,11 @@
 package model 
 {
+	import core.services.AbstractService;
+	import core.services.ServicesLocator;
+	import flash.events.Event;
 	import flash.system.Security;
 	import flash.system.System;
-	import starling.events.Event;
+	
 	import flash.net.URLLoader;
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
@@ -21,19 +24,30 @@ package model
 	 * ...
 	 * @author 
 	 */
-	public class TextureStore extends EventDispatcher
+	public class TextureStore extends AbstractService
 	{
-	
-		
-		
-		public static var texturesAtlas:TextureAtlas;
+		private var texturesAtlas:TextureAtlas;
 		
 		public static var numbers:Array = [];
 		
-		private var toLoad:Array = ['desyrel.fnt', 'arts.xml']
+		private var toLoad:Array = ['desyrel.fnt', 'arts.xml', 'bg2.png', 'bg1.jpg'];
 		private var files:Object = { };
-		private var decoders:Object = { 'fnt':new XMLDecoder(), 'xml':new XMLDecoder(), 'png':new PngDecoder(), 'atf':new ATFDecoder()};
+		private var decoders:Object = { 'fnt':XMLDecoder, 'xml':XMLDecoder, 'jpg':PngDecoder, 'png':PngDecoder, 'atf':ATFDecoder};
 		private var toDecode:Number;
+		
+		public function getTexture(name:String):Texture
+		{
+			var texture:Texture = texturesAtlas.getTexture(name)
+			if (!texture)
+			{
+				if (files[name])
+				{
+					texture = Texture.fromBitmapData(files[name]);
+				}
+			}
+			
+			return texture;
+		}
 		
 		public function preload():void
 		{
@@ -79,7 +93,7 @@ package model
 			{
 				
 				var format:String = file.split('.')[1];
-				var decoder:IDecoder = decoders[format];
+				var decoder:IDecoder = new decoders[format] as IDecoder;
 				
 				decoder.addEventListener(Event.COMPLETE, Delegate.create(onFileDecoded, decoder, file))
 				decoder.decode(files[file]);
@@ -88,9 +102,9 @@ package model
 		
 		private function onFileDecoded(decoder:IDecoder, file:String):void 
 		{
-			trace('onDecoded', arguments);
 			files[file] = decoder.data;
 			toDecode--;
+			decoder.destroy();
 			
 			if (toDecode == 0)
 				allComplete();
@@ -133,11 +147,19 @@ package model
 				numbers.push(Texture.fromTexture(key));
 			}
 			
+			trace('preload complete');
 			dispatchEvent(new Event(Event.COMPLETE));
+			
 		}
 		
 		public function TextureStore() 
 		{
+			super();
+		}
+		
+		override public function registred(serviceLocator:ServicesLocator):void 
+		{
+			super.registred(serviceLocator);
 			
 		}
 		

@@ -1,5 +1,6 @@
 package  
 {
+	import core.services.ServicesLocator;
 	import core.states.config.StateConfig;
 	import core.states.State;
 	import core.states.StatesManager;
@@ -31,14 +32,16 @@ package
 		private function onAdded(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAdded);
-			var textures:TextureStore = new TextureStore();
+			new TextureStore();
+			
+			var textures:TextureStore = ServicesLocator.instance.getService(TextureStore) as TextureStore;
 			
 			textures.addEventListener(Event.COMPLETE, hereGo);
 			textures.preload();
 		
 		}
 		
-		private function hereGo(e:Event):void 
+		private function hereGo(e:*):void 
 		{
 			var stateManager:StatesManager = new StatesManager(this as DisplayObjectContainer);
 			
