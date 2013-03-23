@@ -30,7 +30,7 @@ package model
 		
 		public static var numbers:Array = [];
 		
-		private var toLoad:Array = ['desyrel.fnt', 'arts.xml', 'bg2.png', 'bg1.jpg'];
+		private var toLoad:Array = ['desyrel.fnt', 'arts.xml', 'bg2.png'];
 		private var files:Object = { };
 		private var decoders:Object = { 'fnt':XMLDecoder, 'xml':XMLDecoder, 'jpg':PngDecoder, 'png':PngDecoder, 'atf':ATFDecoder};
 		private var toDecode:Number;
