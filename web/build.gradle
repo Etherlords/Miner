@@ -1,7 +1,7 @@
 type = 'swf'
 			
 ext.targetPlayerMajorVersion = 11;
-ext.targetPlayerMinorVersion = 14;
+ext.targetPlayerMinorVersion = 4;
 ext.playerVersion = "${targetPlayerMajorVersion}.${targetPlayerMinorVersion}"
 
 frameworkLinkage = 'merged'
