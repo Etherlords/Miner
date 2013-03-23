@@ -1,0 +1,19 @@
+type = 'swf'
+			
+ext.targetPlayerMajorVersion = 11;
+ext.targetPlayerMinorVersion = 14;
+ext.playerVersion = "${targetPlayerMajorVersion}.${targetPlayerMinorVersion}"
+
+frameworkLinkage = 'merged'
+
+additionalCompilerOptions << '-default-background-color'
+additionalCompilerOptions << '0x000000'
+additionalCompilerOptions << '-use-network=false'
+
+mainClass = 'StarlingInit.as'
+
+//todo remove workaround, see at https://github.com/GradleFx/GradleFx/issues/75
+gradle.afterProject { project ->
+     additionalCompilerOptions << "-target-player=${playerVersion}"
+     additionalCompilerOptions << "-external-library-path=${project.flexHome}/frameworks/libs/player/${playerVersion}/playerglobal.swc"
+}
