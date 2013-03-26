@@ -1,0 +1,33 @@
+type = 'mobile'
+
+frameworkLinkage = "merged"
+
+mainClass = 'StarlingInit.as'
+
+output = 'miner'
+
+ext.androidHome = System.getenv('ANDROID_HOME')
+
+air {
+        packageWorkDir "${project.buildDir}"
+		applicationDescriptor = 'miner-app.xml'
+		keystore = 'apk.p12'
+		storepass = 'apk123'
+		includeFileTrees = [fileTree(dir: './', include: 'assets/appIcon.png'), fileTree(dir:'../lib/usedasset', include: '*.*')]
+
+}
+
+airMobile {
+	target = 'apk'
+	targetDevice = "HT164T402188"
+    	platformSdk = project.androidHome
+    	outputExtension = 'apk'
+    	simulatorTarget = 'apk-debug'
+   	simulatorPlatformSdk = project.androidHome
+   	simulatorTargetDevice = "emulator-5554"
+
+} 
+   
+dependencies {
+
+}
