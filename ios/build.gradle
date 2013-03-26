@@ -5,27 +5,28 @@ frameworkLinkage = "merged"
 mainClass = 'StarlingInit.as'
 
 
-//flexHome = "/Users/denis/sdks/AIRSDK_Compiler"
+    ext.IOS_HOME =           "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk"
+    ext.IOS_SIMULATOR_HOME = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk"
 
-//ext.iosHome = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/"
-ext.iosHome = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk"
 
 air {
         packageWorkDir "${project.buildDir}"
 		applicationDescriptor = 'ios-app.xml'
-		keystore = 'cert.p12'
+		keystore = 'certificate/cert.p12'
 		storepass = 'anV!161152'
 		includeFileTrees = [fileTree(dir: './', include: 'assets/appIcon.png'), fileTree(dir:'../lib/usedasset', include: '*.*')]
 }
 
 airMobile {
     platform = 'ios'
-	target = 'ipa-test-interpreter-simulator'
+    target = 'ipa-app-store'
+    simulatorTarget = 'ipa-test-interpreter-simulator'
     outputExtension = 'ipa'
-	//extensionDir = project(':ane:licensing').buildDir
-	platformSdk = iosHome
-	targetDevice = "ios-simulator"
-    provisioning_profile = 'profile.mobileprovision'
+    platformSdk = project.IOS_HOME
+    simulatorPlatformSdk = project.IOS_SIMULATOR_HOME
+    targetDevice = "ios"
+    simulatorTargetDevice = "ios-simulator"
+    provisioning_profile = project.file('certificate/profile.mobileprovision')
 }
 
 dependencies {
