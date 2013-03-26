@@ -1,0 +1,33 @@
+type = 'mobile'
+
+frameworkLinkage = "merged"
+
+mainClass = 'StarlingInit.as'
+
+
+//flexHome = "/Users/denis/sdks/AIRSDK_Compiler"
+
+//ext.iosHome = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/"
+ext.iosHome = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk"
+
+air {
+        packageWorkDir "${project.buildDir}"
+		applicationDescriptor = 'ios-app.xml'
+		keystore = 'cert.p12'
+		storepass = 'anV!161152'
+		includeFileTrees = [fileTree(dir: './', include: 'assets/appIcon.png'), fileTree(dir:'../lib/usedasset', include: '*.*')]
+}
+
+airMobile {
+    platform = 'ios'
+	target = 'ipa-test-interpreter-simulator'
+    outputExtension = 'ipa'
+	//extensionDir = project(':ane:licensing').buildDir
+	platformSdk = iosHome
+	targetDevice = "ios-simulator"
+    provisioning_profile = 'profile.mobileprovision'
+}
+
+dependencies {
+
+}
