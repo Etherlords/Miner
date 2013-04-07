@@ -1,15 +1,10 @@
 package view 
 {
-	import core.services.ServicesLocator;
 	import flash.text.TextFormat;
-	import logic.StartScreenController;
 	import model.TextureStore;
-	import starling.display.Button;
 	import starling.display.DisplayObject;
 	import starling.display.Sprite;
 	import starling.events.Event;
-	import starling.text.BitmapFont;
-	import utils.GlobalUIContext;
 	import view.components.AlignContainer;
 	import view.components.TextButton;
 	
@@ -19,7 +14,8 @@ package view
 	 */
 	public class StartScreenView extends Sprite 
 	{
-		private var textureStore:TextureStore = ServicesLocator.instance.getService(TextureStore) as TextureStore;
+		[Inject]
+		public var textureStore:TextureStore
 		
 		static private const PADDING:Number = 5;
 		public var minesCount:Sprite;
@@ -58,6 +54,7 @@ package view
 		
 		public function StartScreenView() 
 		{
+			inject(this);
 			super();
 			
 			initilize();
@@ -89,7 +86,7 @@ package view
 			minesCounSection = new AlignContainer();
 			minesCounSection.addElements(leftMines, minesCount, rightMines);
 			
-			buttonsGroup = new AlignContainer(AlignContainer.BOTTOM);
+			buttonsGroup = new AlignContainer(0, AlignContainer.BOTTOM);
 			buttonsGroup.addElements(startGameButton, options, fieldSizeSection, minesCounSection, difficleSection, credits);
 			
 		

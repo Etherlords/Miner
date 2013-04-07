@@ -1,9 +1,7 @@
 package view.components 
 {
-	import core.services.ServicesLocator;
 	import model.TextureStore;
 	import starling.animation.Tween;
-	import starling.core.RenderSupport;
 	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.display.Sprite;
@@ -14,12 +12,14 @@ package view.components
 	 */
 	public class Background extends Sprite 
 	{
-		private var textureStore:TextureStore = ServicesLocator.instance.getService(TextureStore) as TextureStore;
+		[Inject]
+		public var textureStore:TextureStore
 		private var bg2:Image;
 		private var bg1:Image;
 		
 		public function Background() 
 		{
+			inject(this);
 			super();
 			
 			initilize();

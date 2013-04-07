@@ -18,10 +18,12 @@ package view.components
 		private var alignStrategy:Function;
 		private var padding:Number;
 		private var alignType:uint;
+		private var usingFlatten:Boolean;
 		
-		public function AlignContainer(align:uint = RIGHT, padding:Number = 0 ) 
+		public function AlignContainer(padding:Number = 0, align:uint = RIGHT, usingFlatten:Boolean = true ) 
 		{
 			super();
+			this.usingFlatten = usingFlatten;
 			
 			this.alignType = align;
 			this.padding = padding;
@@ -54,7 +56,8 @@ package view.components
 		{
 			alignStrategy = alignType == RIGHT? alignToRight:alignToBottom;
 			
-			flatten();
+			if(usingFlatten)
+				flatten();
 		}
 		
 		public function align():void
@@ -66,7 +69,8 @@ package view.components
 				alignStrategy(elements[i], anchorn);
 			}
 			
-			flatten();
+			if(usingFlatten)
+				flatten();
 		}
 		
 		private function placeElement(element:DisplayObject, anchorn:Point):void

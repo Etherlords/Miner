@@ -2,14 +2,20 @@ package view.components
 {
 	import flash.display.BitmapData;
 	import flash.filters.GlowFilter;
+	import flash.geom.Rectangle;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
+	import flash.ui.Mouse;
+	import flash.ui.MouseCursor;
+	import starling.core.RenderSupport;
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
+	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
+	import starling.filters.BlurFilter;
 	import starling.textures.Texture;
 	
 	/**
@@ -21,6 +27,9 @@ package view.components
 		private var textValue:String;
 		private var background:Image;
 		private var format:TextFormat;
+		private var touch:Touch;
+		
+		private var hovered:Boolean = false;
 		
 		public function TextButton(textValue:String, format:TextFormat) 
 		{
@@ -54,8 +63,66 @@ package view.components
 		
 		private function onTouch(e:TouchEvent):void 
 		{
-			if(e.touches[0].phase == TouchPhase.BEGAN)
+			
+			 Mouse.cursor = (e.interactsWith(this)) ? 
+                MouseCursor.BUTTON : MouseCursor.AUTO;
+			
+			touch = e.getTouch(this);
+			if (!touch)
+				return;
+				
+			
+				
+			if(touch.phase == TouchPhase.BEGAN)
 				dispatchEventWith(Event.TRIGGERED);
+			
+		}
+		
+		override public function render(support:RenderSupport, parentAlpha:Number):void 
+		{
+			
+			super.render(support, parentAlpha);
+			
+			if (!touch)
+			{
+				
+				onOut();
+				return;
+			}
+				
+			var buttonRect:Rectangle = getBounds(stage);
+			if (touch.globalX < buttonRect.x - 1 ||
+                    touch.globalY < buttonRect.y - 1 ||
+                    touch.globalX > buttonRect.x + buttonRect.width + 1 ||
+                    touch.globalY > buttonRect.y + buttonRect.height + 1)
+                {
+                    onOut()
+                }
+				else
+					onHover()
+			
+			
+		}
+		
+		private function onHover():void 
+		{
+			if (hovered)
+				return
+			hovered = true;
+			trace('hover');
+			filter = new BlurFilter(2, 1, 4);
+			//flatten();
+		}
+		
+		private function onOut():void 
+		{
+			if (!hovered)
+				return;
+				
+			hovered = false
+			filter = null;
+			flatten();
+			trace('out');
 		}
 		
 		private function redraw():void
@@ -71,7 +138,7 @@ package view.components
 			text.defaultTextFormat = format
 			text.text = textValue;
 			text.visible = false;
-			text.filters = [new GlowFilter(0x10ACFF, 0.4, 5, 5, 4, 3)];
+			text.filters = [new GlowFilter(0x10ACFF, 0.8, 5, 5, 4, 3)];
 			text.autoSize = TextFieldAutoSize.LEFT;
 			//GlobalUIContext.vectorStage.addChild(text);
 			
@@ -93,7 +160,7 @@ package view.components
 			texture.dispose();
 			
 			addChild(background);
-			flatten();
+			//flatten();
 			
 			dispatchEventWith(Event.CHANGE);
 		}

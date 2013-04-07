@@ -1,13 +1,10 @@
 package particles.boomParticle
 {
-	import core.services.ServicesLocator;
-	import flash.display3D.Context3DBlendFactor;
 	import model.TextureStore;
 	import starling.core.Starling;
 	import starling.events.EnterFrameEvent;
 	import starling.events.Event;
 	import starling.extensions.PDParticleSystem;
-	import starling.textures.Texture;
 
 	public class BoomParticle extends PDParticleSystem 
 	{
@@ -15,10 +12,13 @@ package particles.boomParticle
 		
 		[Embed(source="particle.pex", mimeType="application/octet-stream")]
 		private var InitValues:Class
-		private var textureStore:TextureStore = ServicesLocator.instance.getService(TextureStore) as TextureStore;
+		
+		[Inject]
+		public var textureStore:TextureStore
 		
 		public function BoomParticle() 
 		{
+			inject(this);
 			super(	XML(new InitValues()), textureStore.getTexture('starParticle')		);
 			
 			maxNumParticles = 500;

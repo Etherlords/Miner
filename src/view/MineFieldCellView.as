@@ -1,6 +1,5 @@
 package view 
 {
-	import core.services.ServicesLocator;
 	import model.CellConstants;
 	import model.MineFieldCellModel;
 	import model.TextureStore;
@@ -15,7 +14,8 @@ package view
 	 */
 	public class MineFieldCellView extends Sprite
 	{	
-		private var textureStore:TextureStore = ServicesLocator.instance.getService(TextureStore) as TextureStore;
+		[Inject]
+		public var textureStore:TextureStore;
 		
 		private static const FIELD_TEXTGURES:Array = ['cell_normal', 'cell_down', 'cell_bomb'];
 		private static const MINE_TEXTURE:String = 'gnomemines'
@@ -33,9 +33,8 @@ package view
 		
 		public function MineFieldCellView(cellModel:MineFieldCellModel) 
 		{
-			this.cellModel = cellModel;
-			
-			
+			inject(this);
+			this.cellModel = cellModel;	
 			
 			initilize();
 		}

@@ -1,6 +1,5 @@
 package view 
 {
-	import core.services.ServicesLocator;
 	import flash.geom.Point;
 	import model.CellConstants;
 	import model.GameModel;
@@ -20,8 +19,8 @@ package view
 	 */
 	public class GameScreenUI extends Sprite 
 	{
-		
-		private var textureStore:TextureStore = ServicesLocator.instance.getService(TextureStore) as TextureStore;
+		[Inject]
+		public var textureStore:TextureStore
 		
 		private var updateStrategy:Object;
 		private var gameModel:GameModel;
@@ -42,6 +41,8 @@ package view
 		
 		public function GameScreenUI(gameModel:GameModel = null) 
 		{
+			inject(this);
+			
 			fullScreen = createButton('large_button_normal', 'large_button_down', 'Toggle full screen', 'Desyrel', -1, 0xFFFFFF, true);
 			backButton = createButton('large_button_normal', 'large_button_down', 'Back to menu', 'Desyrel', -1, 0xFFFFFF, true);
 			

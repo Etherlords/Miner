@@ -1,16 +1,12 @@
 package model 
 {
-	import core.services.AbstractService;
-	import core.services.ServicesLocator;
 	import flash.events.Event;
-	import flash.system.Security;
-	import flash.system.System;
-	
+	import flash.events.EventDispatcher;
 	import flash.net.URLLoader;
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
 	import flash.system.Capabilities;
-	import starling.events.EventDispatcher;
+	import flash.system.Security;
 	import starling.text.BitmapFont;
 	import starling.text.TextField;
 	import starling.textures.Texture;
@@ -20,11 +16,12 @@ package model
 	import utils.decoders.IDecoder;
 	import utils.decoders.PngDecoder;
 	import utils.decoders.XMLDecoder;
+	
 	/**
 	 * ...
 	 * @author 
 	 */
-	public class TextureStore extends AbstractService
+	public class TextureStore extends EventDispatcher
 	{
 		private var texturesAtlas:TextureAtlas;
 		
@@ -156,15 +153,6 @@ package model
 		{
 			super();
 		}
-		
-		override public function registred(serviceLocator:ServicesLocator):void 
-		{
-			super.registred(serviceLocator);
-			
-		}
-		
-		
-		
 	}
 
 }

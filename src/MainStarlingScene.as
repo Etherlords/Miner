@@ -1,15 +1,11 @@
 package  
 {
-	import core.services.ServicesLocator;
 	import core.states.config.StateConfig;
 	import core.states.State;
 	import core.states.StatesManager;
-	import flash.geom.Rectangle;
 	import logic.MainGameController;
 	import logic.StartScreenController;
-	import model.CellConstants;
 	import model.TextureStore;
-	import starling.core.Starling;
 	import starling.display.DisplayObjectContainer;
 	import starling.events.Event;
 	
@@ -20,25 +16,25 @@ package
 	 */
 	public class MainStarlingScene extends DisplayObjectContainer 
 	{
+		[Inject]
+		public var texturesStore:TextureStore
 		
 		public function MainStarlingScene() 
 		{
 			super();
 			
-				
 			addEventListener(Event.ADDED_TO_STAGE, onAdded);
 		}
 		
 		private function onAdded(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAdded);
-			new TextureStore();
 			
-			var textures:TextureStore = ServicesLocator.instance.getService(TextureStore) as TextureStore;
+			new ApplicationBootstrap().launch();
+			inject(this);
 			
-			textures.addEventListener(Event.COMPLETE, hereGo);
-			textures.preload();
-		
+			texturesStore.addEventListener(Event.COMPLETE, hereGo);
+			texturesStore.preload();
 		}
 		
 		private function hereGo(e:*):void 
