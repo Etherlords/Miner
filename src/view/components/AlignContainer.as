@@ -57,7 +57,7 @@ package view.components
 			flatten();
 		}
 		
-		private function align():void
+		public function align():void
 		{
 			var anchorn:Point = new Point(0, 0);
 			var l:uint = elements.length;
