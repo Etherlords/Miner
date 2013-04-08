@@ -20,7 +20,7 @@ package
 				
 			var textureStore:TextureStore = new TextureStore();
 			
-			context.addObjectToContext(textureStore);
+			context.addObjectToContext(textureStore, 'identinjection');
 			
 			
 			context.init();

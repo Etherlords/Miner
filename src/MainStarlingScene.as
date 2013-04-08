@@ -17,7 +17,7 @@ package
 	 */
 	public class MainStarlingScene extends DisplayObjectContainer 
 	{
-		[Inject]
+		[Inject(id=identinjection)]
 		public var texturesStore:TextureStore
 		
 		public function MainStarlingScene() 
