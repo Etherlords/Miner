@@ -3,6 +3,7 @@ package
 	import core.states.config.StateConfig;
 	import core.states.State;
 	import core.states.StatesManager;
+	import flash.events.IEventDispatcher;
 	import logic.MainGameController;
 	import logic.StartScreenController;
 	import model.TextureStore;
@@ -20,6 +21,9 @@ package
 		[Inject(id=identinjection)]
 		public var texturesStore:TextureStore
 		
+		[Inject]
+		public var test:IEventDispatcher
+		
 		public function MainStarlingScene() 
 		{
 			super();
@@ -33,6 +37,8 @@ package
 			
 			new ApplicationBootstrap().launch();
 			inject(this);
+			
+			trace(test, '####');
 			
 			texturesStore.addEventListener(Event.COMPLETE, hereGo);
 			texturesStore.preload();
