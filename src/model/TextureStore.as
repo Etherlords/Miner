@@ -2,6 +2,7 @@ package model
 {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.events.IEventDispatcher;
 	import flash.net.URLLoader;
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
@@ -21,7 +22,7 @@ package model
 	 * ...
 	 * @author 
 	 */
-	public class TextureStore extends EventDispatcher
+	public class TextureStore extends TestObj implements ITest, IEventDispatcher
 	{
 		private var texturesAtlas:TextureAtlas;
 		
