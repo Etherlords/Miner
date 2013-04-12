@@ -22,7 +22,7 @@
         <key>dataFormat</key>
         <string>sparrow</string>
         <key>textureFileName</key>
-        <filename>../../lib/arts.png</filename>
+        <filename>/arts.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>ditherType</key>

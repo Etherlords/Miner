@@ -43,8 +43,8 @@ package view
 		{
 			inject(this);
 			
-			fullScreen = createButton('large_button_normal', 'large_button_down', 'Toggle full screen', 'Desyrel', -1, 0xFFFFFF, true);
-			backButton = createButton('large_button_normal', 'large_button_down', 'Back to menu', 'Desyrel', -1, 0xFFFFFF, true);
+			fullScreen = createButton('big_button_normal', 'big_button_down', 'Toggle full screen', 'Desyrel', -1, 0xFFFFFF, true);
+			backButton = createButton('big_button_normal', 'big_button_down', 'Back to menu', 'Desyrel', -1, 0xFFFFFF, true);
 			
 			super();
 			this.gameModel = gameModel;

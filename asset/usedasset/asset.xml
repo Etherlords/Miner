@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:cccda81f2d9f559a14cbc92024352e06$ -->
+<TextureAtlas imagePath="asset.png">
+    <SubTexture name="big_button_normal" x="2" y="219" width="311" height="42"/>
+    <SubTexture name="button_big_down" x="2" y="263" width="311" height="42"/>
+    <SubTexture name="cell_bomb" x="276" y="2" width="85" height="85"/>
+    <SubTexture name="cell_down" x="363" y="2" width="85" height="85"/>
+    <SubTexture name="cell_normal" x="189" y="2" width="85" height="85"/>
+    <SubTexture name="desyrel" x="2" y="307" width="256" height="256"/>
+    <SubTexture name="flag" x="102" y="2" width="85" height="85"/>
+    <SubTexture name="gnomemines" x="2" y="89" width="128" height="128"/>
+    <SubTexture name="gnomepanelclock" x="132" y="89" width="128" height="128"/>
+    <SubTexture name="options" x="2" y="2" width="32" height="30"/>
+    <SubTexture name="starParticle" x="36" y="2" width="64" height="64"/>
+</TextureAtlas>

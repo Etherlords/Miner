@@ -28,10 +28,12 @@ package model
 		
 		public static var numbers:Array = [];
 		
-		private var toLoad:Array = ['desyrel.fnt', 'arts.xml', 'bg2.png'];
+		private var toLoad:Array = ['desyrel.fnt', 'asset.xml', 'bg.png', 'bg2.png'];
 		private var files:Object = { };
 		private var decoders:Object = { 'fnt':XMLDecoder, 'xml':XMLDecoder, 'jpg':PngDecoder, 'png':PngDecoder, 'atf':ATFDecoder};
 		private var toDecode:Number;
+		private var assetName:String;
+		private var assetFormat:String;
 		
 		public function getTexture(name:String):Texture
 		{
@@ -49,20 +51,21 @@ package model
 		
 		public function preload():void
 		{
-			var asset:String = 'arts';
+			assetName = 'asset';
+			assetFormat = ''
 			
 			var version:Array = Capabilities.version.split(' ')[1].split(',');
 	
-			if (version[0] == 11 && version[1] >= 4 && Security.sandboxType != Security.APPLICATION)
+			if (false)//version[0] == 11 && version[1] >= 4 && Security.sandboxType != Security.APPLICATION)
 			{
-				asset += '.atf';
+				assetFormat = '.atf';
 			}
 			else
 			{
-				asset += '.png';
+				assetFormat = '.png';
 			}
 			
-			toLoad.push(asset);
+			toLoad.push(assetName+assetFormat);
 			toDecode = toLoad.length;
 			load();
 		}
@@ -116,15 +119,17 @@ package model
 		
 		private function allComplete():void 
 		{
-			if(files.hasOwnProperty('arts.atf'))
+			var assetSource:String = assetName + assetFormat;
+			var assetSettings:String = assetName + '.xml';
+			if(files.hasOwnProperty(assetFormat == '.atf'))
 			{
 				trace('create atf atlas');
-				texturesAtlas = new TextureAtlas(Texture.fromAtfData(files['arts.atf']), files['arts.xml']);
+				texturesAtlas = new TextureAtlas(Texture.fromAtfData(files[assetSource]), files[assetSettings]);
 			}
 			else
 			{
 				trace('create bitmap atlas');
-				texturesAtlas = new TextureAtlas(Texture.fromBitmapData(files['arts.png']), files['arts.xml'])
+				texturesAtlas = new TextureAtlas(Texture.fromBitmapData(files[assetSource]), files[assetSettings])
 			}
 			
 			
