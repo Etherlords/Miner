@@ -1,11 +1,11 @@
 package view 
 {
+	import feathers.controls.Button;
 	import flash.geom.Point;
 	import model.CellConstants;
 	import model.GameModel;
 	import model.TextureStore;
 	import patterns.events.LazyModeratorEvent;
-	import starling.display.Button;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
 	import starling.display.Sprite;
@@ -45,8 +45,8 @@ package view
 		{
 			inject(this);
 			
-			fullScreen = createButton('big_button_normal', 'big_button_down', 'Toggle full screen', 'a_LCDNova', -1, 0xAAA7A5, true);
-			backButton = createButton('big_button_normal', 'big_button_down', 'Back to menu', 'a_LCDNova', -1, 0xAAA7A5, true);
+			fullScreen = createButton('FULLSCREEN');
+			backButton = createButton('BACK');
 			
 			super();
 			this.gameModel = gameModel;
@@ -62,13 +62,13 @@ package view
 			
 		}
 		
-		public function createButton(textureNormal:String, textureDown:String, text:String, fontName:String, size:int = -1, color:uint = 0x0, bold:Boolean =false ):Button
+		public function createButton(text:String):Button
 		{
-			var button:Button = new Button(textureStore.getTexture(textureNormal), text, textureStore.getTexture(textureDown))
-			button.fontName = fontName;
-			button.fontBold = bold;
-			button.fontSize = size;
-			button.fontColor = color;
+			var button:Button = new Button()
+			button.label = text;
+			
+			button.width = 150;
+			button.height = 42;
 			
 			return button;
 		}
@@ -182,10 +182,28 @@ package view
 		
 		private function align(e:* = null):void 
 		{
-			uiPanel.x = uiPanel.y = 10;
+			
+			//timerValue.x = 40 - (timerValue.width - timerValue.getTextBoudns().x);
+			
+			if(!stage)
+				return;
+			
+			fullScreen.x = 5;
+			fullScreen.y = stage.stageHeight - 5 - fullScreen.height;
+			
+			backButton.x = 5;
+			backButton.y = fullScreen.y - backButton.height - 5;
+			
+			maxWidth = backButton.x + backButton.width + 5;
+			
+			trace(Math.max(timerIcon.width, timerValue.getTextBoudns().width));
+			
+			uiPanel.y = 10;
 			
 			if (CellConstants.APPLICATION_HEIGHT > CellConstants.APPLICATION_WIDTH)
 			{
+				
+				
 				aligneToIconY(timerIcon, timerValue);
 				aligneToIconY(mineIcon, minesOnFieldValue);
 				minesOnFieldValue.align();
@@ -198,19 +216,10 @@ package view
 				aligneToX(minesOnFieldValue, openedFieldsValue);
 				aligneToX(minesOnFieldValue, tottalFieldsValue);
 				//timerValue.align();
+				
+				//uiPanel.x = (maxWidth - Math.max(timerIcon.width, timerValue.getTextBoudns().width)) / 2;
+				uiPanel.x = (maxWidth - timerIcon.width) / 2;
 			}
-			//timerValue.x = 40 - (timerValue.width - timerValue.getTextBoudns().x);
-			
-			if(!stage)
-				return;
-			
-			fullScreen.x = 5;
-			fullScreen.y = stage.stageHeight - 5 - fullScreen.height;
-			
-			backButton.x = 5;
-			backButton.y = fullScreen.y - backButton.height - 5;
-			
-			maxWidth = backButton.x + backButton.width;
 		}
 	}
 

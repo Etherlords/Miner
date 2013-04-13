@@ -6,7 +6,6 @@ package view
 	import model.GameModel;
 	import model.MineFieldModel;
 	import particles.starParticles.StarParticlesEmmiter;
-	import starling.display.Button;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.events.TouchEvent;
@@ -32,8 +31,8 @@ package view
 		private var scaleFactor:Number;
 		private var stars:StarParticlesEmmiter;
 		
-		public var fullScreen:Button;
-		public var backButton:Button;
+		public var fullScreen:Sprite;
+		public var backButton:Sprite;
 		
 		public function MainGaimView()
 		{

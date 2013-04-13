@@ -2,7 +2,6 @@ package logic
 {
 	import core.scene.AbstractSceneController;
 	import flash.display.StageDisplayState;
-	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
 	import flash.utils.Dictionary;
@@ -14,7 +13,6 @@ package logic
 	import model.MineFieldCellModel;
 	import model.MineFieldModel;
 	import model.SettingsModel;
-	import model.TextureStore;
 	import particles.boomParticle.BoomParticle;
 	import particles.curosrParticle.CursorParticle;
 	import starling.animation.Transitions;
@@ -24,12 +22,11 @@ package logic
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.events.TouchEvent;
-	import starling.events.TouchPhase;
 	import starling.filters.BlurFilter;
-	import ui.Alert;
 	import utils.GlobalUIContext;
+	import view.components.Alert;
 	import view.MainGaimView;
-	import view.MineFieldCellView;
+	
 	
 	
 	/**
@@ -71,6 +68,9 @@ package logic
 			gameTimer.stop();
 			viewInstance.deactivate()
 			
+			
+			viewInstance.removeChild(endGameAlert)
+			
 				
 			super.deactivate();
 			
@@ -81,7 +81,7 @@ package logic
 			mineField.fieldWidth = SettingsModel.instance.fieldWidth;
 			mineField.fieldHeight = SettingsModel.instance.fieldHeight;
 			
-			var lowestSide:Number = Math.min(CellConstants.APPLICATION_HEIGHT, CellConstants.APPLICATION_WIDTH-322);
+			var lowestSide:Number = Math.min(CellConstants.APPLICATION_HEIGHT, CellConstants.APPLICATION_WIDTH);
 			var largestFieldSide:Number = mineField.fieldWidth > mineField.fieldHeight? mineField.fieldWidth:mineField.fieldHeight
 			CellConstants.MINE_FIELD_GABARITE = Math.ceil(lowestSide / largestFieldSide );
 			trace('CellConstants.MINE_FIELD_GABARITE', CellConstants.MINE_FIELD_GABARITE);
@@ -224,8 +224,8 @@ package logic
 			gameModel.gameStatus = 0;
 			gameBuilder.makeMineField(mineField, gameModel);
 			
-			if(GlobalUIContext.vectorUIContainer.contains(endGameAlert))
-				GlobalUIContext.vectorUIContainer.removeChild(endGameAlert)
+		
+			viewInstance.removeChild(endGameAlert)
 				
 			gameTimer.start();
 			_actualTime = new Date();
@@ -307,6 +307,7 @@ package logic
 			blow.y = mouse.y;
 			viewInstance.addChild(blow);
 			blow.addEventListener(Event.COMPLETE, onBlowEnded);
+			endGameAlert.text = Alerts.getEndGameText(gameModel.gameTime, gameModel.foundedMines, SettingsModel.instance.fieldWidth, gameModel.gameStatus > 0);
 			gameTimer.stop();
 			
 			viewInstance.removeEventListener('MineCellClicked', mineFieldClicked);
@@ -371,10 +372,10 @@ package logic
 			viewInstance.removeChild(e.target as Sprite);
 			e.target.removeEventListener(Event.COMPLETE, onBlowEnded);
 			
-			endGameAlert.alertText = Alerts.getEndGameText(gameModel.gameTime, gameModel.foundedMines, SettingsModel.instance.fieldWidth, gameModel.gameStatus > 0);
-			endGameAlert.x = (GlobalUIContext.vectorStage.stageWidth - endGameAlert.width) / 2;
-			endGameAlert.y = (GlobalUIContext.vectorStage.stageHeight - endGameAlert.height) / 2;
-			GlobalUIContext.vectorUIContainer.addChild(endGameAlert)
+			
+			//endGameAlert.x = (GlobalUIContext.vectorStage.stageWidth - endGameAlert.width) / 2;
+			//endGameAlert.y = (GlobalUIContext.vectorStage.stageHeight - endGameAlert.height) / 2;
+			viewInstance.addChild(endGameAlert)
 		}
 		
 		private function foundOpenNeighbors(i:int, j:int, openSpace:Dictionary):void

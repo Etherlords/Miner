@@ -1,17 +1,12 @@
 package view 
 {
-	import starling.filters.BlurFilter;
-	import flash.text.TextFormat;
+	import feathers.controls.Button;
 	import model.TextureStore;
-	import starling.display.Button;
 	import starling.display.DisplayObject;
 	import starling.display.DisplayObjectContainer;
-	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
-	import starling.textures.Texture;
 	import view.components.AlignContainer;
-	import view.components.TextButton;
 	
 	/**
 	 * ...
@@ -67,8 +62,10 @@ package view
 		
 		private function initilize():void 
 		{
-			var back:Image = new Image(textureStore.getTexture('bg.png'));
-			addChild(back);
+			//var back:Image = new Image(textureStore.getTexture('bg.png'));
+			//addChild(back);
+			
+			
 			
 			var fontSize:int = 30;
 			startGameButton = craeteButton('START GAME', 1, fontSize);
@@ -104,17 +101,17 @@ package view
 		
 			
 			addChild(buttonsGroup);
-			
+			//addEventListener(EnterFrameEvent.ENTER_FRAME, alignUI);
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
 		private function onAddedToStage(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-			aligUI();
+			alignUI();
 		}
 		
-		private function aligUI():void 
+		private function alignUI(v:*=null):void 
 		{
 			buttonsGroup.y = (stage.stageHeight - buttonsGroup.height) / 2;
 			fieldSizeSection.align();
@@ -131,6 +128,8 @@ package view
 			centerByX(credits);
 
 			difficleLable.y = difficle.y +  + (difficle.height - difficleLable.height) / 2;
+			
+			
 		}
 		
 		private function centerByX(element:DisplayObject):void
@@ -141,11 +140,18 @@ package view
 		
 		private function craeteButton(lable:String, textureIndex:int = 1, size:int = 12):DisplayObjectContainer
 		{
-			var button:Button = new Button(textureStore.getTexture(buttonAssets[textureIndex].normal), lable, textureStore.getTexture(buttonAssets[textureIndex].down))
-			button.fontName = 'a_LCDNova';
-			button.fontBold = true;
-			button.fontSize = size;
-			button.fontColor = 0xAAA7A5;
+			var button:Button = new Button();
+			button.label = lable;
+			button.width = 312;
+			button.height = 42;
+			
+			//button.addEventListener("initialize", onButtonInitilize);
+			
+			//var button:Button = new Button(textureStore.getTexture(buttonAssets[textureIndex].normal), lable, textureStore.getTexture(buttonAssets[textureIndex].down))
+			//button.fontName = 'a_LCDNova';
+			//button.fontBold = true;
+			//button.fontSize = size;
+			//button.fontColor = 0xAAA7A5;
 			//button.mTextField.filter = new BlurFilter(5, 5, 3);
 			
 			//var format:TextFormat = new TextFormat('mini', size, 0xFFFFFF, false, false);
@@ -158,9 +164,16 @@ package view
 			return button;
 		}
 		
+		private function onButtonInitilize(e:Event):void 
+		{
+			alignUI();
+			
+			
+		}
+		
 		private function onButtonChange(e:Event):void 
 		{
-			aligUI();
+			alignUI();
 		}
 		
 	}

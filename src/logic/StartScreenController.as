@@ -133,10 +133,10 @@ package logic
 		
 		private function chageMode():void 
 		{
-			viewInstance.fieldSize['text'] = FIELD_SIZE_LABLE.split('$').join(fieldSizes[currentMode]);
-			viewInstance.minesCount['text'] = MINES_COUNT_LABLE.split('$').join(minesCount);
-			viewInstance.difficleLable['text'] = softcore? 'SOFT':'HARD'
-			viewInstance.difficle['text'] = 'DIFFICLE ' + (softcore? 'SOFT':'HARD');
+			viewInstance.fieldSize['label'] = FIELD_SIZE_LABLE.split('$').join(fieldSizes[currentMode]);
+			viewInstance.minesCount['label'] = MINES_COUNT_LABLE.split('$').join(minesCount);
+			viewInstance.difficleLable['label'] = softcore? 'SOFT':'HARD'
+			viewInstance.difficle['label'] = 'DIFFICLE ' + (softcore? 'SOFT':'HARD');
 		}
 		
 		private function changeGameModeLeft(e:Event):void 

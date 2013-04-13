@@ -9,7 +9,6 @@ package
 	import model.TextureStore;
 	import starling.display.DisplayObjectContainer;
 	import starling.events.Event;
-	import utils.GlobalUIContext;
 	
 	
 	/**
@@ -39,6 +38,7 @@ package
 			inject(this);
 			
 			trace(test, '####');
+			
 			
 			texturesStore.addEventListener(Event.COMPLETE, hereGo);
 			texturesStore.preload();

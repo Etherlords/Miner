@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:2dc2a6ab97dee24ccd4f11cea957092b$ -->
+<TextureAtlas imagePath="asset.png">
+    <SubTexture name="a_LCDNova_0" x="2" y="2" width="256" height="256"/>
+    <SubTexture name="background-disabled-skin" x="260" y="2" width="32" height="32"/>
+    <SubTexture name="background-down-skin" x="294" y="2" width="32" height="32"/>
+    <SubTexture name="background-focused-skin" x="328" y="2" width="32" height="32"/>
+    <SubTexture name="background-popup-skin" x="362" y="2" width="32" height="32"/>
+    <SubTexture name="background-skin" x="396" y="2" width="32" height="32"/>
+    <SubTexture name="big_button_down" x="2" y="260" width="311" height="42"/>
+    <SubTexture name="big_button_normal" x="2" y="304" width="311" height="42"/>
+    <SubTexture name="cell_bomb" x="315" y="304" width="85" height="85"/>
+    <SubTexture name="cell_down" x="402" y="304" width="85" height="85"/>
+    <SubTexture name="cell_normal" x="2" y="391" width="85" height="85"/>
+    <SubTexture name="flag" x="89" y="391" width="85" height="85"/>
+    <SubTexture name="gnomemines" x="176" y="391" width="85" height="85"/>
+    <SubTexture name="gnomepanelclock" x="263" y="391" width="64" height="64"/>
+    <SubTexture name="starParticle" x="329" y="391" width="64" height="64"/>
+</TextureAtlas>

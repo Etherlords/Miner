@@ -130,6 +130,7 @@ package model
 			{
 				trace('create bitmap atlas');
 				texturesAtlas = new TextureAtlas(Texture.fromBitmapData(files[assetSource]), files[assetSettings])
+				var theme:Theme = new Theme(texturesAtlas);
 			}
 			
 			
