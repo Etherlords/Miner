@@ -1,5 +1,6 @@
 package view 
 {
+	import starling.filters.ColorMatrixFilter;
 	import model.CellConstants;
 	import model.MineFieldCellModel;
 	import model.TextureStore;
@@ -139,8 +140,13 @@ package view
 			
 			if (cellModel.fieldStatus != CellConstants.OPEN_FIELD && cellModel.fieldStatus != CellConstants.MINED_FIELD)
 			{
-				//lable.color = lableColors[cellModel.fieldStatus];
+				
 				lable.texture = TextureStore.numbers[cellModel.fieldStatus];
+				lable.color = lableColors[cellModel.fieldStatus];
+				
+				//lable.filter = new ColorMatrixFilter();
+				
+				//lable.filter = 
 				
 				//background.texture
 				if (!contains(lable))

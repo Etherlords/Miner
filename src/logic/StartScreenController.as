@@ -71,10 +71,14 @@ package logic
 			viewInstance.startGameButton.addEventListener(Event.TRIGGERED, startGame);
 			viewInstance.left.addEventListener(Event.TRIGGERED, changeGameModeLeft);
 			viewInstance.right.addEventListener(Event.TRIGGERED, changeGameModeRight);
+			viewInstance.fieldSize.addEventListener(Event.TRIGGERED, changeGameModeRight);
 			
 			viewInstance.leftMines.addEventListener(Event.TRIGGERED, changeMinesLeft);
 			viewInstance.rightMines.addEventListener(Event.TRIGGERED, changeMinesRight);
+			viewInstance.minesCount.addEventListener(Event.TRIGGERED, changeMinesRight);
+			
 			viewInstance.difficle.addEventListener(Event.TRIGGERED, changeDifficle);
+			viewInstance.difficleLable.addEventListener(Event.TRIGGERED, changeDifficle);
 			
 			keyController = new KeyBoardController(GlobalUIContext.vectorStage);
 			
@@ -132,6 +136,7 @@ package logic
 			viewInstance.fieldSize['text'] = FIELD_SIZE_LABLE.split('$').join(fieldSizes[currentMode]);
 			viewInstance.minesCount['text'] = MINES_COUNT_LABLE.split('$').join(minesCount);
 			viewInstance.difficleLable['text'] = softcore? 'SOFT':'HARD'
+			viewInstance.difficle['text'] = 'DIFFICLE ' + (softcore? 'SOFT':'HARD');
 		}
 		
 		private function changeGameModeLeft(e:Event):void 

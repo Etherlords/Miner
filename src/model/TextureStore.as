@@ -28,7 +28,7 @@ package model
 		
 		public static var numbers:Array = [];
 		
-		private var toLoad:Array = ['desyrel.fnt', 'asset.xml', 'bg.png', 'bg2.png'];
+		private var toLoad:Array = ['a_LCDNova.fnt', 'asset.xml', 'bg.png', 'bg2.png'];
 		private var files:Object = { };
 		private var decoders:Object = { 'fnt':XMLDecoder, 'xml':XMLDecoder, 'jpg':PngDecoder, 'png':PngDecoder, 'atf':ATFDecoder};
 		private var toDecode:Number;
@@ -134,9 +134,9 @@ package model
 			
 			
 			
-			var texture:Texture = texturesAtlas.getTexture('desyrel');// getTexture("DesyrelTexture");
+			var texture:Texture = texturesAtlas.getTexture('a_LCDNova_0');// getTexture("DesyrelTexture");
 			
-			var xml:XML = XML(files['desyrel.fnt']);
+			var xml:XML = XML(files['a_LCDNova.fnt']);
 			var bitmapFont:BitmapFont = new BitmapFont(texture, xml)
 			bitmapFont.smoothing = TextureSmoothing.TRILINEAR;
 			TextField.registerBitmapFont(bitmapFont);

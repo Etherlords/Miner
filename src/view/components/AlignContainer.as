@@ -20,7 +20,7 @@ package view.components
 		private var alignType:uint;
 		private var usingFlatten:Boolean;
 		
-		public function AlignContainer(padding:Number = 0, align:uint = RIGHT, usingFlatten:Boolean = true ) 
+		public function AlignContainer(padding:Number = 0, align:uint = RIGHT, usingFlatten:Boolean = false ) 
 		{
 			super();
 			this.usingFlatten = usingFlatten;

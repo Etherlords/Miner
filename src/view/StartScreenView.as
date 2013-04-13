@@ -1,5 +1,6 @@
 package view 
 {
+	import starling.filters.BlurFilter;
 	import flash.text.TextFormat;
 	import model.TextureStore;
 	import starling.display.Button;
@@ -69,31 +70,35 @@ package view
 			var back:Image = new Image(textureStore.getTexture('bg.png'));
 			addChild(back);
 			
-			startGameButton = craeteButton('START GAME', 1, 25);
-			options = craeteButton('OPTIONS', 1, 25);
-			fieldSize = craeteButton('FIELD 9x9', 1, 25);
-			minesCount = craeteButton('MINES COUNT', 1, 25);
-			difficle = craeteButton('CHANGE DIFFICLE', 1, 25);
-			credits = craeteButton('CREDITS', 1, 25);
+			var fontSize:int = 30;
+			startGameButton = craeteButton('START GAME', 1, fontSize);
+			options = craeteButton('OPTIONS', 1, fontSize);
+			fieldSize = craeteButton('FIELD 9x9', 1, fontSize);
+			minesCount = craeteButton('MINES COUNT', 1, fontSize);
+			difficle = craeteButton('CHANGE DIFFICLE', 1, fontSize);
+			credits = craeteButton('CREDITS', 1, fontSize);
 
-			left = craeteButton('<', 1, 25);
-			leftMines = craeteButton('<', 1, 25);
+			left = craeteButton('<', 1, fontSize);
+			leftMines = craeteButton('<', 1, fontSize);
 			
-			right = craeteButton('>', 1, 25);
-			rightMines = craeteButton('>', 1, 25);
+			right = craeteButton('>', 1, fontSize);
+			rightMines = craeteButton('>', 1, fontSize);
 			
-			difficleLable = craeteButton('SOFT', 1, 10);
+			difficleLable = craeteButton('SOFT', 1, fontSize);
 			
 			difficleSection = new AlignContainer();
-			difficleSection.addElements(difficle, difficleLable);
+			difficleSection.addElements(difficle);
+			//difficleSection.addElements(difficle, difficleLable);
 				
 			fieldSizeSection = new AlignContainer();
-			fieldSizeSection.addElements(left, fieldSize, right);
+			fieldSizeSection.addElements(fieldSize);
+			//fieldSizeSection.addElements(left, fieldSize, right);
 			
 			minesCounSection = new AlignContainer();
-			minesCounSection.addElements(leftMines, minesCount, rightMines);
+			minesCounSection.addElements(minesCount);
+			//minesCounSection.addElements(leftMines, minesCount, rightMines);
 			
-			buttonsGroup = new AlignContainer(0, AlignContainer.BOTTOM);
+			buttonsGroup = new AlignContainer(5, AlignContainer.BOTTOM);
 			buttonsGroup.addElements(startGameButton, options, fieldSizeSection, minesCounSection, difficleSection, credits);
 			
 		
@@ -137,10 +142,11 @@ package view
 		private function craeteButton(lable:String, textureIndex:int = 1, size:int = 12):DisplayObjectContainer
 		{
 			var button:Button = new Button(textureStore.getTexture(buttonAssets[textureIndex].normal), lable, textureStore.getTexture(buttonAssets[textureIndex].down))
-			button.fontName = 'Desyrel';
+			button.fontName = 'a_LCDNova';
 			button.fontBold = true;
 			button.fontSize = size;
-			button.fontColor = 0xFFFFFF;
+			button.fontColor = 0xAAA7A5;
+			//button.mTextField.filter = new BlurFilter(5, 5, 3);
 			
 			//var format:TextFormat = new TextFormat('mini', size, 0xFFFFFF, false, false);
 			//var button:TextButton = new TextButton(lable, format);

@@ -54,9 +54,9 @@
         <key>maxTextureSize</key>
         <QSize>
             <key>width</key>
-            <int>2048</int>
+            <int>1024</int>
             <key>height</key>
-            <int>2048</int>
+            <int>1024</int>
         </QSize>
         <key>fixedTextureSize</key>
         <QSize>
@@ -70,7 +70,7 @@
         <key>algorithmSettings</key>
         <struct type="AlgorithmSettings">
             <key>algorithm</key>
-            <enum type="AlgorithmSettings::AlgorithmId">MaxRects</enum>
+            <enum type="AlgorithmSettings::AlgorithmId">Basic</enum>
             <key>freeSizeMode</key>
             <enum type="AlgorithmSettings::AlgorithmFreeSizeMode">Best</enum>
             <key>sizeConstraints</key>
@@ -87,7 +87,7 @@
             <key>basic</key>
             <struct type="AlgorithmBasicSettings">
                 <key>sortBy</key>
-                <enum type="AlgorithmBasicSettings::SortBy">Best</enum>
+                <enum type="AlgorithmBasicSettings::SortBy">Circumference</enum>
                 <key>order</key>
                 <enum type="AlgorithmBasicSettings::Order">Ascending</enum>
             </struct>
@@ -117,7 +117,7 @@
         <key>forceIdenticalLayout</key>
         <false/>
         <key>outputFormat</key>
-        <enum type="SettingsBase::OutputFormat">BGRA8888</enum>
+        <enum type="SettingsBase::OutputFormat">RGBA8888</enum>
         <key>autoAliasEnabled</key>
         <true/>
         <key>trimSpriteNames</key>
@@ -127,7 +127,7 @@
             <key>scale</key>
             <double>1</double>
             <key>scaleMode</key>
-            <enum type="ScaleMode">Scale4x</enum>
+            <enum type="ScaleMode">Smooth</enum>
             <key>innerPadding</key>
             <uint>0</uint>
             <key>extrude</key>
@@ -135,133 +135,113 @@
             <key>trimThreshold</key>
             <uint>1</uint>
             <key>trimMode</key>
-            <enum type="SpriteSettings::TrimMode">Trim</enum>
+            <enum type="SpriteSettings::TrimMode">None</enum>
             <key>heuristicMask</key>
             <false/>
         </struct>
         <key>fileList</key>
         <array>
             <filename>../raw/big_button_normal.png</filename>
-            <filename>../raw/button_big_down.png</filename>
             <filename>../raw/cell_bomb.png</filename>
             <filename>../raw/cell_down.png</filename>
             <filename>../raw/cell_normal.png</filename>
-            <filename>../raw/desyrel.png</filename>
             <filename>../raw/flag.png</filename>
             <filename>../raw/gnomemines.png</filename>
             <filename>../raw/gnomepanelclock.png</filename>
             <filename>../raw/options.png</filename>
             <filename>../raw/starParticle.png</filename>
             <filename>../raw/big_button_normal.png</filename>
-            <filename>../raw/button_big_down.png</filename>
             <filename>../raw/cell_bomb.png</filename>
             <filename>../raw/cell_down.png</filename>
             <filename>../raw/cell_normal.png</filename>
-            <filename>../raw/desyrel.png</filename>
             <filename>../raw/flag.png</filename>
             <filename>../raw/gnomemines.png</filename>
             <filename>../raw/gnomepanelclock.png</filename>
             <filename>../raw/options.png</filename>
             <filename>../raw/starParticle.png</filename>
             <filename>../raw/big_button_normal.png</filename>
-            <filename>../raw/button_big_down.png</filename>
             <filename>../raw/cell_bomb.png</filename>
             <filename>../raw/cell_down.png</filename>
             <filename>../raw/cell_normal.png</filename>
-            <filename>../raw/desyrel.png</filename>
             <filename>../raw/flag.png</filename>
             <filename>../raw/gnomemines.png</filename>
             <filename>../raw/gnomepanelclock.png</filename>
             <filename>../raw/options.png</filename>
             <filename>../raw/starParticle.png</filename>
             <filename>../raw/big_button_normal.png</filename>
-            <filename>../raw/button_big_down.png</filename>
             <filename>../raw/cell_bomb.png</filename>
             <filename>../raw/cell_down.png</filename>
             <filename>../raw/cell_normal.png</filename>
-            <filename>../raw/desyrel.png</filename>
             <filename>../raw/flag.png</filename>
             <filename>../raw/gnomemines.png</filename>
             <filename>../raw/gnomepanelclock.png</filename>
             <filename>../raw/options.png</filename>
             <filename>../raw/starParticle.png</filename>
             <filename>../raw/big_button_normal.png</filename>
-            <filename>../raw/button_big_down.png</filename>
             <filename>../raw/cell_bomb.png</filename>
             <filename>../raw/cell_down.png</filename>
             <filename>../raw/cell_normal.png</filename>
-            <filename>../raw/desyrel.png</filename>
             <filename>../raw/flag.png</filename>
             <filename>../raw/gnomemines.png</filename>
             <filename>../raw/gnomepanelclock.png</filename>
             <filename>../raw/options.png</filename>
             <filename>../raw/starParticle.png</filename>
             <filename>../raw/big_button_normal.png</filename>
-            <filename>../raw/button_big_down.png</filename>
             <filename>../raw/cell_bomb.png</filename>
             <filename>../raw/cell_down.png</filename>
             <filename>../raw/cell_normal.png</filename>
-            <filename>../raw/desyrel.png</filename>
             <filename>../raw/flag.png</filename>
             <filename>../raw/gnomemines.png</filename>
             <filename>../raw/gnomepanelclock.png</filename>
             <filename>../raw/options.png</filename>
             <filename>../raw/starParticle.png</filename>
             <filename>../raw/big_button_normal.png</filename>
-            <filename>../raw/button_big_down.png</filename>
             <filename>../raw/cell_bomb.png</filename>
             <filename>../raw/cell_down.png</filename>
             <filename>../raw/cell_normal.png</filename>
-            <filename>../raw/desyrel.png</filename>
             <filename>../raw/flag.png</filename>
             <filename>../raw/gnomemines.png</filename>
             <filename>../raw/gnomepanelclock.png</filename>
             <filename>../raw/options.png</filename>
             <filename>../raw/starParticle.png</filename>
             <filename>../raw/big_button_normal.png</filename>
-            <filename>../raw/button_big_down.png</filename>
             <filename>../raw/cell_bomb.png</filename>
             <filename>../raw/cell_down.png</filename>
             <filename>../raw/cell_normal.png</filename>
-            <filename>../raw/desyrel.png</filename>
             <filename>../raw/flag.png</filename>
             <filename>../raw/gnomemines.png</filename>
             <filename>../raw/gnomepanelclock.png</filename>
             <filename>../raw/options.png</filename>
             <filename>../raw/starParticle.png</filename>
             <filename>../raw/big_button_normal.png</filename>
-            <filename>../raw/button_big_down.png</filename>
             <filename>../raw/cell_bomb.png</filename>
             <filename>../raw/cell_down.png</filename>
             <filename>../raw/cell_normal.png</filename>
-            <filename>../raw/desyrel.png</filename>
             <filename>../raw/flag.png</filename>
             <filename>../raw/gnomemines.png</filename>
             <filename>../raw/gnomepanelclock.png</filename>
             <filename>../raw/options.png</filename>
             <filename>../raw/starParticle.png</filename>
             <filename>../raw/big_button_normal.png</filename>
-            <filename>../raw/button_big_down.png</filename>
             <filename>../raw/cell_bomb.png</filename>
             <filename>../raw/cell_down.png</filename>
             <filename>../raw/cell_normal.png</filename>
-            <filename>../raw/desyrel.png</filename>
             <filename>../raw/flag.png</filename>
             <filename>../raw/gnomemines.png</filename>
             <filename>../raw/gnomepanelclock.png</filename>
             <filename>../raw/options.png</filename>
             <filename>../raw/starParticle.png</filename>
             <filename>../raw/big_button_normal.png</filename>
-            <filename>../raw/button_big_down.png</filename>
             <filename>../raw/cell_bomb.png</filename>
             <filename>../raw/cell_down.png</filename>
             <filename>../raw/cell_normal.png</filename>
-            <filename>../raw/desyrel.png</filename>
             <filename>../raw/flag.png</filename>
             <filename>../raw/gnomemines.png</filename>
             <filename>../raw/gnomepanelclock.png</filename>
             <filename>../raw/options.png</filename>
             <filename>../raw/starParticle.png</filename>
+            <filename>../raw/big_button_down.png</filename>
+            <filename>../raw/a_LCDNova.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

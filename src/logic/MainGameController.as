@@ -46,6 +46,7 @@ package logic
 		private var gameTimer:Timer;
 		private var mouse:Point;
 		private var cursorParticle:CursorParticle;
+		private var _actualTime:Date;
 		
 		public function MainGameController()
 		{
@@ -156,8 +157,8 @@ package logic
 			
 			
 			trace('viewInstance.fullScreen');
-			viewInstance.fullScreen.addEventListener(TouchEvent.TOUCH, onFullScreen);
-			viewInstance.backButton.addEventListener(TouchEvent.TOUCH, backToStartScreen);
+			viewInstance.fullScreen.addEventListener(Event.TRIGGERED, onFullScreen);
+			viewInstance.backButton.addEventListener(Event.TRIGGERED, backToStartScreen);
 			
 			
 			
@@ -178,13 +179,9 @@ package logic
 			
 		}
 		
-		private function backToStartScreen(e:TouchEvent):void 
+		private function backToStartScreen(e:Event):void 
 		{
-			if (e.touches[0].phase == TouchPhase.BEGAN)
-			{
-				trace('exit');
-				exit();
-			}
+			exit();
 		}
 		
 		private function trachMouse(e:TouchEvent):void 
@@ -194,16 +191,13 @@ package logic
 			cursorParticle.emitterY = e.touches[0].globalY
 		}
 		
-		private function onFullScreen(e:TouchEvent):void 
+		private function onFullScreen(e:Event):void 
 		{
-			if (e.touches[0].phase == TouchPhase.BEGAN)
-			{
-				trace('click');
-				if(GlobalUIContext.vectorStage.displayState == StageDisplayState.NORMAL)
-					GlobalUIContext.vectorStage.displayState = StageDisplayState.FULL_SCREEN
-				else
-					GlobalUIContext.vectorStage.displayState = StageDisplayState.NORMAL
-			}
+			
+			if(GlobalUIContext.vectorStage.displayState == StageDisplayState.NORMAL)
+				GlobalUIContext.vectorStage.displayState = StageDisplayState.FULL_SCREEN
+			else
+				GlobalUIContext.vectorStage.displayState = StageDisplayState.NORMAL
 		}
 		 
 		override protected function initilize():void
@@ -218,7 +212,7 @@ package logic
 			mineField = new MineFieldModel();
 			gameModel = new GameModel();
 			
-			gameTimer = new Timer(1000);
+			gameTimer = new Timer(20);
 			
 			gameTimer.addEventListener(TimerEvent.TIMER, onSecondDelay);
 		
@@ -234,7 +228,7 @@ package logic
 				GlobalUIContext.vectorUIContainer.removeChild(endGameAlert)
 				
 			gameTimer.start();
-			
+			_actualTime = new Date();
 			
 			
 			if (viewInstance)
@@ -248,7 +242,10 @@ package logic
 		
 		private function onSecondDelay(e:TimerEvent):void 
 		{
-			gameModel.gameTime++;
+			var bufTime:Date = new Date();
+			var timeDelta:Number = bufTime.getTime() - _actualTime.getTime()
+			gameModel.gameTime += timeDelta/1000;
+			_actualTime = bufTime;
 		}
 		
 		public function calcOpenSpace(i:int, j:int):void

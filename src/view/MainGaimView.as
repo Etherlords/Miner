@@ -138,7 +138,7 @@ package view
 			mineFieldInstance.y = int(Math.round(CellConstants.APPLICATION_HEIGHT - mineFieldInstance.height) / 2);
 			
 			if (CellConstants.APPLICATION_WIDTH > CellConstants.APPLICATION_HEIGHT)
-				mineFieldInstance.x = uiView.width + 10;
+				mineFieldInstance.x = uiView.maxWidth;
 		}
 		
 		public function craeteFieldView():void
