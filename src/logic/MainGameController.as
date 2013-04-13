@@ -81,9 +81,9 @@ package logic
 			mineField.fieldWidth = SettingsModel.instance.fieldWidth;
 			mineField.fieldHeight = SettingsModel.instance.fieldHeight;
 			
-			var lowestSide:Number = Math.min(CellConstants.APPLICATION_HEIGHT, CellConstants.APPLICATION_WIDTH);
+			var lowestSide:Number = Math.min(CellConstants.APPLICATION_HEIGHT, CellConstants.APPLICATION_WIDTH-322);
 			var largestFieldSide:Number = mineField.fieldWidth > mineField.fieldHeight? mineField.fieldWidth:mineField.fieldHeight
-			CellConstants.MINE_FIELD_GABARITE = Math.ceil(lowestSide / largestFieldSide);
+			CellConstants.MINE_FIELD_GABARITE = Math.ceil(lowestSide / largestFieldSide );
 			trace('CellConstants.MINE_FIELD_GABARITE', CellConstants.MINE_FIELD_GABARITE);
 			//CellConstants.MINE_FIELD_GABARITE *= 8.5 / largestFieldSide;
 			

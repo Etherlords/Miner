@@ -10,3 +10,6 @@
 [submodule "buildSrc/gradlefx"]
 	path = buildSrc/gradlefx
 	url = https://github.com/chaos-adept/GradleFx.git
+[submodule "external-libs/feathers"]
+	path = external-libs/feathers
+	url = https://github.com/joshtynjala/feathers.git
