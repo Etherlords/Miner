@@ -3,6 +3,7 @@ package model
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
+	import flash.events.ProgressEvent;
 	import flash.net.URLLoader;
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
@@ -34,6 +35,8 @@ package model
 		private var toDecode:Number;
 		private var assetName:String;
 		private var assetFormat:String;
+		private var currentFiled:String;
+		private var progress:ProgressEvent;
 		
 		public function getTexture(name:String):Texture
 		{
@@ -79,12 +82,31 @@ package model
 			}
 				
 				
-			var file:String = toLoad.pop();
-			var r:URLRequest = new URLRequest(file);
+			currentFiled = toLoad.pop();
+			var r:URLRequest = new URLRequest(currentFiled);
 			
 			var loader:URLLoader = new URLLoader(r);
 			loader.dataFormat = URLLoaderDataFormat.BINARY;
-			loader.addEventListener(Event.COMPLETE, Delegate.create(onLoaded, file, loader));
+			loader.addEventListener(Event.COMPLETE, Delegate.create(onLoaded, currentFiled, loader));
+			loader.addEventListener(ProgressEvent.PROGRESS, Delegate.create(onProgress, currentFiled, loader));
+		}
+		
+		private function onProgress(e:ProgressEvent, f:String, loader:URLLoader):void
+		{
+			progress = e;
+		}
+		
+		private var progressIndicator:String = '|||||||||||||||||||';
+		public function getLoadingInfo():String
+		{
+			var s:String = '';
+			s = 'To load list		: ' + toLoad.join(', ') + ' \n';
+			s += 'Currently load	: ' + currentFiled + ' \n';
+			var percent:Number = progress? progress.bytesLoaded / progress.bytesTotal : 0;
+			s += 'Progress		: ' + progressIndicator.substr(0, Math.floor(progressIndicator.length * percent)) + ' \n';
+			s += 'Bytes			: ' + (progress? progress.bytesLoaded:0) + '/' + (progress? progress.bytesTotal:0) + '';
+		 	
+			return s;
 		}
 		
 		private function loadingComplete():void 

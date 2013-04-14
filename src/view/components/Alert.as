@@ -35,7 +35,7 @@ package view.components
 		
 		private function initilize():void 
 		{
-			image = new Scale9Image(new Scale9Textures(textureStore.getTexture('big_button_normal'), new Rectangle(5, 5, 302, 32)));
+			image = new Scale9Image(new Scale9Textures(textureStore.getTexture('big_button_normal'), new Rectangle(6, 6, 300, 30)));
 			lablesContainer = new Sprite();
 			addChild(image);
 			addChild(lablesContainer);
