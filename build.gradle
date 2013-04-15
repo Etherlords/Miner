@@ -8,8 +8,10 @@ subprojects {
 
 apply plugin: 'gradlefx'
 
+	additionalCompilerOptions << '-keep-as3-metadata+=Inject'
+
     flexHome = System.getenv()['FLEX_HOME']
-    resourceDirs = ['../lib/usedasset']
+    resourceDirs = ['../asset']
     srcDirs = ['../src',
                 '../external-libs/reality/src/main',
                 '../external-libs/starling/starling/src',
