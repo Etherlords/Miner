@@ -40,7 +40,7 @@ package view
 			super();
 			
 			bg = new Background();
-			//addChild(bg);
+			addChild(bg);
 			
 			
 			
