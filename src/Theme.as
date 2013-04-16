@@ -153,8 +153,8 @@ package
 		protected function initializeRoot():void
 		{
 			this.primaryBackground = new TiledImage(this.primaryBackgroundTexture);
-			this.primaryBackground.width = root.stage.stageWidth;
-			this.primaryBackground.height = root.stage.stageHeight;
+			//this.primaryBackground.width = root.stage.stageWidth;
+			//this.primaryBackground.height = root.stage.stageHeight;
 			this.root.addChildAt(this.primaryBackground, 0);
 			this.root.stage.addEventListener(ResizeEvent.RESIZE, stage_resizeHandler);
 			this.root.addEventListener(Event.REMOVED_FROM_STAGE, root_removedFromStageHandler);
@@ -240,6 +240,8 @@ package
 			this.setInitializerForClass(Button, buttonInitializer);
 			this.setInitializerForClass(ProgressBar, progressBarInitializer);
 			this.setInitializerForClass(Label, labelInitializer);
+			
+			setBackPosition();
 		}
 		
 		protected function labelInitializer(label:Label):void
@@ -312,8 +314,18 @@ package
 		
 		protected function stage_resizeHandler(event:ResizeEvent):void
 		{
-			this.primaryBackground.width = event.width;
-			this.primaryBackground.height = event.height;
+			//this.primaryBackground.width = event.width;
+			//this.primaryBackground.height = event.height;
+			
+			setBackPosition();
+		}
+		
+		private function setBackPosition():void
+		{
+			primaryBackground.x = (Starling.current.stage.stageWidth - primaryBackground.width) / 2;
+			primaryBackground.y = (Starling.current.stage.stageHeight - primaryBackground.height) / 2;
+			
+			
 		}
 
 		protected function root_addedToStageHandler(event:Event):void

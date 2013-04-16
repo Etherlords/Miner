@@ -30,6 +30,7 @@ package view
 		private var trackTarget:MineFieldCellView;
 		private var scaleFactor:Number;
 		private var stars:StarParticlesEmmiter;
+		private var bg:Background;
 		
 		public var fullScreen:Sprite;
 		public var backButton:Sprite;
@@ -38,8 +39,11 @@ package view
 		{
 			super();
 			
-			var bg:Background = new Background();
-			addChild(bg);
+			bg = new Background();
+			//addChild(bg);
+			
+			
+			
 			stars = new StarParticlesEmmiter();
 			addChild(stars);
 			stars.y -= 10;
@@ -51,6 +55,15 @@ package view
 			fullScreen = uiView.fullScreen;
 			backButton = uiView.backButton;
 		
+			addEventListener(Event.ADDED_TO_STAGE, onAdded);
+		}
+		
+		private function onAdded(e:Event):void 
+		{
+			removeEventListener(Event.ADDED_TO_STAGE, onAdded);
+			
+			bg.x = (stage.stageWidth - bg.width) / 2;
+			bg.y = (stage.stageHeight - bg.height) / 2;
 		}
 		
 		public function set zoom(value:int):void
