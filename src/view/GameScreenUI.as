@@ -29,7 +29,6 @@ package view
 		private var timerValue:ScoreboardStarling;
 		private var minesOnFieldValue:ScoreboardStarling;
 		private var openedFieldsValue:ScoreboardStarling;
-		private var tottalFieldsValue:ScoreboardStarling;
 		
 		private var timerIcon:ClockIcon;
 		private var mineIcon:Image;
@@ -39,6 +38,7 @@ package view
 		
 		private var viewComponentPosition:Point = new Point(0, 0);
 		private var uiPanel:AlignContainer;
+		private var fieldIcon:Image;
 		public var maxWidth:Number;
 		
 		public function GameScreenUI(gameModel:GameModel = null) 
@@ -116,38 +116,43 @@ package view
 		
 		private function updateMinesCount():void 
 		{
-			minesOnFieldValue.scores = gameModel.minesCount - gameModel.foundedMines;
+			minesOnFieldValue.value = gameModel.foundedMines+'/'+gameModel.minesCount;
 		}
 		
 		private function updateMineFields():void 
 		{
-			openedFieldsValue.scores = gameModel.openedField;
-			tottalFieldsValue.scores = gameModel.totalField;
+			openedFieldsValue.value = gameModel.openedField + '/' + gameModel.totalField;
 		}
 		
 		private function craeteUI():void 
 		{
+			var isLand:Boolean = CellConstants.APPLICATION_HEIGHT > CellConstants.APPLICATION_WIDTH;
 			var timer:AlignContainer = new AlignContainer(0, AlignContainer.BOTTOM);
 			var minesCount:AlignContainer = new AlignContainer(0, AlignContainer.BOTTOM);
+			var fieldContainer:AlignContainer = new AlignContainer(0, AlignContainer.BOTTOM);
+			
 			
 			timerValue = new ScoreboardStarling();
 			minesOnFieldValue = new ScoreboardStarling();
 			openedFieldsValue = new ScoreboardStarling();
-			tottalFieldsValue = new ScoreboardStarling();
+			
 			
 			mineIcon = new Image(textureStore.getTexture('gnomemines'));
 			timerIcon = new ClockIcon(textureStore.getTexture('gnomepanelclock'), textureStore.getTexture('clockArrow'));
+			fieldIcon = new Image(textureStore.getTexture('cell_normal'));
 			
 			mineIcon.scaleX = mineIcon.scaleY = 64/85;
+			fieldIcon.scaleX = fieldIcon.scaleY = 64/85;
 			//timerIcon.scaleX = timerIcon.scaleY = 0.5;
 			
 			
 			timer.addElements(timerIcon, timerValue);
 			minesCount.addElements(mineIcon, minesOnFieldValue);
+			fieldContainer.addElements(fieldIcon, openedFieldsValue);
 			
-			uiPanel = new AlignContainer(0, CellConstants.APPLICATION_HEIGHT > CellConstants.APPLICATION_WIDTH? AlignContainer.RIGHT:AlignContainer.BOTTOM);
+			uiPanel = new AlignContainer(0, isLand ? AlignContainer.RIGHT:AlignContainer.BOTTOM);
 			
-			uiPanel.addElements(timer, minesCount, openedFieldsValue, tottalFieldsValue);
+			uiPanel.addElements(timer, minesCount, fieldContainer);
 			
 			addChild(uiPanel);
 			addChild(fullScreen);
@@ -202,19 +207,24 @@ package view
 			
 			if (CellConstants.APPLICATION_HEIGHT > CellConstants.APPLICATION_WIDTH)
 			{
+				//uiPanel.x = (CellConstants.APPLICATION_WIDTH - uiPanel.width) / 2;
 				
+				//aligneToIconY(timerIcon, timerValue);
+				//aligneToIconY(mineIcon, minesOnFieldValue);
+				//minesOnFieldValue.align();
+				//timerValue.align();
 				
-				aligneToIconY(timerIcon, timerValue);
-				aligneToIconY(mineIcon, minesOnFieldValue);
-				minesOnFieldValue.align();
-				timerValue.align();
+				aligneToX(timerValue, timerIcon);
+				aligneToX(minesOnFieldValue, mineIcon);
+				aligneToX(openedFieldsValue, fieldIcon);
+				
 			}
 			else
 			{
 				aligneToX(timerIcon, timerValue);
 				aligneToX(mineIcon, minesOnFieldValue);
 				aligneToX(minesOnFieldValue, openedFieldsValue);
-				aligneToX(minesOnFieldValue, tottalFieldsValue);
+				
 				//timerValue.align();
 				
 				//uiPanel.x = (maxWidth - Math.max(timerIcon.width, timerValue.getTextBoudns().width)) / 2;

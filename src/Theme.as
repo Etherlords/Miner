@@ -162,6 +162,7 @@ package
 		
 		protected function initialize():void
 		{
+			
 			const scaledDPI:int = DeviceCapabilities.dpi / Starling.contentScaleFactor;
 			this._originalDPI = scaledDPI;
 			if(this._scaleToDPI)
@@ -175,6 +176,7 @@ package
 					this._originalDPI = ORIGINAL_DPI_IPHONE_RETINA;
 				}
 			}
+			
 
 			this.scale = scaledDPI / this._originalDPI;
 
@@ -280,7 +282,7 @@ package
 			//skinSelector.setValueForState(this.buttonSelectedDisabledSkinTextures, Button.STATE_DISABLED, true);
 			skinSelector.displayObjectProperties =
 			{
-				width: 311 * this.scale,
+				width: 312 * this.scale,
 				height: 42 * this.scale,
 				textureScale: this.scale
 			};
