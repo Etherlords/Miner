@@ -1,9 +1,11 @@
 package logic
 {
 	import core.scene.AbstractSceneController;
+	import core.ui.KeyBoardController;
 	import flash.display.StageDisplayState;
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
+	import flash.ui.Keyboard;
 	import flash.utils.Dictionary;
 	import flash.utils.Timer;
 	import logic.MineFieldBuilder;
@@ -44,6 +46,7 @@ package logic
 		private var mouse:Point;
 		private var cursorParticle:CursorParticle;
 		private var _actualTime:Date;
+		private var keyController:KeyBoardController;
 		
 		public function MainGameController()
 		{
@@ -148,6 +151,10 @@ package logic
 		private function postInitilize():void 
 		{
 			
+			keyController = new KeyBoardController(GlobalUIContext.vectorStage);
+			keyController.registerKeyDownReaction(Keyboard.BACK, backToStartScreen);
+			keyController.registerKeyDownReaction(Keyboard.MENU, backToStartScreen);
+			
 			cursorParticle = new CursorParticle();
 			
 			cursorParticle.emitterX = GlobalUIContext.vectorStage.mouseX;
@@ -179,7 +186,7 @@ package logic
 			
 		}
 		
-		private function backToStartScreen(e:Event):void 
+		private function backToStartScreen(e:Event = null):void 
 		{
 			exit();
 		}

@@ -6,6 +6,7 @@ package view.components
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import model.TextureStore;
+	import starling.core.RenderSupport;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.events.TouchEvent;
@@ -114,6 +115,12 @@ package view.components
 			resize();
 		}
 		
+		override public function render(support:RenderSupport, parentAlpha:Number):void 
+		{
+			super.render(support, parentAlpha);
+			
+		}
+		
 		private function resize():void 
 		{
 			var lable:Label
@@ -137,11 +144,8 @@ package view.components
 			image.width = _width
 			image.height = _height
 			
-			if (parent) {
-				
-				this.x = (parent.width - this.width) / 2;
-				this.y = (parent.height - this.height) / 2;
-			}
+			this.x = (stage.stageWidth - this.width) / 2;
+			this.y = (stage.stageHeight - this.height) / 2;
 		}
 		
 	}

@@ -153,8 +153,8 @@ package
 		protected function initializeRoot():void
 		{
 			this.primaryBackground = new TiledImage(this.primaryBackgroundTexture);
-			this.primaryBackground.width = root.stage.stageWidth;
-			this.primaryBackground.height = root.stage.stageHeight;
+			//this.primaryBackground.width = root.stage.stageWidth;
+			//this.primaryBackground.height = root.stage.stageHeight;
 			this.root.addChildAt(this.primaryBackground, 0);
 			this.root.stage.addEventListener(ResizeEvent.RESIZE, stage_resizeHandler);
 			this.root.addEventListener(Event.REMOVED_FROM_STAGE, root_removedFromStageHandler);
@@ -162,6 +162,7 @@ package
 		
 		protected function initialize():void
 		{
+			
 			const scaledDPI:int = DeviceCapabilities.dpi / Starling.contentScaleFactor;
 			this._originalDPI = scaledDPI;
 			if(this._scaleToDPI)
@@ -175,6 +176,7 @@ package
 					this._originalDPI = ORIGINAL_DPI_IPHONE_RETINA;
 				}
 			}
+			
 
 			this.scale = scaledDPI / this._originalDPI;
 
@@ -238,6 +240,8 @@ package
 			this.setInitializerForClass(Button, buttonInitializer);
 			this.setInitializerForClass(ProgressBar, progressBarInitializer);
 			this.setInitializerForClass(Label, labelInitializer);
+			
+			setBackPosition();
 		}
 		
 		protected function labelInitializer(label:Label):void
@@ -280,7 +284,7 @@ package
 			//skinSelector.setValueForState(this.buttonSelectedDisabledSkinTextures, Button.STATE_DISABLED, true);
 			skinSelector.displayObjectProperties =
 			{
-				width: 311 * this.scale,
+				width: 312 * this.scale,
 				height: 42 * this.scale,
 				textureScale: this.scale
 			};
@@ -310,8 +314,18 @@ package
 		
 		protected function stage_resizeHandler(event:ResizeEvent):void
 		{
-			this.primaryBackground.width = event.width;
-			this.primaryBackground.height = event.height;
+			//this.primaryBackground.width = event.width;
+			//this.primaryBackground.height = event.height;
+			
+			setBackPosition();
+		}
+		
+		private function setBackPosition():void
+		{
+			primaryBackground.x = (Starling.current.stage.stageWidth - primaryBackground.width) / 2;
+			primaryBackground.y = (Starling.current.stage.stageHeight - primaryBackground.height) / 2;
+			
+			
 		}
 
 		protected function root_addedToStageHandler(event:Event):void
