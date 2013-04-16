@@ -13,7 +13,7 @@ air {
 		applicationDescriptor = 'miner-app.xml'
 		keystore = 'apk.p12'
 		storepass = 'apk123'
-		includeFileTrees = [fileTree(dir: './', include: 'assets/appIcon.png'), fileTree(dir:'../lib/usedasset', include: '*.*')]
+		includeFileTrees = [fileTree(dir: './', include: 'assets/appIcon.png'), fileTree(dir:'../asset', include: '*.*')]
 
 }
 
@@ -27,6 +27,11 @@ airMobile {
    	simulatorTargetDevice = "emulator-5554"
 
 } 
+
+adl {
+	profile "mobileDevice"
+	screenSize "iPad"
+}
    
 dependencies {
 

@@ -8,13 +8,17 @@ subprojects {
 
 apply plugin: 'gradlefx'
 
+	additionalCompilerOptions << '-keep-as3-metadata+=Inject'
+
     flexHome = System.getenv()['FLEX_HOME']
-    resourceDirs = ['../lib/usedasset']
+    resourceDirs = ['../asset']
     srcDirs = ['../src',
                 '../external-libs/reality/src/main',
                 '../external-libs/starling/starling/src',
-                '../external-libs/Starling-Extension-Particle-System/src']
+                '../external-libs/Starling-Extension-Particle-System/src',
+				'../external-libs/feathers/source',
+				'../external-libs/feathers/examples/ComponentsExplorer/source',
+				'../external-libs/feathers/themes/MetalWorksMobileTheme/source'
+				]
 
 }
-
-
