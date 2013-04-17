@@ -31,6 +31,7 @@ package
 	 */
 	public class Theme extends DisplayListWatcher
 	{
+	
 		
 		[Embed(source="/../asset/fonts/a_LCDNova.ttf",fontName="a_LCDNova",mimeType="application/x-font",embedAsCFF="false")]
 		protected static const LCD_NOVA_FONT:Class;
@@ -114,12 +115,10 @@ package
 		protected var buttonUpSkinTextures:Scale9Textures;
 		protected var buttonDownSkinTextures:Scale9Textures;
 		
-		protected var backgroundSkinTextures:Scale9Textures;
-		protected var backgroundDisabledSkinTextures:Scale9Textures;
-		protected var backgroundFocusedSkinTextures:Scale9Textures;
-		protected var backgroundPopUpSkinTextures:Scale9Textures;
-		protected var alertStyle:StyleSheet;
+		private var progressBackground:Texture;
+		private var progress:Texture;
 		
+		protected var alertStyle:StyleSheet;
 		
 		public var atlas:TextureAtlas;
 		protected var atlasBitmapData:BitmapData;
@@ -210,15 +209,8 @@ package
 			
 			this.primaryBackgroundTexture = textureStore.getTexture(TextureStore.START_BG);
 			
-			var backgroundSkinTexture:Texture = textureStore.getTexture(TextureStore.START_BG);
-			var backgroundDisabledSkinTexture:Texture = textureStore.getTexture(TextureStore.START_BG);
-			var backgroundFocusedSkinTexture:Texture = textureStore.getTexture(TextureStore.START_BG);
-			var backgroundPopUpSkinTexture:Texture = textureStore.getTexture(TextureStore.START_BG);
 			
-			this.backgroundSkinTextures = new Scale9Textures(backgroundSkinTexture, DEFAULT_SCALE9_GRID);
-			this.backgroundDisabledSkinTextures = new Scale9Textures(backgroundDisabledSkinTexture, DEFAULT_SCALE9_GRID);
-			this.backgroundFocusedSkinTextures = new Scale9Textures(backgroundFocusedSkinTexture, DEFAULT_SCALE9_GRID);
-			this.backgroundPopUpSkinTextures = new Scale9Textures(backgroundPopUpSkinTexture, DEFAULT_SCALE9_GRID);
+		
 			
 			this.alertTextFormat = new TextFormat(semiboldFontNames, 27 * this.scale, 0xAAA7A5);
 			this.buttonTextFormat = new TextFormat(semiboldFontNames, 27 * this.scale, 0xAAA7A5);
@@ -238,7 +230,7 @@ package
 			}
 			
 			this.setInitializerForClass(Button, buttonInitializer);
-			this.setInitializerForClass(ProgressBar, progressBarInitializer);
+		
 			this.setInitializerForClass(Label, labelInitializer);
 			
 			setBackPosition();
@@ -255,23 +247,7 @@ package
 			
 		}
 		
-		protected function progressBarInitializer(progress:ProgressBar):void
-		{
-			const backgroundSkin:Scale9Image = new Scale9Image(this.backgroundSkinTextures, this.scale);
-			backgroundSkin.width = 240 * this.scale;
-			backgroundSkin.height = 22 * this.scale;
-			progress.backgroundSkin = backgroundSkin;
-
-			const backgroundDisabledSkin:Scale9Image = new Scale9Image(this.backgroundDisabledSkinTextures, this.scale);
-			backgroundDisabledSkin.width = 240 * this.scale;
-			backgroundDisabledSkin.height = 22 * this.scale;
-			progress.backgroundDisabledSkin = backgroundDisabledSkin;
-
-			const fillSkin:Scale9Image = new Scale9Image(this.buttonUpSkinTextures, this.scale);
-			fillSkin.width = 8 * this.scale;
-			fillSkin.height = 22 * this.scale;
-			progress.fillSkin = fillSkin;
-		}
+		
 		
 		
 		protected function buttonInitializer(button:Button):void

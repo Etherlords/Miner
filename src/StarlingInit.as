@@ -22,6 +22,7 @@ package
 	import starling.utils.ScaleMode;
 	import utils.GlobalUIContext;
 	
+	[Frame(factoryClass="PreloadFrame")]
 	public class StarlingInit extends Sprite
 	{
 		private var mStarling:Starling;
@@ -32,11 +33,14 @@ package
 		
 		public function StarlingInit()
 		{
-			addEventListener(Event.ADDED_TO_STAGE, onAdded);
+			if (stage)
+				onAdded();
+				else
+					addEventListener(Event.ADDED_TO_STAGE, onAdded);
 			//addChild(new TheMiner());
 		}
 		
-		private function onAdded(e:Event):void
+		private function onAdded(e:Event = null):void
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAdded);
 			initilizeContext();
@@ -52,7 +56,7 @@ package
 				stageWidth = stage.stageHeight;
 				stageHeight = stage.stageWidth;
 			}
-			
+			trace('create starling');
 			CellConstants.APPLICATION_WIDTH = stageWidth;
 			CellConstants.APPLICATION_HEIGHT = stageHeight;
 			

@@ -46,6 +46,7 @@ package model
 		private var assetFormat:String;
 		private var currentFiled:String;
 		private var progress:ProgressEvent;
+		private var tottalFilesCount:Number
 		
 		public function getTexture(name:String):Texture
 		{
@@ -79,6 +80,7 @@ package model
 			
 			toLoad.push(assetName+assetFormat);
 			toDecode = toLoad.length;
+			tottalFilesCount = toLoad.length;
 			load();
 		}
 		
@@ -105,17 +107,17 @@ package model
 			progress = e;
 		}
 		
-		private var progressIndicator:String = '|||||||||||||||||||';
-		public function getLoadingInfo():String
+		
+		public function getLoadingInfo():Object
 		{
-			var s:String = '';
-			s = 'To load list		: ' + toLoad.join(', ') + ' \n';
-			s += 'Currently load	: ' + currentFiled + ' \n';
-			var percent:Number = progress? progress.bytesLoaded / progress.bytesTotal : 0;
-			s += 'Progress		: ' + progressIndicator.substr(0, Math.floor(progressIndicator.length * percent)) + ' \n';
-			s += 'Bytes			: ' + (progress? progress.bytesLoaded:0) + '/' + (progress? progress.bytesTotal:0) + '';
-		 	
-			return s;
+			var r:Object = { };
+			r['percent'] = progress? progress.bytesLoaded / progress.bytesTotal : 0;
+			r['currentlyLoad'] = currentFiled;
+			r['bytesTottal'] = progress? progress.bytesTotal:0
+			r['bytesLoaded'] = progress? progress.bytesLoaded:0
+			r['overallProgress'] = (tottalFilesCount - toLoad.length) / tottalFilesCount ;
+			
+			return r;
 		}
 		
 		private function loadingComplete():void 
@@ -146,6 +148,8 @@ package model
 		{
 			files[f] = loader.data;
 			load();
+			
+			dispatchEvent(new Event('progress'));
 		}
 		
 		private function allComplete():void 
