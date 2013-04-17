@@ -27,12 +27,12 @@ package view.components
 		
 		private function initilize():void 
 		{
-			bg1 = new Image(textureStore.getTexture('bg2.png'));
-			bg2 = new Image(textureStore.getTexture('bg2.png'));
+			bg1 = new Image(textureStore.getTexture(TextureStore.GAME_BG_C));
+			bg2 = new Image(textureStore.getTexture(TextureStore.GAME_BG));
 			
 			addChild(bg1);
 			addChild(bg2);
-			bg1.alpha = 0.5;
+			bg1.alpha = 0.75;
 			//bg2.rotation = 90;
 			fadeOut();
 			
@@ -42,7 +42,7 @@ package view.components
 		private function fadeOut():void
 		{
 			var tween:Tween = new Tween(bg2, 5);
-			tween.animate('alpha', 0.5);
+			tween.animate('alpha', 0.35);
 			
 			tween.onComplete = fadeUp
 			
@@ -52,7 +52,7 @@ package view.components
 		private function fadeUp():void
 		{
 			var tween:Tween = new Tween(bg2, 5);
-			tween.animate('alpha', 2);
+			tween.animate('alpha', 0.8);
 			
 			tween.onComplete = fadeOut
 			Starling.juggler.add(tween);

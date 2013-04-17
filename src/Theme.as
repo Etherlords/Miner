@@ -208,12 +208,12 @@ package
 							
 							);
 			
-			this.primaryBackgroundTexture = textureStore.getTexture("bg.png");
+			this.primaryBackgroundTexture = textureStore.getTexture(TextureStore.START_BG);
 			
-			var backgroundSkinTexture:Texture = textureStore.getTexture("bg.png");
-			var backgroundDisabledSkinTexture:Texture = textureStore.getTexture("bg.png");
-			var backgroundFocusedSkinTexture:Texture = textureStore.getTexture("bg.png");
-			var backgroundPopUpSkinTexture:Texture = textureStore.getTexture("bg.png");
+			var backgroundSkinTexture:Texture = textureStore.getTexture(TextureStore.START_BG);
+			var backgroundDisabledSkinTexture:Texture = textureStore.getTexture(TextureStore.START_BG);
+			var backgroundFocusedSkinTexture:Texture = textureStore.getTexture(TextureStore.START_BG);
+			var backgroundPopUpSkinTexture:Texture = textureStore.getTexture(TextureStore.START_BG);
 			
 			this.backgroundSkinTextures = new Scale9Textures(backgroundSkinTexture, DEFAULT_SCALE9_GRID);
 			this.backgroundDisabledSkinTextures = new Scale9Textures(backgroundDisabledSkinTexture, DEFAULT_SCALE9_GRID);

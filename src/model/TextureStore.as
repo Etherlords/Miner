@@ -29,7 +29,16 @@ package model
 		
 		public static var numbers:Array = [];
 		
-		private var toLoad:Array = ['a_LCDNova.fnt', 'asset.xml', 'bg.png', 'bg2.png'];
+		public static const LOAD_BG:String = 'bg_load.jpg';
+		public static const START_BG:String = 'bg_start.jpg';
+		public static const MENU_BG:String = 'bg_menu.jpg';
+		public static const GAME_BG:String = 'bg_game.jpg';
+		public static const GAME_BG_C:String = 'bg_game_c.jpg';
+		
+		private var toLoad:Array = [
+										'a_LCDNova.fnt', 'asset.xml', 'bg_start.jpg', 'bg_load.jpg', 'bg_menu.jpg', 'bg_game.jpg'
+																	, 'bg_start_c.jpg', 'bg_load_c.jpg'			  , 'bg_game_c.jpg'
+									];
 		private var files:Object = { };
 		private var decoders:Object = { 'fnt':XMLDecoder, 'xml':XMLDecoder, 'jpg':PngDecoder, 'png':PngDecoder, 'atf':ATFDecoder};
 		private var toDecode:Number;
