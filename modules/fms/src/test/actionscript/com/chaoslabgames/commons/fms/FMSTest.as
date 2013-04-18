@@ -38,13 +38,16 @@ public class FMSTest {
     public function testHandler() {
 
         var handledEvent:Event;
-        var expectedEvent:Event;
+        var expectedEvent:Event = new Event("event_type");
 
         fms.state("A").handler("event_type", function (e:Event):void {
             handledEvent = e;
         });
 
         fms.changeState("A")
+        fms.handleEvent(expectedEvent)
+
+        assertThat(expectedEvent, equalTo(handledEvent));
     }
 }
 }
