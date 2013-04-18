@@ -1,48 +1,17 @@
 package  
 {
-<<<<<<< HEAD
-	import core.states.config.StateConfig;
-	import core.states.State;
-	import core.states.StatesManager;
 	import feathers.controls.ProgressBar;
 	import flash.events.IEventDispatcher;
 	import flash.text.TextField;
-	import flash.text.TextFieldAutoSize;
-	import flash.text.TextFormat;
-	import logic.MainGameController;
-	import logic.StartScreenController;
 	import model.TextureStore;
 	import particles.boomParticle.BoomParticle;
 	import starling.animation.Tween;
 	import starling.core.Starling;
 	import starling.display.DisplayObjectContainer;
 	import starling.display.Image;
-	import starling.events.EnterFrameEvent;
 	import starling.events.Event;
 	import utils.GlobalUIContext;
 	import view.theme.ProgressBarInitilizer;
-	
-	
-	/**
-=======
-    import flash.events.IEventDispatcher;
-    import flash.text.TextField;
-    import flash.text.TextFieldAutoSize;
-    import flash.text.TextFormat;
-
-    import model.TextureStore;
-
-    import starling.display.DisplayObjectContainer;
-    import starling.events.EnterFrameEvent;
-    import starling.events.Event;
-
-    import utils.GlobalUIContext;
-
-/**
->>>>>>> origin/feature-android-licence
-	 * ...
-	 * @author Nikro
-	 */
 	
 	public class MainStarlingScene extends DisplayObjectContainer 
 	{
