@@ -22,7 +22,7 @@ public class FMS {
     public function state(name:String):State {
         var state:State = states[name];
         if (!state) {
-            state = new State(changeState);
+            state = new State(name, changeState);
             states[name] = state;
         }
         return state;

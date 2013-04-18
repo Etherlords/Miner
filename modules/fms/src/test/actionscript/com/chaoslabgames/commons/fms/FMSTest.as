@@ -14,23 +14,37 @@ import org.hamcrest.object.equalTo;
 import org.hamcrest.object.sameInstance;
 
 public class FMSTest {
+
+    var fms:FMS = new FMS();
+
     [Test]
     public function testTransition() {
-        var fms:FMS = new FMS();
         fms.state("B")
         fms.state("A").transition("custom_type").toState("B");
         fms.changeState("A");
         assertThat(fms.currentState, equalTo(fms.state("A")));
+
         fms.handleEvent(new Event("custom_type"));
         assertThat(fms.currentState, equalTo(fms.state("B")));
     }
 
     [Test]
     public function testDuplicateReferense() {
-        var fms:FMS = new FMS();
-
         assertThat(fms.state("A"), sameInstance(fms.state("A")))
         assertThat(fms.state("A").transition("T"), sameInstance(fms.state("A").transition("T")))
+    }
+
+    [Test]
+    public function testHandler() {
+
+        var handledEvent:Event;
+        var expectedEvent:Event;
+
+        fms.state("A").handler("event_type", function (e:Event):void {
+            handledEvent = e;
+        });
+
+        fms.changeState("A")
     }
 }
 }

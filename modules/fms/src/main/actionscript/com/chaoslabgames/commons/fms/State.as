@@ -11,30 +11,50 @@ import flash.utils.Dictionary;
 
 public class State {
 
+    private var _eventHandlers:Dictionary;
     private var _transitions:Dictionary;
     private var _changeStateHandler:Function;
 
-    public function State(changeStateHandler:Function) {
+    public var name:String;
+
+    public function State(name:String, changeStateHandler:Function) {
+        this.name = name;
+        _eventHandlers = new Dictionary()
         _transitions = new Dictionary()
         this._changeStateHandler = changeStateHandler;
     }
 
     public function transition(eventType:String):Transition {
+
         var transition:Transition = _transitions[eventType];
         if (transition == null) {
-            transition = new Transition();
+            transition = new Transition(_changeStateHandler);
             _transitions[eventType] = transition;
+            handler(eventType, transition.transite)
         }
 
         return transition;
     }
 
+    public function handler(eventType:String, handler:Function):State {
+        _eventHandlers[eventType] = handler;
+        return this;
+    }
 
     public function handleEvent(event:Event):void {
-        var trans:Transition = transition(event.type);
-        if (trans) {
-            _changeStateHandler(trans.state);
+        var targetHandler:Function = _eventHandlers[event.type];
+        if (targetHandler) {
+            if (targetHandler.length == 1) {
+                targetHandler(event);
+            } else {
+                targetHandler();
+            }
         }
+    }
+
+
+    public function toString():String {
+        return "[" + name + "]";
     }
 }
 }

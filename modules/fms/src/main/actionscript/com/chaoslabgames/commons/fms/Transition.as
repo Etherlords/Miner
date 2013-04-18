@@ -9,13 +9,18 @@ package com.chaoslabgames.commons.fms {
 public class Transition {
 
     public var state:String;
-
-    public function Transition() {
+    private var changeStateHandler:Function;
+    public function Transition(changeStateHandler:Function) {
+        this.changeStateHandler = changeStateHandler;
     }
 
     public function toState(state:String):Transition {
         this.state = state;
         return this
+    }
+
+    public function transite():void {
+        changeStateHandler(state);
     }
 }
 }
