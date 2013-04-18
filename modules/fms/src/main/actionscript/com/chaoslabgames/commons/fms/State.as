@@ -25,7 +25,6 @@ public class State {
     }
 
     public function transition(eventType:String):Transition {
-
         var transition:Transition = _transitions[eventType];
         if (transition == null) {
             transition = new Transition(_changeStateHandler);
@@ -37,21 +36,32 @@ public class State {
     }
 
     public function handler(eventType:String, handler:Function):State {
-        _eventHandlers[eventType] = handler;
+        eventHandlersByType(eventType).push(handler);
         return this;
     }
 
     public function handleEvent(event:Event):void {
-        var targetHandler:Function = _eventHandlers[event.type];
-        if (targetHandler) {
-            if (targetHandler.length == 1) {
-                targetHandler(event);
-            } else {
-                targetHandler();
+        var handlers:Array = eventHandlersByType(event.type);
+        for (var indx:int = handlers.length; indx > -1; indx--) {
+            var targetHandler:Function = handlers[indx];
+            if (targetHandler) {
+                if (targetHandler.length == 1) {
+                    targetHandler(event);
+                } else {
+                    targetHandler();
+                }
             }
         }
     }
 
+    private function eventHandlersByType(eventType:String):Array {
+        var handlers:Array = _eventHandlers[eventType];
+        if (!handlers) {
+            handlers = [];
+            _eventHandlers[eventType] = handlers;
+        }
+        return handlers;
+    }
 
     public function toString():String {
         return "[" + name + "]";

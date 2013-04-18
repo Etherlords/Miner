@@ -13,7 +13,10 @@ public class FMS {
 
     private var states:Dictionary;
 
-    public var currentState:State;
+    private var _currentState:State;
+
+    public var initState:String;
+    private var _started:Boolean = false;;
 
     public function FMS() {
         states = new Dictionary();
@@ -25,15 +28,38 @@ public class FMS {
             state = new State(name, changeState);
             states[name] = state;
         }
+        if (!initState) {
+            initState = name;
+        }
         return state;
     }
 
     public function changeState(name:String):void {
-        currentState = state(name);
+        checkStarted();
+        _currentState = state(name);
     }
 
     public function handleEvent(event:Event):void {
-        currentState.handleEvent(event);
+        checkStarted();
+        _currentState.handleEvent(event);
+    }
+
+    private function checkStarted():void {
+        if (!_started) {
+            start();
+        }
+    }
+
+    public function start():void {
+        _started = true;
+        if (!_currentState) {
+            _currentState = state(initState);
+        }
+    }
+
+    public function get currentState():State {
+        checkStarted();
+        return _currentState;
     }
 }
 }
