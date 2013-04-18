@@ -24,6 +24,8 @@
     <class path="..\external-libs\feathers\examples\ComponentsExplorer\source" />
     <class path="..\external-libs\feathers\themes\MetalWorksMobileTheme\source" />
     <class path="..\modules\fms\src\main\actionscript" />
+    <class path="..\modules\license\src\main\actionscript" />
+    <class path="..\libs" />
   </classpaths>
   <!-- Build options -->
   <build>
@@ -58,7 +60,7 @@
   </includeLibraries>
   <!-- SWC Libraries -->
   <libraryPaths>
-    <!-- example: <element path="..." /> -->
+    <element path="..\libs\ane\licensing.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
