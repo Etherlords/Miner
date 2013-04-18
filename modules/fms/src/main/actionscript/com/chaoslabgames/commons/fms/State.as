@@ -25,13 +25,14 @@ public class State {
         this._changeStateHandler = changeStateHandler;
     }
 
-    public function addTransition(eventType:String):Transition {
-        var transition:Transition = _transitions[eventType];
+    public function addTransition(eventType:String, key:String = null):Transition {
+        var complexKey:String = key ? eventType + "_" + key : eventType;
+        var transition:Transition = _transitions[complexKey];
         if (transition != null) {
-            throw new Error("There is another transition for '" + eventType + "'")
+            throw new Error("There is another transition for '" + complexKey + "'")
         }
-        transition = new Transition(_changeStateHandler);
-        _transitions[eventType] = transition;
+        transition = new Transition(this, _changeStateHandler);
+        _transitions[complexKey] = transition;
         addHandler(eventType, transition.transite)
 
         return transition;

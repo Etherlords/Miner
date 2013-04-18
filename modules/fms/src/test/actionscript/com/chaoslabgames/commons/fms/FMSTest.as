@@ -113,5 +113,32 @@ public class FMSTest {
         //then
         assertTrue(processed)
     }
+
+    [Test]
+    public function testConditionalTransitions():void {
+        //given
+        fms.state("A")
+                .addTransition("event_type", "invFalse")
+                        .addConditional(isFalse)
+                        .toState("B")._from
+                .addTransition("event_type", "invTrue")
+                        .addConditional(isTrue)
+                        .toState("C")
+        fms.state("B")
+        fms.state("C")
+
+        function isTrue():Boolean {
+            return true;
+        }
+        function isFalse():Boolean {
+            return false;
+        }
+
+        //when
+        fms.handleEvent({type:"event_type"});
+
+        //then
+        assertThat(fms.currentState.name, equalTo("C"))
+    }
 }
 }
