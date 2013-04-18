@@ -1,5 +1,6 @@
-package logic.license 
+package logic.license
 {
+import logic.*;
 	import core.scene.AbstractSceneController;
 	import core.ui.KeyBoardController;
 	import flash.display.StageDisplayState;
@@ -55,9 +56,9 @@ package logic.license
 			
 			alert = new Alert()
 			
-			alert.text = '<button><a href="event:continue">start</a></button>\n';
+			alert.text = 'Game locked<br/><button><a href="event:unlock">unlock</a></button>\n';
 			
-			alert.addEventListener('continue', startGameHandler);
+			alert.addEventListener('unlock', startGameHandler);
 			
 			viewInstance.addChild(alert)
 			

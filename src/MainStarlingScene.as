@@ -88,10 +88,10 @@ import model.TextureStore;
             var gameController:MainGameController = newController(MainGameController);
             var startController:StartScreenController = newController(StartScreenController);			
 			
-            /*fsm.state('locked')
-                    .activateHandler(newActivateCtrlFn(lockController, this))
-                    .deactivateHandler(newDeactivateCtrlFn(lockController))
-                    .addTransition(StateEvents.STATE_OUT).toState('StartScreen')*/
+            fsm.state('locked')
+                    .addActivateHandler(newActivateCtrlFn(lockController, this))
+                    .addDeactivateHandler(newDeactivateCtrlFn(lockController))
+                    .addTransition(StateEvents.STATE_OUT).toState('StartScreen')
             fsm.state('StartScreen')
                     .addActivateHandler(newActivateCtrlFn(startController, this))
                     .addDeactivateHandler(newDeactivateCtrlFn(startController))
