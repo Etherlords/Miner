@@ -1,6 +1,8 @@
 package  
 {
-	import core.ioc.Context;
+import com.chaoslabgames.commons.license.impl.LicenseService;
+
+import core.ioc.Context;
 	import model.TextureStore;
 	/**
 	 * ...
@@ -19,9 +21,11 @@ package
 			var context:Context = Context.instance;
 				
 			var textureStore:TextureStore = new TextureStore();
-			
+
+            var licenseService:LicenseService = new LicenseService();
+
 			context.addObjectToContext(textureStore, 'identinjection');
-			
+			context.addObjectToContext(licenseService);
 			
 			context.init();
 		}
