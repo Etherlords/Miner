@@ -89,16 +89,16 @@ import model.TextureStore;
             var startController:StartScreenController = newController(StartScreenController);			
 			
             /*fsm.state('locked')
-                    .activateHandler(activateController(lockController, this))
-                    .deactivateHandler(deactivateController(lockController))
+                    .activateHandler(newActivateCtrlFn(lockController, this))
+                    .deactivateHandler(newDeactivateCtrlFn(lockController))
                     .addTransition(StateEvents.STATE_OUT).toState('StartScreen')*/
             fsm.state('StartScreen')
-                    .addActivateHandler(activateController(startController, this))
-                    .addDeactivateHandler(deactivateController(startController))
+                    .addActivateHandler(newActivateCtrlFn(startController, this))
+                    .addDeactivateHandler(newDeactivateCtrlFn(startController))
                     .addTransition(StateEvents.STATE_OUT).toState('Game')
             fsm.state('Game')
-                    .addActivateHandler(activateController(gameController, this))
-                    .addDeactivateHandler(deactivateController(gameController))
+                    .addActivateHandler(newActivateCtrlFn(gameController, this))
+                    .addDeactivateHandler(newDeactivateCtrlFn(gameController))
                     .addTransition(StateEvents.STATE_OUT).toState('StartScreen')
             fsm.start();
 			
@@ -109,13 +109,13 @@ import model.TextureStore;
 			}
 		}
 
-        private function deactivateController(controller:AbstractSceneController):Function {
+        private function newDeactivateCtrlFn(controller:AbstractSceneController):Function {
             return function ():void {
                 controller.deactivate()
             }
         }
 
-        private function activateController(controller:AbstractSceneController, container:DisplayObjectContainer):Function {
+        private function newActivateCtrlFn(controller:AbstractSceneController, container:DisplayObjectContainer):Function {
             return function ():void {
                 controller.activate(container)
             }
