@@ -22,7 +22,7 @@ public class FMS {
     public function state(name:String):State {
         var state:State = states[name];
         if (!state) {
-            state = new State();
+            state = new State(changeState);
             states[name] = state;
         }
         return state;
@@ -33,7 +33,7 @@ public class FMS {
     }
 
     public function handleEvent(event:Event):void {
-
+        currentState.handleEvent(event);
     }
 }
 }

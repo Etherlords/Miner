@@ -11,17 +11,25 @@ import flash.events.Event;
 import org.flexunit.asserts.assertFalse;
 import org.hamcrest.assertThat;
 import org.hamcrest.object.equalTo;
+import org.hamcrest.object.sameInstance;
 
 public class FMSTest {
     [Test]
     public function testTransition() {
         var fms:FMS = new FMS();
         fms.state("B")
-        //fms.state("A").transition("custom_type").toState("B")
+        fms.state("A").transition("custom_type").toState("B");
         fms.changeState("A");
-        assertThat(fms.currentState, equalTo(fms.state("A")))
+        assertThat(fms.currentState, equalTo(fms.state("A")));
         fms.handleEvent(new Event("custom_type"));
-        assertThat(fms.currentState, equalTo(fms.state("B")))
+        assertThat(fms.currentState, equalTo(fms.state("B")));
+    }
+
+    [Test]
+    public function testDuplicateReferense() {
+        var fms:FMS = new FMS();
+
+        assertThat(fms.state("A"), sameInstance(fms.state("A")))
     }
 }
 }
