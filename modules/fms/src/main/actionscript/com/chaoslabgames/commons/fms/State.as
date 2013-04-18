@@ -6,6 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 package com.chaoslabgames.commons.fms {
+import com.chaoslabgames.commons.fms.events.StateEvent;
+
 import flash.events.Event;
 import flash.utils.Dictionary;
 
@@ -62,6 +64,24 @@ public class State {
             _eventHandlers[eventType] = handlers;
         }
         return handlers;
+    }
+
+    public function activateHandler(handler:Function):State {
+        this.handler(StateEvent.EVENT_TYPE_ACTIVATE, handler)
+        return this;
+    }
+
+    public function deactivateHandler(handler:Function):State {
+        this.handler(StateEvent.EVENT_TYPE_DEACTIVATE, handler)
+        return this;
+    }
+
+    public function activate():void {
+        handleEvent(new StateEvent(StateEvent.EVENT_TYPE_ACTIVATE))
+    }
+
+    public function deactivate():void {
+        handleEvent(new StateEvent(StateEvent.EVENT_TYPE_DEACTIVATE))
     }
 
     public function toString():String {

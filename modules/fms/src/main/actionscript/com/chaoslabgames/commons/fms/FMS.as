@@ -36,7 +36,7 @@ public class FMS {
 
     public function changeState(name:String):void {
         checkStarted();
-        _currentState = state(name);
+        currentState = state(name);
     }
 
     public function handleEvent(event:Event):void {
@@ -52,14 +52,22 @@ public class FMS {
 
     public function start():void {
         _started = true;
-        if (!_currentState) {
-            _currentState = state(initState);
+        if (!currentState) {
+            currentState = state(initState);
         }
     }
 
     public function get currentState():State {
         checkStarted();
         return _currentState;
+    }
+
+    public function set currentState(state:State):void {
+        if (currentState != null) {
+            currentState.deactivate();
+        }
+        _currentState = state;
+        _currentState.activate();
     }
 }
 }

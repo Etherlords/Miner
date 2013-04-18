@@ -86,5 +86,32 @@ public class FMSTest {
         assertTrue(firstProcessed)
         assertTrue(secondProcessed)
     }
+
+    [Test]
+    public function testActivateStateHandler():void {
+        //given
+        var processed:Boolean = false;
+        fms.state("A").activateHandler(function ():void { processed = true });
+
+        //when
+        fms.start()
+        //then
+        assertTrue(processed)
+    }
+
+
+    [Test]
+    public function testDeactivateStateHandler():void {
+        //given
+        var processed:Boolean = false;
+        fms.state("A").deactivateHandler(function ():void { processed = true });
+        fms.state("B")
+
+        //when
+        fms.changeState("A")
+        fms.changeState("B")
+        //then
+        assertTrue(processed)
+    }
 }
 }
