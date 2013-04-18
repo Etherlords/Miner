@@ -9,6 +9,7 @@ package com.chaoslabgames.commons.license.impl {
 
 
 import com.chaoslabgames.commons.license.Cnst;
+import com.chaoslabgames.commons.license.impl.profile.NullLicenseProfile;
 import com.chaoslabgames.commons.license.LicenseProfile;
 
 import flash.events.DataEvent;
