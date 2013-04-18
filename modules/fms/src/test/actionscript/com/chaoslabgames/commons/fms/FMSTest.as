@@ -30,6 +30,7 @@ public class FMSTest {
         var fms:FMS = new FMS();
 
         assertThat(fms.state("A"), sameInstance(fms.state("A")))
+        assertThat(fms.state("A").transition("T"), sameInstance(fms.state("A").transition("T")))
     }
 }
 }
