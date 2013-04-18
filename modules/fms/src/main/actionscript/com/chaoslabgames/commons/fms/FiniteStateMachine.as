@@ -9,7 +9,7 @@ package com.chaoslabgames.commons.fms {
 import flash.events.Event;
 import flash.utils.Dictionary;
 
-public class FMS {
+public class FiniteStateMachine {
 
     private var states:Dictionary;
 
@@ -18,7 +18,7 @@ public class FMS {
     public var initState:String;
     private var _started:Boolean = false;;
 
-    public function FMS() {
+    public function FiniteStateMachine() {
         states = new Dictionary();
     }
 

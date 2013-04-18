@@ -8,7 +8,6 @@
 package com.chaoslabgames.commons.fms {
 import com.chaoslabgames.commons.fms.events.StateEvent;
 
-import flash.events.Event;
 import flash.utils.Dictionary;
 
 public class State {
@@ -33,12 +32,12 @@ public class State {
         }
         transition = new Transition(_changeStateHandler);
         _transitions[eventType] = transition;
-        handler(eventType, transition.transite)
+        addHandler(eventType, transition.transite)
 
         return transition;
     }
 
-    public function handler(eventType:String, handler:Function):State {
+    public function addHandler(eventType:String, handler:Function):State {
         eventHandlersByType(eventType).push(handler);
         return this;
     }
@@ -66,13 +65,13 @@ public class State {
         return handlers;
     }
 
-    public function activateHandler(handler:Function):State {
-        this.handler(StateEvent.EVENT_TYPE_ACTIVATE, handler)
+    public function addActivateHandler(handler:Function):State {
+        this.addHandler(StateEvent.EVENT_TYPE_ACTIVATE, handler)
         return this;
     }
 
-    public function deactivateHandler(handler:Function):State {
-        this.handler(StateEvent.EVENT_TYPE_DEACTIVATE, handler)
+    public function addDeactivateHandler(handler:Function):State {
+        this.addHandler(StateEvent.EVENT_TYPE_DEACTIVATE, handler)
         return this;
     }
 

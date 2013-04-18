@@ -17,7 +17,7 @@ import org.hamcrest.object.sameInstance;
 
 public class FMSTest {
 
-    var fms:FMS = new FMS();
+    var fms:FiniteStateMachine = new FiniteStateMachine();
 
     [Test]
     public function testTransition() {
@@ -50,7 +50,7 @@ public class FMSTest {
         //given
         var handledEvent:Event;
         var expectedEvent:Event = new Event("event_type");
-        fms.state("A").handler("event_type", function (e:Event):void {
+        fms.state("A").addHandler("event_type", function (e:Event):void {
             handledEvent = e;
         });
         fms.changeState("A")
@@ -74,10 +74,10 @@ public class FMSTest {
         var firstProcessed:Boolean
         var secondProcessed:Boolean
         fms.state("A")
-                .handler("event_type", function ():void {
+                .addHandler("event_type", function ():void {
                     firstProcessed = true;
                 })
-                .handler("event_type", function ():void {
+                .addHandler("event_type", function ():void {
                     secondProcessed = true
                 })
         //when
@@ -91,7 +91,7 @@ public class FMSTest {
     public function testActivateStateHandler():void {
         //given
         var processed:Boolean = false;
-        fms.state("A").activateHandler(function ():void { processed = true });
+        fms.state("A").addActivateHandler(function ():void { processed = true });
 
         //when
         fms.start()
@@ -104,7 +104,7 @@ public class FMSTest {
     public function testDeactivateStateHandler():void {
         //given
         var processed:Boolean = false;
-        fms.state("A").deactivateHandler(function ():void { processed = true });
+        fms.state("A").addDeactivateHandler(function ():void { processed = true });
         fms.state("B")
 
         //when
