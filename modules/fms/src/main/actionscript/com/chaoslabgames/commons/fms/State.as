@@ -47,7 +47,7 @@ public class State {
         var handlers:Array = eventHandlersByType(event.type);
         for (var indx:int = handlers.length; indx > -1; indx--) {
             var targetHandler:Function = handlers[indx];
-            if (targetHandler) {
+            if (targetHandler != null) {
                 if (targetHandler.length == 1) {
                     targetHandler(event);
                 } else {
