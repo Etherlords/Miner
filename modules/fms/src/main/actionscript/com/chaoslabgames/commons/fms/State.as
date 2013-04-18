@@ -43,7 +43,7 @@ public class State {
         return this;
     }
 
-    public function handleEvent(event:Event):void {
+    public function handleEvent(event:Object):void {
         var handlers:Array = eventHandlersByType(event.type);
         for (var indx:int = handlers.length; indx > -1; indx--) {
             var targetHandler:Function = handlers[indx];

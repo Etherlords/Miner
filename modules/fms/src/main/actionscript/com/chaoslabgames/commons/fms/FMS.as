@@ -39,7 +39,7 @@ public class FMS {
         currentState = state(name);
     }
 
-    public function handleEvent(event:Event):void {
+    public function handleEvent(event:Object):void {
         checkStarted();
         _currentState.handleEvent(event);
     }
