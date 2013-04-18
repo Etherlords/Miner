@@ -230,36 +230,7 @@
             <filename>raw/gnomepanelclock.png</filename>
             <filename>raw/starParticle.png</filename>
             <filename>raw/big_button_down.png</filename>
-            <filename>raw/background-disabled-skin.png</filename>
-            <filename>raw/background-down-skin.png</filename>
-            <filename>raw/background-focused-skin.png</filename>
-            <filename>raw/background-popup-skin.png</filename>
-            <filename>raw/background-skin.png</filename>
-            <filename>raw/background-disabled-skin.png</filename>
-            <filename>raw/background-down-skin.png</filename>
-            <filename>raw/background-focused-skin.png</filename>
-            <filename>raw/background-popup-skin.png</filename>
-            <filename>raw/background-skin.png</filename>
-            <filename>raw/background-disabled-skin.png</filename>
-            <filename>raw/background-down-skin.png</filename>
-            <filename>raw/background-focused-skin.png</filename>
-            <filename>raw/background-popup-skin.png</filename>
-            <filename>raw/background-skin.png</filename>
-            <filename>raw/background-disabled-skin.png</filename>
-            <filename>raw/background-down-skin.png</filename>
-            <filename>raw/background-focused-skin.png</filename>
-            <filename>raw/background-popup-skin.png</filename>
-            <filename>raw/background-skin.png</filename>
-            <filename>raw/background-disabled-skin.png</filename>
-            <filename>raw/background-down-skin.png</filename>
-            <filename>raw/background-focused-skin.png</filename>
-            <filename>raw/background-popup-skin.png</filename>
-            <filename>raw/background-skin.png</filename>
             <filename>raw/a_LCDNova_0.png</filename>
-            <filename>raw/preloader.png</filename>
-            <filename>raw/preloader_bg.png</filename>
-            <filename>raw/preloader.png</filename>
-            <filename>raw/preloader_bg.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
