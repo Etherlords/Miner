@@ -23,6 +23,7 @@
     <class path="..\external-libs\feathers\source" />
     <class path="..\external-libs\feathers\examples\ComponentsExplorer\source" />
     <class path="..\external-libs\feathers\themes\MetalWorksMobileTheme\source" />
+    <class path="..\modules\fms\src\main\actionscript" />
   </classpaths>
   <!-- Build options -->
   <build>

@@ -1,15 +1,24 @@
 package  
 {
-	import core.states.config.StateConfig;
+import com.chaoslabgames.commons.fms.FiniteStateMachine;
+
+import core.scene.AbstractSceneController;
+
+import core.states.config.StateConfig;
 	import core.states.State;
 	import core.states.StatesManager;
-	import flash.events.IEventDispatcher;
+import core.states.events.StateEvents;
+
+import flash.display.DisplayObjectContainer;
+import flash.events.IEventDispatcher;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
 	import logic.MainGameController;
 	import logic.StartScreenController;
-	import model.TextureStore;
+import logic.license.AppLockedController;
+
+import model.TextureStore;
 	import starling.display.DisplayObjectContainer;
 	import starling.events.EnterFrameEvent;
 	import starling.events.Event;
@@ -73,28 +82,44 @@ package
 			texturesStore.removeEventListener(Event.COMPLETE, hereGo);
 			GlobalUIContext.vectorStage.removeChild(progress);
 			
-			var stateManager:StatesManager = new StatesManager(this as DisplayObjectContainer);
+			var fsm:FiniteStateMachine = new FiniteStateMachine();
+
+            var lockController:AppLockedController = newController(AppLockedController);
+            var gameController:MainGameController = newController(MainGameController);
+            var startController:StartScreenController = newController(StartScreenController);			
 			
-			var gameStateConfig:StateConfig = new StateConfig('Game', MainGameController);
-			var gameState:State = new State(gameStateConfig);
+            /*fsm.state('locked')
+                    .activateHandler(activateController(lockController, this))
+                    .deactivateHandler(deactivateController(lockController))
+                    .addTransition(StateEvents.STATE_OUT).toState('StartScreen')*/
+            fsm.state('StartScreen')
+                    .addActivateHandler(activateController(startController, this))
+                    .addDeactivateHandler(deactivateController(startController))
+                    .addTransition(StateEvents.STATE_OUT).toState('Game')
+            fsm.state('Game')
+                    .addActivateHandler(activateController(gameController, this))
+                    .addDeactivateHandler(deactivateController(gameController))
+                    .addTransition(StateEvents.STATE_OUT).toState('StartScreen')
+            fsm.start();
 			
-			var startScreen:StateConfig = new StateConfig('StartScreen', StartScreenController);
-			var startScreenState:State = new State(startScreen);
-			
-		
-			
-			stateManager.nextState(startScreenState);
-			stateManager.nextState(gameState);
-			
-			
-			stateManager.start();
-			
-			//Starling.current.root.x = (Starling.current.nativeStage.stageWidth - CellConstants.APPLICATION_WIDTH) / 2;
-			//Starling.current.root.y = (Starling.current.nativeStage.stageHeight - CellConstants.APPLICATION_HEIGHT) / 2;
-			//Starling.current.viewPort = new Rectangle(Starling.current.root.x, Starling.current.root.y, Starling.current.viewPort.width, Starling.current.viewPort.height);
-			//Starling.current.root.x = 10
-			//Starling.current.root.y = 0
+			function newController(ctrlClass:Class):AbstractSceneController {
+				var ctrl:AbstractSceneController = new ctrlClass();
+				ctrl.addEventListener(StateEvents.STATE_OUT, fsm.handleEvent);
+				return ctrl;
+			}
 		}
+
+        private function deactivateController(controller:AbstractSceneController):Function {
+            return function ():void {
+                controller.deactivate()
+            }
+        }
+
+        private function activateController(controller:AbstractSceneController, container:DisplayObjectContainer):Function {
+            return function ():void {
+                controller.activate(container)
+            }
+        }
 		
 		
 		
