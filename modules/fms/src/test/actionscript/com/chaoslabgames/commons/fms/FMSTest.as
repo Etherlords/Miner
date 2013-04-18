@@ -11,6 +11,7 @@ import flash.events.Event;
 import org.flexunit.asserts.assertFalse;
 import org.flexunit.asserts.assertTrue;
 import org.hamcrest.assertThat;
+import org.hamcrest.core.throws;
 import org.hamcrest.object.equalTo;
 import org.hamcrest.object.sameInstance;
 
@@ -22,7 +23,7 @@ public class FMSTest {
     public function testTransition() {
         //given
         fms.state("B")
-        fms.state("A").transition("custom_type").toState("B");
+        fms.state("A").addTransition("custom_type").toState("B");
         fms.changeState("A");
         assertThat(fms.currentState, equalTo(fms.state("A")));
         //when
@@ -32,9 +33,16 @@ public class FMSTest {
     }
 
     [Test]
-    public function testDuplicateReferense() {
-        assertThat(fms.state("A"), sameInstance(fms.state("A")))
-        assertThat(fms.state("A").transition("T"), sameInstance(fms.state("A").transition("T")))
+    public function testDeterminate() {
+        try {
+            assertThat(fms.state("A"), sameInstance(fms.state("A")))
+            assertThat(fms.state("A").addTransition("T"), sameInstance(fms.state("A").addTransition("T")))
+            throw new Error("transition must be refused")
+        } catch (e:Error) {
+            if (e.message != "There is another transition for 'T'") {
+                throw e;
+            }
+        }
     }
 
     [Test]

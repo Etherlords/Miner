@@ -24,13 +24,14 @@ public class State {
         this._changeStateHandler = changeStateHandler;
     }
 
-    public function transition(eventType:String):Transition {
+    public function addTransition(eventType:String):Transition {
         var transition:Transition = _transitions[eventType];
-        if (transition == null) {
-            transition = new Transition(_changeStateHandler);
-            _transitions[eventType] = transition;
-            handler(eventType, transition.transite)
+        if (transition != null) {
+            throw new Error("There is another transition for '" + eventType + "'")
         }
+        transition = new Transition(_changeStateHandler);
+        _transitions[eventType] = transition;
+        handler(eventType, transition.transite)
 
         return transition;
     }
