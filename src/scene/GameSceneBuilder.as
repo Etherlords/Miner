@@ -1,4 +1,4 @@
-package {
+package scene {
 import com.chaoslabgames.commons.fms.FiniteStateMachine;
 import com.chaoslabgames.commons.fms.events.StateEvent;
 import com.chaoslabgames.commons.license.impl.LicenseService;
