@@ -12,6 +12,20 @@ import logic.StartScreenController;
 import logic.license.AppLockedController;
 import logic.license.LicenseServerUnAvailableController;
 
+import scene.States;
+
+import scene.States;
+
+import scene.States;
+
+import scene.States;
+
+import scene.States;
+
+import scene.States;
+
+import scene.States;
+
 import starling.display.DisplayObjectContainer;
 
 /**
@@ -39,35 +53,37 @@ import starling.display.DisplayObjectContainer;
             var gameController:AbstractSceneController = newController(MainGameController);
             var startController:AbstractSceneController = newController(StartScreenController);
 			
-			fsm.state('checkStoredLicStatus')
+			fsm.state(States.SN_CHECK_LIC)
                     .addTransition(StateEvent.EVENT_TYPE_ACTIVATE, "alreadyUnclocked")
 							.addConditional(licService.licenseCheckHandler.isUnLocked)
-						.toState('StartScreen')._from
+						.toState(States.SN_START_SCREEN)._from
 					.addTransition(StateEvent.EVENT_TYPE_ACTIVATE, "alredyLocked")
 							.addConditional(licService.licenseCheckHandler.isUnLocked)
-						.toState('locked')._from
+						.toState(States.SN_LOCKED)._from
 					.addTransition(StateEvent.EVENT_TYPE_ACTIVATE, "licServUnAvailbl")
 							.addConditional(licService.licenseCheckHandler.isCheckServiceUnAvailable)
-						.toState('licServUnAvailabl')						
+						.toState(States.SN_LIC_SERV_UNAVAILABL)
 			
-            fsm.state('locked')
+            fsm.state(States.SN_LOCKED)
                     .addActivateHandler(newActSceneFn(lockController, viewContainer))
                     .addDeactivateHandler(lockController.deactivate)
                     .addTransition(StateEvents.STATE_OUT).toState('StartScreen')
 					
-			fsm.state('licServUnAvailabl')
+			fsm.state(States.SN_LIC_SERV_UNAVAILABL)
                     .addActivateHandler(newActSceneFn(licSrvUnAvailableController, viewContainer))
                     .addDeactivateHandler(licSrvUnAvailableController.deactivate)
-                    .addTransition(StateEvents.STATE_OUT).toState('StartScreen')
+                    .addTransition(StateEvents.STATE_OUT).toState(States.SN_START_SCREEN)
 					
-            fsm.state('StartScreen')
+            fsm.state(States.SN_START_SCREEN)
                     .addActivateHandler(newActSceneFn(startController, viewContainer))
                     .addDeactivateHandler(startController.deactivate)
-                    .addTransition(StateEvents.STATE_OUT).toState('Game')
-            fsm.state('Game')
+                    .addTransition(StateEvents.STATE_OUT).toState(States.SN_GAME)
+
+            fsm.state(States.SN_GAME)
                     .addActivateHandler(newActSceneFn(gameController, viewContainer))
                     .addDeactivateHandler(gameController.deactivate)
-                    .addTransition(StateEvents.STATE_OUT).toState('StartScreen')
+                    .addTransition(StateEvents.STATE_OUT).toState(States.SN_START_SCREEN)
+
             fsm.start();
 			
 
