@@ -14,18 +14,6 @@ import logic.license.LicenseServerUnAvailableController;
 
 import scene.States;
 
-import scene.States;
-
-import scene.States;
-
-import scene.States;
-
-import scene.States;
-
-import scene.States;
-
-import scene.States;
-
 import starling.display.DisplayObjectContainer;
 
 /**
@@ -48,10 +36,10 @@ import starling.display.DisplayObjectContainer;
 		
 		public function buildSceneSequence(viewContainer:DisplayObjectContainer):void {
 
-            var lockController:AbstractSceneController = newController(AppLockedController);
-            var licSrvUnAvailableController:AbstractSceneController = newController(LicenseServerUnAvailableController);
-            var gameController:AbstractSceneController = newController(MainGameController);
-            var startController:AbstractSceneController = newController(StartScreenController);
+            var lockCtrlr:AbstractSceneController = newController(AppLockedController);
+            var licSrvUnAvailblCtrlr:AbstractSceneController = newController(LicenseServerUnAvailableController);
+            var gameCntrlr:AbstractSceneController = newController(MainGameController);
+            var startCntrlr:AbstractSceneController = newController(StartScreenController);
 			
 			fsm.state(States.SN_CHECK_LIC)
                     .addTransition(StateEvent.EVENT_TYPE_ACTIVATE, "alreadyUnclocked")
@@ -65,23 +53,23 @@ import starling.display.DisplayObjectContainer;
 						.toState(States.SN_LIC_SERV_UNAVAILABL)
 			
             fsm.state(States.SN_LOCKED)
-                    .addActivateHandler(newActSceneFn(lockController, viewContainer))
-                    .addDeactivateHandler(lockController.deactivate)
+                    .addActivateHandler(newSceneFn(lockCtrlr, viewContainer))
+                    .addDeactivateHandler(lockCtrlr.deactivate)
                     .addTransition(StateEvents.STATE_OUT).toState('StartScreen')
 					
 			fsm.state(States.SN_LIC_SERV_UNAVAILABL)
-                    .addActivateHandler(newActSceneFn(licSrvUnAvailableController, viewContainer))
-                    .addDeactivateHandler(licSrvUnAvailableController.deactivate)
+                    .addActivateHandler(newSceneFn(licSrvUnAvailblCtrlr, viewContainer))
+                    .addDeactivateHandler(licSrvUnAvailblCtrlr.deactivate)
                     .addTransition(StateEvents.STATE_OUT).toState(States.SN_START_SCREEN)
 					
             fsm.state(States.SN_START_SCREEN)
-                    .addActivateHandler(newActSceneFn(startController, viewContainer))
-                    .addDeactivateHandler(startController.deactivate)
+                    .addActivateHandler(newSceneFn(startCntrlr, viewContainer))
+                    .addDeactivateHandler(startCntrlr.deactivate)
                     .addTransition(StateEvents.STATE_OUT).toState(States.SN_GAME)
 
             fsm.state(States.SN_GAME)
-                    .addActivateHandler(newActSceneFn(gameController, viewContainer))
-                    .addDeactivateHandler(gameController.deactivate)
+                    .addActivateHandler(newSceneFn(gameCntrlr, viewContainer))
+                    .addDeactivateHandler(gameCntrlr.deactivate)
                     .addTransition(StateEvents.STATE_OUT).toState(States.SN_START_SCREEN)
 
             fsm.start();
@@ -95,7 +83,7 @@ import starling.display.DisplayObjectContainer;
             return ctrl;
         }
 
-        private function newActSceneFn(controller:AbstractSceneController, container:DisplayObjectContainer):Function {
+        private function newSceneFn(controller:AbstractSceneController, container:DisplayObjectContainer):Function {
             return function ():void {
                 controller.activate(container)
             }
