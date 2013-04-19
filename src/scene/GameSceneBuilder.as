@@ -12,7 +12,7 @@ import logic.StartScreenController;
 import logic.license.AppLockedController;
 import logic.license.LicenseServerUnAvailableController;
 
-import scene.States;
+import scene.StateCnst;
 
 import starling.display.DisplayObjectContainer;
 
@@ -28,57 +28,60 @@ import starling.display.DisplayObjectContainer;
 
         private var fsm:FiniteStateMachine = new FiniteStateMachine();
 
+        private var sceneControllerFactory:ISceneControllerFactory;
+
         public function GameSceneBuilder()
 		{
 			inject(this);
+			sceneControllerFactory = new SceneControllerFactoryImpl
 		}
 		
 		
 		public function buildSceneSequence(viewContainer:DisplayObjectContainer):void {
 
-            var lockCtrlr:AbstractSceneController = newController(AppLockedController);
-            var licSrvUnAvailblCtrlr:AbstractSceneController = newController(LicenseServerUnAvailableController);
-            var gameCntrlr:AbstractSceneController = newController(MainGameController);
-            var startCntrlr:AbstractSceneController = newController(StartScreenController);
-			
-			fsm.state(States.SN_CHECK_LIC)
+            var lockCtrlr:AbstractSceneController = newController(StateCnst.SCENE_LOCKED);
+            var licSrvUnAvailblCtrlr:AbstractSceneController = newController(StateCnst.SCENE_LIC_SERV_UNAVAILABL);
+            var gameCntrlr:AbstractSceneController = newController(StateCnst.SCENE_GAME);
+            var startCntrlr:AbstractSceneController = newController(StateCnst.SCENE_START_SCREEN);
+
+			fsm.state(StateCnst.STATE_CHECK_LIC)
                     .addTransition(StateEvent.EVENT_TYPE_ACTIVATE, "alreadyUnclocked")
 							.addConditional(licService.licenseCheckHandler.isUnLocked)
-						.toState(States.SN_START_SCREEN)._from
+						.toState(StateCnst.STATE_START_SCREEN)._from
 					.addTransition(StateEvent.EVENT_TYPE_ACTIVATE, "alredyLocked")
 							.addConditional(licService.licenseCheckHandler.isUnLocked)
-						.toState(States.SN_LOCKED)._from
+						.toState(StateCnst.STATE_LOCKED)._from
 					.addTransition(StateEvent.EVENT_TYPE_ACTIVATE, "licServUnAvailbl")
 							.addConditional(licService.licenseCheckHandler.isCheckServiceUnAvailable)
-						.toState(States.SN_LIC_SERV_UNAVAILABL)
+						.toState(StateCnst.STATE_LIC_SERV_UNAVAILABL)
 			
-            fsm.state(States.SN_LOCKED)
+            fsm.state(StateCnst.STATE_LOCKED)
                     .addActivateHandler(newSceneFn(lockCtrlr, viewContainer))
                     .addDeactivateHandler(lockCtrlr.deactivate)
                     .addTransition(StateEvents.STATE_OUT).toState('StartScreen')
 					
-			fsm.state(States.SN_LIC_SERV_UNAVAILABL)
+			fsm.state(StateCnst.STATE_LIC_SERV_UNAVAILABL)
                     .addActivateHandler(newSceneFn(licSrvUnAvailblCtrlr, viewContainer))
                     .addDeactivateHandler(licSrvUnAvailblCtrlr.deactivate)
-                    .addTransition(StateEvents.STATE_OUT).toState(States.SN_START_SCREEN)
+                    .addTransition(StateEvents.STATE_OUT).toState(StateCnst.STATE_START_SCREEN)
 					
-            fsm.state(States.SN_START_SCREEN)
+            fsm.state(StateCnst.STATE_START_SCREEN)
                     .addActivateHandler(newSceneFn(startCntrlr, viewContainer))
                     .addDeactivateHandler(startCntrlr.deactivate)
-                    .addTransition(StateEvents.STATE_OUT).toState(States.SN_GAME)
+                    .addTransition(StateEvents.STATE_OUT).toState(StateCnst.STATE_GAME)
 
-            fsm.state(States.SN_GAME)
+            fsm.state(StateCnst.STATE_GAME)
                     .addActivateHandler(newSceneFn(gameCntrlr, viewContainer))
                     .addDeactivateHandler(gameCntrlr.deactivate)
-                    .addTransition(StateEvents.STATE_OUT).toState(States.SN_START_SCREEN)
+                    .addTransition(StateEvents.STATE_OUT).toState(StateCnst.STATE_START_SCREEN)
 
             fsm.start();
 			
 
 		}
 
-        private function newController(ctrlClass:Class):AbstractSceneController {
-            var ctrl:AbstractSceneController = new ctrlClass();
+        private function newController(stateName:String):AbstractSceneController {
+            var ctrl:AbstractSceneController = sceneControllerFactory.newController(stateName);
             ctrl.addEventListener(StateEvents.STATE_OUT, fsm.handleEvent);
             return ctrl;
         }
