@@ -41,7 +41,6 @@ bin
 
 # Compiled source #
 ###################
-*.jpg
 *.com
 *.class
 *.dll
