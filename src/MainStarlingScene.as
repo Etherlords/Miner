@@ -6,6 +6,7 @@ package
 	import model.TextureStore;
 	import particles.boomParticle.BoomParticle;
 	import scene.GameSceneBuilder;
+	import scene.SceneControllerFactoryImpl;
 	import starling.animation.Tween;
 	import starling.core.Starling;
 	import starling.display.DisplayObjectContainer;
@@ -88,7 +89,7 @@ package
 			removeChild(progressBar);
 			removeChild(back);
 			
-			new GameSceneBuilder().buildSceneSequence(this);
+			new GameSceneBuilder(new SceneControllerFactoryImpl).buildSceneSequence(this);
 
 		}
 		

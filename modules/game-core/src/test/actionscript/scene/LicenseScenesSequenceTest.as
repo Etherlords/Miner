@@ -28,13 +28,32 @@ public class LicenseScenesSequenceTest {
 
     [Test]
     public function testSetUp():void {
-        new GameSceneBuilder().buildSceneSequence(new MockDisplayObjectContainer());
+        new GameSceneBuilder(new MockSceneCtrlFactory).buildSceneSequence(new MockDisplayObjectContainer());
     }
 }
 
 }
 
+import core.scene.AbstractSceneController;
+
+import scene.ISceneControllerFactory;
+
 import starling.display.DisplayObjectContainer;
+
+internal class MockSceneCtrlFactory implements ISceneControllerFactory{
+
+    public function newController(id:String):AbstractSceneController {
+        return new MockSceneController();
+    }
+}
+
+internal class MockSceneController extends AbstractSceneController {
+    override public function activate(instance:DisplayObjectContainer):void {
+    }
+
+    override public function deactivate():void {
+    }
+}
 
 internal class MockDisplayObjectContainer extends DisplayObjectContainer {
 

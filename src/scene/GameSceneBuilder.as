@@ -30,10 +30,10 @@ import starling.display.DisplayObjectContainer;
 
         private var sceneControllerFactory:ISceneControllerFactory;
 
-        public function GameSceneBuilder()
+        public function GameSceneBuilder(sceneControllerFactory:ISceneControllerFactory)
 		{
 			inject(this);
-			sceneControllerFactory = new SceneControllerFactoryImpl
+			this.sceneControllerFactory = sceneControllerFactory
 		}
 		
 		
