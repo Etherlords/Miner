@@ -8,8 +8,6 @@ output = 'miner'
 
 ext.androidHome = System.getenv('ANDROID_HOME')
 
-additionalCompilerOptions << '-debug'
-
 air {
         packageWorkDir "${project.buildDir}"
 		applicationDescriptor = 'miner-app.xml'
@@ -34,6 +32,13 @@ adl {
 	profile "mobileDevice"
 	screenSize "iPad"
 }
-   
+
+task('setDebugOptions') << {
+    additionalCompilerOptions << '-debug'
+    airMobile {
+        target 'apk-debug'
+    }
+}
+
 dependencies {
 }
