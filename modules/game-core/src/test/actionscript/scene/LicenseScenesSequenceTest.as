@@ -101,7 +101,18 @@ public class LicenseScenesSequenceTest {
 
     [Test]
     public function testTransitionFromUnAvailableToLock():void {
-        //todo implement
+        //given
+        licProfile.serviceAvailable = false;
+        //when
+        gameSceneBuilder.buildSceneSequence(new MockDisplayObjectContainer())
+        assertThat(sceneCtrl(StateCnst.SCENE_LIC_SERV_UNAVAILABL).active, equalTo(true))
+        //turn on service and unlock
+        licProfile.serviceAvailable = true;
+        licProfile.locked = true;
+        licProfile.dispatchEvent(new DataEvent(Cnst.EVENT_APP_IS_UNLOCKED));
+        //then
+        assertThat(sceneCtrl(StateCnst.SCENE_LIC_SERV_UNAVAILABL).active, equalTo(false))
+        assertThat(sceneCtrl(StateCnst.SCENE_LOCKED).active, equalTo(true))
     }
 
     [Test]
