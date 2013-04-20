@@ -79,6 +79,21 @@ public class LicenseScenesSequenceTest {
         var srvUnAvailblSceneCtrl:MockSceneController = sceneFactory.constructedMockScenes[StateCnst.SCENE_LIC_SERV_UNAVAILABL]
         assertThat(srvUnAvailblSceneCtrl.active, equalTo(true))
     }
+
+    [Test]
+    public function testTransitionFromUnAvailableToUnLock():void {
+        //todo implement
+    }
+
+    [Test]
+    public function testTransitionFromUnAvailableToLock():void {
+        //todo implement
+    }
+
+    [Test]
+    public function testTransitionFromAnyStateToLock():void {
+        //todo implement
+    }
 }
 
 }
