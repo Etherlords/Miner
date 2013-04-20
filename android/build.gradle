@@ -27,7 +27,7 @@ airMobile {
     	simulatorTarget = 'apk-debug'
    	simulatorPlatformSdk = project.androidHome
    	simulatorTargetDevice = "emulator-5554"
-
+    extensionDir "../libs/ane"
 } 
 
 adl {
