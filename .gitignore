@@ -11,12 +11,33 @@ build/
 .actionScriptProperties
 .flexProperties
 .project
+*.ipr
+*.iws
 *.userpref
 .idea
 **/.idea/*.*
 .iml
 *.iml
 certificate/
+**/*.settings
+**/*.actionScriptProperties
+**/*.flexProperties
+**/*.project
+*.userpref
+.idea
+**/.idea/*.*
+.iml
+*.iml
+**/*.as3proj
+.actionScriptProperties
+.flexProperties
+.metadata
+.project
+.settings
+.flexLibProperties
+bin
+bin-debug
+bin-release
 
 #Temp#
 Temp
@@ -32,6 +53,7 @@ obj
 **/build/*.*
 **/silin/*.*
 silin
+out
 
 **/bin/*.*
 bin
