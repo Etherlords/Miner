@@ -89,7 +89,7 @@ package
 			removeChild(progressBar);
 			removeChild(back);
 			
-			new GameSceneBuilder(new SceneControllerFactoryImpl).buildSceneSequence(this);
+			new GameSceneBuilder(new SceneControllerFactoryImpl, this).buildSceneSequence();
 
 		}
 		

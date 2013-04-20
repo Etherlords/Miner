@@ -40,12 +40,12 @@ public class LicenseScenesSequenceTest {
         context.addObjectToContext(licService)
         context.addObjectToContext(new TextureStore())
         sceneFactory = new MockSceneCtrlFactory;
-        gameSceneBuilder = new GameSceneBuilder(sceneFactory)
+        gameSceneBuilder = new GameSceneBuilder(sceneFactory, new MockDisplayObjectContainer())
     }
 
     [Test]
     public function testSetUp():void {
-        gameSceneBuilder.buildSceneSequence(new MockDisplayObjectContainer());
+        gameSceneBuilder.buildSceneSequence();
     }
 
     [Test]
@@ -54,7 +54,7 @@ public class LicenseScenesSequenceTest {
         licProfile.locked = false;
         licProfile.serviceAvailable = true;
         //when
-        gameSceneBuilder.buildSceneSequence(new MockDisplayObjectContainer());
+        gameSceneBuilder.buildSceneSequence();
         //then
         var startScreenCtrl:MockSceneController = sceneCtrl(StateCnst.SCENE_START_SCREEN)
         assertThat(startScreenCtrl.active, equalTo(true))
@@ -66,7 +66,7 @@ public class LicenseScenesSequenceTest {
         licProfile.locked = true;
         licProfile.serviceAvailable = true;
         //when
-        gameSceneBuilder.buildSceneSequence(new MockDisplayObjectContainer());
+        gameSceneBuilder.buildSceneSequence();
         //then
         var lockedSceneCtrl:MockSceneController = sceneCtrl(StateCnst.SCENE_LOCKED)
         assertThat(lockedSceneCtrl.active, equalTo(true))
@@ -77,7 +77,7 @@ public class LicenseScenesSequenceTest {
         //given
         licProfile.serviceAvailable = false;
         //when
-        gameSceneBuilder.buildSceneSequence(new MockDisplayObjectContainer());
+        gameSceneBuilder.buildSceneSequence();
         //then
         var srvUnAvailblSceneCtrl:MockSceneController = sceneCtrl(StateCnst.SCENE_LIC_SERV_UNAVAILABL)
         assertThat(srvUnAvailblSceneCtrl.active, equalTo(true))
@@ -88,7 +88,7 @@ public class LicenseScenesSequenceTest {
         //given
         licProfile.serviceAvailable = false;
         //when
-        gameSceneBuilder.buildSceneSequence(new MockDisplayObjectContainer())
+        gameSceneBuilder.buildSceneSequence()
         assertThat(sceneCtrl(StateCnst.SCENE_LIC_SERV_UNAVAILABL).active, equalTo(true))
         //turn on service and unlock
         licProfile.serviceAvailable = true;
@@ -108,7 +108,7 @@ public class LicenseScenesSequenceTest {
         //given
         licProfile.serviceAvailable = false;
         //when
-        gameSceneBuilder.buildSceneSequence(new MockDisplayObjectContainer())
+        gameSceneBuilder.buildSceneSequence()
         assertThat(sceneCtrl(StateCnst.SCENE_LIC_SERV_UNAVAILABL).active, equalTo(true))
         //turn on service and unlock
         licProfile.serviceAvailable = true;
@@ -125,7 +125,7 @@ public class LicenseScenesSequenceTest {
         licProfile.serviceAvailable = true;
         licProfile.locked = false; //because check is running in background
         //then
-        gameSceneBuilder.buildSceneSequence(new MockDisplayObjectContainer())
+        gameSceneBuilder.buildSceneSequence()
         gameSceneBuilder.changeActiveSceneHandler(sceneName)  //force active scene
         assertThat(sceneCtrl(sceneName).active, equalTo(true))
         licProfile.locked = true; // update lic state
@@ -154,6 +154,11 @@ internal class MockSceneCtrlFactory implements ISceneControllerFactory{
     public var constructedMockScenes:Dictionary = new Dictionary();
 
     public function newController(id:String):AbstractSceneController {
+
+        if (constructedMockScenes[id]) {
+            throw new Error('Scene ' + id + ' have already created')
+        }
+
         return constructedMockScenes[id] = new MockSceneController();
 
     }

@@ -21,32 +21,28 @@ public class GameSceneBuilder {
     public var licService:LicenseService;
 
     private var fsm:FiniteStateMachine;
-
     private var sceneControllerFactory:ISceneControllerFactory;
-
     private var stateToScene:Dictionary;
+    private var viewContainer:DisplayObjectContainer;
 
-    public function GameSceneBuilder(sceneControllerFactory:ISceneControllerFactory) {
+    public function GameSceneBuilder(sceneControllerFactory:ISceneControllerFactory, viewContainer:DisplayObjectContainer) {
         inject(this);
         fsm = new FiniteStateMachine();
         stateToScene = new Dictionary();
         this.sceneControllerFactory = sceneControllerFactory
+        this.viewContainer = viewContainer;
     }
 
 
-    public function buildSceneSequence(viewContainer:DisplayObjectContainer):void {
-
-        var lockCtrlr:AbstractSceneController = newController(StateCnst.SCENE_LOCKED);
-        var licSrvUnAvailblCtrlr:AbstractSceneController = newController(StateCnst.SCENE_LIC_SERV_UNAVAILABL);
-        var gameCntrlr:AbstractSceneController = newController(StateCnst.SCENE_GAME);
-        var startCntrlr:AbstractSceneController = newController(StateCnst.SCENE_START_SCREEN);
+    public function buildSceneSequence():void {
 
         licService.addEventListener(Cnst.EVENT_APP_IS_UNLOCKED, fsm.handleEvent);
         licService.addEventListener(Cnst.EVENT_APP_IS_LOCKED, fsm.handleEvent);
 
-        stateToScene[StateCnst.SCENE_LIC_SERV_UNAVAILABL] = StateCnst.STATE_LIC_SERV_UNAVAILABL
-        stateToScene[StateCnst.SCENE_START_SCREEN] = StateCnst.STATE_START_SCREEN
-        stateToScene[StateCnst.SCENE_GAME] = StateCnst.STATE_GAME
+        bindSceneToState(StateCnst.SCENE_LIC_SERV_UNAVAILABL, StateCnst.STATE_LIC_SERV_UNAVAILABL);
+        bindSceneToState(StateCnst.SCENE_START_SCREEN, StateCnst.STATE_START_SCREEN);
+        bindSceneToState(StateCnst.SCENE_GAME, StateCnst.STATE_GAME);
+        bindSceneToState(StateCnst.SCENE_LOCKED, StateCnst.STATE_LOCKED);
 
         fsm.state(StateCnst.STATE_CHECK_LIC)
                 .addTransition(StateEvent.EVENT_TYPE_ACTIVATE, "licServUnAvailbl")
@@ -60,46 +56,46 @@ public class GameSceneBuilder {
                     .toState(StateCnst.STATE_LOCKED)
 
         fsm.state(StateCnst.STATE_LOCKED)
-                .addActivateHandler(newSceneFn(lockCtrlr, viewContainer))
-                .addDeactivateHandler(lockCtrlr.deactivate)
                 .addTransition(StateEvents.STATE_OUT).toState('StartScreen')
 
         fsm.state(StateCnst.STATE_LIC_SERV_UNAVAILABL)
-                .addActivateHandler(newSceneFn(licSrvUnAvailblCtrlr, viewContainer))
-                .addDeactivateHandler(licSrvUnAvailblCtrlr.deactivate)
                 .addTransition(Cnst.EVENT_APP_IS_UNLOCKED).toState(StateCnst.STATE_START_SCREEN)._from
                 .addTransition(Cnst.EVENT_APP_IS_LOCKED).toState(StateCnst.STATE_LOCKED)
 
         fsm.state(StateCnst.STATE_START_SCREEN)
-                .addActivateHandler(newSceneFn(startCntrlr, viewContainer))
-                .addDeactivateHandler(startCntrlr.deactivate)
                 .addTransition(Cnst.EVENT_APP_IS_LOCKED).toState(StateCnst.STATE_LOCKED)._from
                 .addTransition(StateEvents.STATE_OUT).toState(StateCnst.STATE_GAME)
 
         fsm.state(StateCnst.STATE_GAME)
-                .addActivateHandler(newSceneFn(gameCntrlr, viewContainer))
-                .addDeactivateHandler(gameCntrlr.deactivate)
                 .addTransition(Cnst.EVENT_APP_IS_LOCKED).toState(StateCnst.STATE_LOCKED)._from
                 .addTransition(StateEvents.STATE_OUT).toState(StateCnst.STATE_START_SCREEN)
 
-        fsm.start();
-
-
+        fsm.initState = StateCnst.STATE_CHECK_LIC;
+        fsm.start()
     }
 
-    public function get sceneFSM():FiniteStateMachine {
-        return fsm;
+    private function bindSceneToState(sceneName:String, stateName:String):void {
+        //todo lazy initialization of controller can be added
+        var sceneCtrl:AbstractSceneController = newController(sceneName)
+        fsm.state(stateName)
+                .addActivateHandler(newSceneFn(sceneCtrl))
+                .addDeactivateHandler(sceneCtrl.deactivate);
+
+        stateToScene[sceneName] = stateName
     }
 
-    private function newController(stateName:String):AbstractSceneController {
-        var ctrl:AbstractSceneController = sceneControllerFactory.newController(stateName);
+    private function newController(sceneName:String):AbstractSceneController {
+        if (stateToScene[sceneName]) {
+            throw new Error('Scene ' + sceneName + ' have already created')
+        }
+        var ctrl:AbstractSceneController = sceneControllerFactory.newController(sceneName);
         ctrl.addEventListener(StateEvents.STATE_OUT, fsm.handleEvent);
         return ctrl;
     }
 
-    private function newSceneFn(controller:AbstractSceneController, container:DisplayObjectContainer):Function {
+    private function newSceneFn(controller:AbstractSceneController):Function {
         return function ():void {
-            controller.activate(container)
+            controller.activate(viewContainer)
         }
     }
 
