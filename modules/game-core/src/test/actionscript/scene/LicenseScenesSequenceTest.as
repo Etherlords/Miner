@@ -8,7 +8,9 @@
 package scene {
 
 import com.chaoslabgames.commons.fms.FiniteStateMachine;
+import com.chaoslabgames.commons.license.LicenseProfile;
 import com.chaoslabgames.commons.license.impl.LicenseService;
+import com.chaoslabgames.commons.license.impl.profile.NullLicenseProfile;
 
 import core.ioc.Context;
 
@@ -18,17 +20,24 @@ public class LicenseScenesSequenceTest {
 
 
     private var fsm:FiniteStateMachine;
+    private var licService:LicenseService;
+    private var licProfile:LicenseProfile
+    private var gameSceneBuilder:GameSceneBuilder;
 
     [Before]
     public function setUp():void {
         var context:Context = Context.instance;
-        context.addObjectToContext(new LicenseService())
+        licService = new LicenseService();
+        licProfile = new NullLicenseProfile();
+        licService.licenseCheckHandler = licProfile
+        context.addObjectToContext(licService)
         context.addObjectToContext(new TextureStore())
+        gameSceneBuilder = new GameSceneBuilder(new MockSceneCtrlFactory)
     }
 
     [Test]
     public function testSetUp():void {
-        new GameSceneBuilder(new MockSceneCtrlFactory).buildSceneSequence(new MockDisplayObjectContainer());
+        gameSceneBuilder.buildSceneSequence(new MockDisplayObjectContainer());
     }
 }
 
