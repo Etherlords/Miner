@@ -49,7 +49,7 @@ import starling.display.DisplayObjectContainer;
 							.addConditional(licService.licenseCheckHandler.isUnLocked)
 						.toState(StateCnst.STATE_START_SCREEN)._from
 					.addTransition(StateEvent.EVENT_TYPE_ACTIVATE, "alredyLocked")
-							.addConditional(licService.licenseCheckHandler.isUnLocked)
+							.addConditional(licService.licenseCheckHandler.isLocked)
 						.toState(StateCnst.STATE_LOCKED)._from
 					.addTransition(StateEvent.EVENT_TYPE_ACTIVATE, "licServUnAvailbl")
 							.addConditional(licService.licenseCheckHandler.isCheckServiceUnAvailable)

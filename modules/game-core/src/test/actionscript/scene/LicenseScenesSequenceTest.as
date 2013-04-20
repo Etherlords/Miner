@@ -57,6 +57,18 @@ public class LicenseScenesSequenceTest {
         assertThat(startScreenCtrl.active, equalTo(true))
     }
 
+    [Test]
+    public function testAlreadyLocked():void {
+        //given
+        licProfile.locked = true;
+        licProfile.serviceAvailable = true;
+        //when
+        gameSceneBuilder.buildSceneSequence(new MockDisplayObjectContainer());
+        //then
+        var lockedSceneCtrl:MockSceneController = sceneFactory.constructedMockScenes[StateCnst.SCENE_LOCKED]
+        assertThat(lockedSceneCtrl.active, equalTo(true))
+    }
+
 }
 
 }
