@@ -7,6 +7,8 @@ import com.chaoslabgames.commons.license.impl.LicenseService;
 import core.scene.AbstractSceneController;
 import core.states.events.StateEvents;
 
+import flash.utils.Dictionary;
+
 import starling.display.DisplayObjectContainer;
 
 /**
@@ -22,9 +24,12 @@ public class GameSceneBuilder {
 
     private var sceneControllerFactory:ISceneControllerFactory;
 
+    private var stateToScene:Dictionary;
+
     public function GameSceneBuilder(sceneControllerFactory:ISceneControllerFactory) {
         inject(this);
         fsm = new FiniteStateMachine();
+        stateToScene = new Dictionary();
         this.sceneControllerFactory = sceneControllerFactory
     }
 
@@ -38,6 +43,10 @@ public class GameSceneBuilder {
 
         licService.addEventListener(Cnst.EVENT_APP_IS_UNLOCKED, fsm.handleEvent);
         licService.addEventListener(Cnst.EVENT_APP_IS_LOCKED, fsm.handleEvent);
+
+        stateToScene[StateCnst.SCENE_LIC_SERV_UNAVAILABL] = StateCnst.STATE_LIC_SERV_UNAVAILABL
+        stateToScene[StateCnst.SCENE_START_SCREEN] = StateCnst.STATE_START_SCREEN
+        stateToScene[StateCnst.SCENE_GAME] = StateCnst.STATE_GAME
 
         fsm.state(StateCnst.STATE_CHECK_LIC)
                 .addTransition(StateEvent.EVENT_TYPE_ACTIVATE, "licServUnAvailbl")
@@ -94,6 +103,13 @@ public class GameSceneBuilder {
         }
     }
 
+    public function changeActiveSceneHandler(sceneName:String):void {
+        var targetStateName:String = stateToScene[sceneName]
+        if (!targetStateName) {
+            throw new Error("State couldn't be found for scene '" + sceneName + "'")
+        }
+        fsm.changeState(targetStateName)
+    }
 }
 
 }

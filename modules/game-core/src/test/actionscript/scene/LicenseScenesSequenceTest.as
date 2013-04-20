@@ -7,7 +7,6 @@
  */
 package scene {
 
-import com.chaoslabgames.commons.fms.FiniteStateMachine;
 import com.chaoslabgames.commons.license.Cnst;
 import com.chaoslabgames.commons.license.impl.LicenseService;
 import core.ioc.Context;
@@ -26,12 +25,10 @@ public class LicenseScenesSequenceTest {
     private var gameSceneBuilder:GameSceneBuilder;
     private var sceneFactory:MockSceneCtrlFactory
 
-    //todo it must be scene keys only
     public static function lockableStatesDataProvider():Array {
-        return [
-        [StateCnst.STATE_LIC_SERV_UNAVAILABL, StateCnst.SCENE_LIC_SERV_UNAVAILABL],
-        [StateCnst.STATE_START_SCREEN, StateCnst.SCENE_START_SCREEN],
-        [StateCnst.STATE_GAME, StateCnst.SCENE_GAME]];
+        return [[StateCnst.SCENE_LIC_SERV_UNAVAILABL],
+                [StateCnst.SCENE_START_SCREEN],
+                [StateCnst.SCENE_GAME]];
     }
 
     [Before]
@@ -123,16 +120,16 @@ public class LicenseScenesSequenceTest {
     }
 
     [Test(dataProvider="lockableStatesDataProvider")]
-    public function testTransitionFromLockableStatesToLockState(fromStateName:String, sceneName:String):void {
+    public function testTransitionFromLockableStatesToLockState(sceneName:String):void {
         //given
         licProfile.serviceAvailable = true;
         licProfile.locked = false; //because check is running in background
         //then
         gameSceneBuilder.buildSceneSequence(new MockDisplayObjectContainer())
-        gameSceneBuilder.sceneFSM.changeState(fromStateName);
+        gameSceneBuilder.changeActiveSceneHandler(sceneName)  //force active scene
         assertThat(sceneCtrl(sceneName).active, equalTo(true))
-        licProfile.locked = true;
-        licProfile.dispatchEvent(new DataEvent(Cnst.EVENT_APP_IS_LOCKED));
+        licProfile.locked = true; // update lic state
+        licProfile.dispatchEvent(new DataEvent(Cnst.EVENT_APP_IS_LOCKED)); //notify
         //when
         assertThat(sceneCtrl(StateCnst.SCENE_START_SCREEN).active, equalTo(false))
         assertThat(sceneCtrl(StateCnst.SCENE_LOCKED).active, equalTo(true))
