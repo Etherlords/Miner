@@ -69,6 +69,16 @@ public class LicenseScenesSequenceTest {
         assertThat(lockedSceneCtrl.active, equalTo(true))
     }
 
+    [Test]
+    public function testServUnAvailable():void {
+        //given
+        licProfile.serviceAvailable = false;
+        //when
+        gameSceneBuilder.buildSceneSequence(new MockDisplayObjectContainer());
+        //then
+        var srvUnAvailblSceneCtrl:MockSceneController = sceneFactory.constructedMockScenes[StateCnst.SCENE_LIC_SERV_UNAVAILABL]
+        assertThat(srvUnAvailblSceneCtrl.active, equalTo(true))
+    }
 }
 
 }

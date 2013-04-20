@@ -45,15 +45,15 @@ import starling.display.DisplayObjectContainer;
             var startCntrlr:AbstractSceneController = newController(StateCnst.SCENE_START_SCREEN);
 
 			fsm.state(StateCnst.STATE_CHECK_LIC)
+                    .addTransition(StateEvent.EVENT_TYPE_ACTIVATE, "licServUnAvailbl")
+                            .addConditional(licService.licenseCheckHandler.isCheckServiceUnAvailable)
+                    .toState(StateCnst.STATE_LIC_SERV_UNAVAILABL)._from
                     .addTransition(StateEvent.EVENT_TYPE_ACTIVATE, "alreadyUnclocked")
 							.addConditional(licService.licenseCheckHandler.isUnLocked)
 						.toState(StateCnst.STATE_START_SCREEN)._from
 					.addTransition(StateEvent.EVENT_TYPE_ACTIVATE, "alredyLocked")
 							.addConditional(licService.licenseCheckHandler.isLocked)
-						.toState(StateCnst.STATE_LOCKED)._from
-					.addTransition(StateEvent.EVENT_TYPE_ACTIVATE, "licServUnAvailbl")
-							.addConditional(licService.licenseCheckHandler.isCheckServiceUnAvailable)
-						.toState(StateCnst.STATE_LIC_SERV_UNAVAILABL)
+						.toState(StateCnst.STATE_LOCKED)
 			
             fsm.state(StateCnst.STATE_LOCKED)
                     .addActivateHandler(newSceneFn(lockCtrlr, viewContainer))
