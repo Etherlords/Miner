@@ -6,19 +6,27 @@ buildscript {
 
 subprojects {
 
-apply plugin: 'gradlefx'
+    apply plugin: 'gradlefx'
 
-	additionalCompilerOptions << '-keep-as3-metadata+=Inject'
+    additionalCompilerOptions << '-keep-as3-metadata+=Inject'
 
     flexHome = System.getenv()['FLEX_HOME']
     resourceDirs = ['../asset']
-    srcDirs = ['../src',
-                '../external-libs/reality/src/main',
-                '../external-libs/starling/starling/src',
-                '../external-libs/Starling-Extension-Particle-System/src',
-				'../external-libs/feathers/source',
-				'../external-libs/feathers/examples/ComponentsExplorer/source',
-				'../external-libs/feathers/themes/MetalWorksMobileTheme/source'
-				]
+    srcDirs = [
+            '../modules/fms/src/main/actionscript',
+            '../modules/game-core/scr/main/actionscript',
+            '../modules/license/src/main/actionscript',
+            '../external-libs/reality/src/main',
+            '../external-libs/starling/starling/src',
+            '../external-libs/Starling-Extension-Particle-System/src',
+            '../external-libs/feathers/source',
+            '../external-libs/feathers/examples/ComponentsExplorer/source',
+            '../external-libs/feathers/themes/MetalWorksMobileTheme/source',
+            '../src'
+    ]
+
+    dependencies {
+        external fileTree(dir: "../libs/ane", include: '*.swc')
+    }
 
 }
