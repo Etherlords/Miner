@@ -47,6 +47,7 @@ import starling.display.DisplayObjectContainer;
             var startCntrlr:AbstractSceneController = newController(StateCnst.SCENE_START_SCREEN);
 
             licService.addEventListener(Cnst.EVENT_APP_IS_UNLOCKED, fsm.handleEvent);
+            licService.addEventListener(Cnst.EVENT_APP_IS_LOCKED, fsm.handleEvent);
 
 			fsm.state(StateCnst.STATE_CHECK_LIC)
                     .addTransition(StateEvent.EVENT_TYPE_ACTIVATE, "licServUnAvailbl")
@@ -67,22 +68,29 @@ import starling.display.DisplayObjectContainer;
 			fsm.state(StateCnst.STATE_LIC_SERV_UNAVAILABL)
                     .addActivateHandler(newSceneFn(licSrvUnAvailblCtrlr, viewContainer))
                     .addDeactivateHandler(licSrvUnAvailblCtrlr.deactivate)
-                    .addTransition(Cnst.EVENT_APP_IS_UNLOCKED).toState(StateCnst.STATE_CHECK_LIC)
-					
+                    .addTransition(Cnst.EVENT_APP_IS_UNLOCKED).toState(StateCnst.STATE_START_SCREEN)._from
+                    .addTransition(Cnst.EVENT_APP_IS_LOCKED).toState(StateCnst.STATE_LOCKED)
+
             fsm.state(StateCnst.STATE_START_SCREEN)
                     .addActivateHandler(newSceneFn(startCntrlr, viewContainer))
                     .addDeactivateHandler(startCntrlr.deactivate)
+                    .addTransition(Cnst.EVENT_APP_IS_LOCKED).toState(StateCnst.STATE_LOCKED)._from
                     .addTransition(StateEvents.STATE_OUT).toState(StateCnst.STATE_GAME)
 
             fsm.state(StateCnst.STATE_GAME)
                     .addActivateHandler(newSceneFn(gameCntrlr, viewContainer))
                     .addDeactivateHandler(gameCntrlr.deactivate)
+                    .addTransition(Cnst.EVENT_APP_IS_LOCKED).toState(StateCnst.STATE_LOCKED)._from
                     .addTransition(StateEvents.STATE_OUT).toState(StateCnst.STATE_START_SCREEN)
 
             fsm.start();
 			
 
 		}
+
+        public function get sceneFSM():FiniteStateMachine {
+            return fsm;
+        }
 
         private function newController(stateName:String):AbstractSceneController {
             var ctrl:AbstractSceneController = sceneControllerFactory.newController(stateName);

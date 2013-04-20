@@ -18,6 +18,7 @@ import model.TextureStore;
 import org.hamcrest.assertThat;
 import org.hamcrest.object.equalTo;
 
+[RunWith("org.flexunit.runners.Parameterized")]
 public class LicenseScenesSequenceTest {
 
 
@@ -26,6 +27,13 @@ public class LicenseScenesSequenceTest {
     private var licProfile:MockLicProfile
     private var gameSceneBuilder:GameSceneBuilder;
     private var sceneFactory:MockSceneCtrlFactory
+    //todo it must be scene keys only
+    public static function lockableStatesDataProvider():Array {
+        return [
+        [StateCnst.STATE_LIC_SERV_UNAVAILABL, StateCnst.SCENE_LIC_SERV_UNAVAILABL],
+        [StateCnst.STATE_START_SCREEN, StateCnst.SCENE_START_SCREEN],
+        [StateCnst.STATE_GAME, StateCnst.SCENE_GAME]];
+    }
 
     [Before]
     public function setUp():void {
@@ -109,15 +117,26 @@ public class LicenseScenesSequenceTest {
         //turn on service and unlock
         licProfile.serviceAvailable = true;
         licProfile.locked = true;
-        licProfile.dispatchEvent(new DataEvent(Cnst.EVENT_APP_IS_UNLOCKED));
+        licProfile.dispatchEvent(new DataEvent(Cnst.EVENT_APP_IS_LOCKED));
         //then
         assertThat(sceneCtrl(StateCnst.SCENE_LIC_SERV_UNAVAILABL).active, equalTo(false))
         assertThat(sceneCtrl(StateCnst.SCENE_LOCKED).active, equalTo(true))
     }
 
-    [Test]
-    public function testTransitionFromAnyStateToLock():void {
-        //todo implement
+    [Test(dataProvider="lockableStatesDataProvider")]
+    public function testTransitionFromLockableStatesToLockState(fromStateName:String, sceneName:String):void {
+        //given
+        licProfile.serviceAvailable = true;
+        licProfile.locked = false; //because check is running in background
+        //then
+        gameSceneBuilder.buildSceneSequence(new MockDisplayObjectContainer())
+        gameSceneBuilder.sceneFSM.changeState(fromStateName);
+        assertThat(sceneCtrl(sceneName).active, equalTo(true))
+        licProfile.locked = true;
+        licProfile.dispatchEvent(new DataEvent(Cnst.EVENT_APP_IS_LOCKED));
+        //when
+        assertThat(sceneCtrl(StateCnst.SCENE_START_SCREEN).active, equalTo(false))
+        assertThat(sceneCtrl(StateCnst.SCENE_LOCKED).active, equalTo(true))
     }
 }
 
