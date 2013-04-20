@@ -8,11 +8,10 @@
 package scene {
 
 import com.chaoslabgames.commons.fms.FiniteStateMachine;
-import com.chaoslabgames.commons.license.LicenseProfile;
+import com.chaoslabgames.commons.license.Cnst;
 import com.chaoslabgames.commons.license.impl.LicenseService;
-import com.chaoslabgames.commons.license.impl.profile.NullLicenseProfile;
-
 import core.ioc.Context;
+import flash.events.DataEvent;
 
 import model.TextureStore;
 
@@ -53,7 +52,7 @@ public class LicenseScenesSequenceTest {
         //when
         gameSceneBuilder.buildSceneSequence(new MockDisplayObjectContainer());
         //then
-        var startScreenCtrl:MockSceneController = sceneFactory.constructedMockScenes[StateCnst.SCENE_START_SCREEN]
+        var startScreenCtrl:MockSceneController = sceneCtrl(StateCnst.SCENE_START_SCREEN)
         assertThat(startScreenCtrl.active, equalTo(true))
     }
 
@@ -65,7 +64,7 @@ public class LicenseScenesSequenceTest {
         //when
         gameSceneBuilder.buildSceneSequence(new MockDisplayObjectContainer());
         //then
-        var lockedSceneCtrl:MockSceneController = sceneFactory.constructedMockScenes[StateCnst.SCENE_LOCKED]
+        var lockedSceneCtrl:MockSceneController = sceneCtrl(StateCnst.SCENE_LOCKED)
         assertThat(lockedSceneCtrl.active, equalTo(true))
     }
 
@@ -76,13 +75,28 @@ public class LicenseScenesSequenceTest {
         //when
         gameSceneBuilder.buildSceneSequence(new MockDisplayObjectContainer());
         //then
-        var srvUnAvailblSceneCtrl:MockSceneController = sceneFactory.constructedMockScenes[StateCnst.SCENE_LIC_SERV_UNAVAILABL]
+        var srvUnAvailblSceneCtrl:MockSceneController = sceneCtrl(StateCnst.SCENE_LIC_SERV_UNAVAILABL)
         assertThat(srvUnAvailblSceneCtrl.active, equalTo(true))
     }
 
     [Test]
     public function testTransitionFromUnAvailableToUnLock():void {
-        //todo implement
+        //given
+        licProfile.serviceAvailable = false;
+        //when
+        gameSceneBuilder.buildSceneSequence(new MockDisplayObjectContainer())
+        assertThat(sceneCtrl(StateCnst.SCENE_LIC_SERV_UNAVAILABL).active, equalTo(true))
+        //turn on service and unlock
+        licProfile.serviceAvailable = true;
+        licProfile.locked = false;
+        licProfile.dispatchEvent(new DataEvent(Cnst.EVENT_APP_IS_UNLOCKED));
+        //then
+        assertThat(sceneCtrl(StateCnst.SCENE_LIC_SERV_UNAVAILABL).active, equalTo(false))
+        assertThat(sceneCtrl(StateCnst.SCENE_START_SCREEN).active, equalTo(true))
+    }
+
+    private function sceneCtrl(id:String):MockSceneController {
+        return sceneFactory.constructedMockScenes[id]
     }
 
     [Test]
@@ -102,7 +116,7 @@ import com.chaoslabgames.commons.license.LicenseProfile;
 
 import core.scene.AbstractSceneController;
 
-import flash.events.Event;
+import flash.events.EventDispatcher;
 import flash.utils.Dictionary;
 
 import scene.ISceneControllerFactory;
@@ -134,7 +148,7 @@ internal class MockSceneController extends AbstractSceneController {
     }
 }
 
-internal class MockLicProfile implements LicenseProfile {
+internal class MockLicProfile extends EventDispatcher implements LicenseProfile {
 
     public var locked:Boolean = true;
     public var serviceAvailable:Boolean = true;
@@ -158,23 +172,6 @@ internal class MockLicProfile implements LicenseProfile {
         return !serviceAvailable;
     }
 
-    public function addEventListener(type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false):void {
-    }
-
-    public function removeEventListener(type:String, listener:Function, useCapture:Boolean = false):void {
-    }
-
-    public function dispatchEvent(event:Event):Boolean {
-        return false;
-    }
-
-    public function hasEventListener(type:String):Boolean {
-        return false;
-    }
-
-    public function willTrigger(type:String):Boolean {
-        return false;
-    }
 }
 
 internal class MockDisplayObjectContainer extends DisplayObjectContainer {

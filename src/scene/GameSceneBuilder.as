@@ -1,6 +1,7 @@
 package scene {
 import com.chaoslabgames.commons.fms.FiniteStateMachine;
 import com.chaoslabgames.commons.fms.events.StateEvent;
+import com.chaoslabgames.commons.license.Cnst;
 import com.chaoslabgames.commons.license.impl.LicenseService;
 
 import core.scene.AbstractSceneController;
@@ -26,13 +27,14 @@ import starling.display.DisplayObjectContainer;
         [Inject]
         public var licService:LicenseService;
 
-        private var fsm:FiniteStateMachine = new FiniteStateMachine();
+        private var fsm:FiniteStateMachine;
 
         private var sceneControllerFactory:ISceneControllerFactory;
 
         public function GameSceneBuilder(sceneControllerFactory:ISceneControllerFactory)
 		{
 			inject(this);
+            fsm = new FiniteStateMachine();
 			this.sceneControllerFactory = sceneControllerFactory
 		}
 		
@@ -43,6 +45,8 @@ import starling.display.DisplayObjectContainer;
             var licSrvUnAvailblCtrlr:AbstractSceneController = newController(StateCnst.SCENE_LIC_SERV_UNAVAILABL);
             var gameCntrlr:AbstractSceneController = newController(StateCnst.SCENE_GAME);
             var startCntrlr:AbstractSceneController = newController(StateCnst.SCENE_START_SCREEN);
+
+            licService.addEventListener(Cnst.EVENT_APP_IS_UNLOCKED, fsm.handleEvent);
 
 			fsm.state(StateCnst.STATE_CHECK_LIC)
                     .addTransition(StateEvent.EVENT_TYPE_ACTIVATE, "licServUnAvailbl")
@@ -63,7 +67,7 @@ import starling.display.DisplayObjectContainer;
 			fsm.state(StateCnst.STATE_LIC_SERV_UNAVAILABL)
                     .addActivateHandler(newSceneFn(licSrvUnAvailblCtrlr, viewContainer))
                     .addDeactivateHandler(licSrvUnAvailblCtrlr.deactivate)
-                    .addTransition(StateEvents.STATE_OUT).toState(StateCnst.STATE_START_SCREEN)
+                    .addTransition(Cnst.EVENT_APP_IS_UNLOCKED).toState(StateCnst.STATE_CHECK_LIC)
 					
             fsm.state(StateCnst.STATE_START_SCREEN)
                     .addActivateHandler(newSceneFn(startCntrlr, viewContainer))
