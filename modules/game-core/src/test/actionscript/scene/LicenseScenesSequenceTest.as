@@ -21,12 +21,11 @@ import org.hamcrest.object.equalTo;
 [RunWith("org.flexunit.runners.Parameterized")]
 public class LicenseScenesSequenceTest {
 
-
-    private var fsm:FiniteStateMachine;
     private var licService:LicenseService;
     private var licProfile:MockLicProfile
     private var gameSceneBuilder:GameSceneBuilder;
     private var sceneFactory:MockSceneCtrlFactory
+
     //todo it must be scene keys only
     public static function lockableStatesDataProvider():Array {
         return [
@@ -201,9 +200,7 @@ internal class MockLicProfile extends EventDispatcher implements LicenseProfile 
     public function isCheckServiceUnAvailable():Boolean {
         return !serviceAvailable;
     }
-
 }
 
 internal class MockDisplayObjectContainer extends DisplayObjectContainer {
-
 }
