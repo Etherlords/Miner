@@ -30,7 +30,8 @@ airMobile {
 
 adl {
 	profile "mobileDevice"
-	screenSize "iPad"
+	screenSize "600x1024:600x1024"
+    screenDpi "170"
 }
 
 task('setDebugOptions') << {
