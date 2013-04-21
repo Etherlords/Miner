@@ -25,7 +25,7 @@ airMobile {
     	simulatorTarget = 'apk-debug'
    	simulatorPlatformSdk = project.androidHome
    	simulatorTargetDevice = "emulator-5554"
-    extensionDir "../libs/ane"
+    //extensionDir "../libs/ane"
 } 
 
 adl {
@@ -34,9 +34,14 @@ adl {
 }
 
 task('setDebugOptions') << {
-    additionalCompilerOptions << '-debug'
+    output = 'miner_debug'
+    additionalCompilerOptions << '-debug=true'
     airMobile {
         target 'apk-debug'
+        connect '192.168.1.138'
+    }
+    air {
+        applicationDescriptor 'miner-debug-app.xml'
     }
 }
 

@@ -26,7 +26,7 @@ subprojects {
     ]
 
     dependencies {
-        external fileTree(dir: "../libs/ane", include: '*.swc')
+        internal fileTree(dir: "../libs/ane", include: '*.swc')
     }
 
 }
