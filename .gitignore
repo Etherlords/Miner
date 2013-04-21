@@ -52,7 +52,8 @@ bin
 bin-debug
 **/bin-debug/*.*
 
-
+external-libs/feathers
+**/external-libs/feathers/*.*
 
 
 # Packages #
