@@ -50,13 +50,13 @@ package
 			
 			stageWidth = stage.stageWidth;
 			stageHeight = stage.stageHeight;
-			
+			/*
 			if ('orientation' in stage && stage['orientation'] != 'default')
 			{
 				stageWidth = stage.stageHeight;
 				stageHeight = stage.stageWidth;
 			}
-			trace('create starling');
+			trace('create starling');  */
 			CellConstants.APPLICATION_WIDTH = stageWidth;
 			CellConstants.APPLICATION_HEIGHT = stageHeight;
 			
