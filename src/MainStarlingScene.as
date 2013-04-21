@@ -6,10 +6,7 @@ package
 	import model.TextureStore;
 	import particles.boomParticle.BoomParticle;
 	import scene.GameSceneBuilder;
-<<<<<<< HEAD
-=======
 	import scene.SceneControllerFactoryImpl;
->>>>>>> b738378e582610f95236d12897551ec55b8feecb
 	import starling.animation.Tween;
 	import starling.core.Starling;
 	import starling.display.DisplayObjectContainer;
