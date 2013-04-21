@@ -5,6 +5,7 @@ package
 	import flash.text.TextField;
 	import model.TextureStore;
 	import particles.boomParticle.BoomParticle;
+	import scene.GameSceneBuilder;
 	import starling.animation.Tween;
 	import starling.core.Starling;
 	import starling.display.DisplayObjectContainer;

@@ -21,6 +21,8 @@
     <class path="..\external-libs\starling\starling\src" />
     <class path="..\external-libs\Starling-Extension-Particle-System\src" />
     <class path="..\src" />
+    <class path="..\modules\license\src\main\actionscript" />
+    <class path="..\modules\fms\src\main\actionscript" />
   </classpaths>
   <!-- Build options -->
   <build>
