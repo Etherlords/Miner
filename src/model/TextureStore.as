@@ -2,13 +2,11 @@ package model
 {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
-	import flash.events.IEventDispatcher;
 	import flash.events.ProgressEvent;
 	import flash.net.URLLoader;
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
 	import flash.system.Capabilities;
-	import flash.system.Security;
 	import starling.text.BitmapFont;
 	import starling.text.TextField;
 	import starling.textures.Texture;
@@ -23,7 +21,7 @@ package model
 	 * ...
 	 * @author 
 	 */
-	public class TextureStore extends TestObj implements ITest, IEventDispatcher
+	public class TextureStore extends EventDispatcher
 	{
 		private var texturesAtlas:TextureAtlas;
 		

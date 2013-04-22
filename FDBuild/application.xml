@@ -40,6 +40,7 @@
     <renderMode>direct</renderMode>
     <systemChrome>standard</systemChrome>
     <aspectRatio>portrait</aspectRatio>
+    <autoOrients>false</autoOrients>
   </initialWindow>
   <icon>
     <image48x48>icons/icon_48.png</image48x48>

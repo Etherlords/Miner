@@ -1,7 +1,6 @@
 package  
 {
 	import feathers.controls.ProgressBar;
-	import flash.events.IEventDispatcher;
 	import flash.text.TextField;
 	import model.TextureStore;
 	import particles.boomParticle.BoomParticle;
@@ -13,18 +12,15 @@ package
 	import starling.display.Image;
 	import starling.events.Event;
 	import utils.GlobalUIContext;
-	import view.theme.ProgressBarInitilizer;
 	
 	public class MainStarlingScene extends DisplayObjectContainer 
 	{
 		private var progress:TextField;
 		private var progressBar:ProgressBar;
 		private var back:Image;
-		[Inject(id=identinjection)]
-		public var texturesStore:TextureStore
 		
 		[Inject]
-		public var test:IEventDispatcher
+		public var texturesStore:TextureStore
 		
 		public function MainStarlingScene()
 		{
@@ -40,19 +36,19 @@ package
 			new ApplicationBootstrap().launch();
 			inject(this);
 			
-			new ProgressBarInitilizer()
+			//new ProgressBarInitilizer()
 			
-			back = new Image(MinimalAsset.loadBgTexture);
-			addChild(back);
+			//back = new Image(MinimalAsset.loadBgTexture);
+			//addChild(back);
 			
-			back.x = (stage.stageWidth - back.width) / 2;
-			back.y = (stage.stageHeight - back.height) / 2;
+			//back.x = (stage.stageWidth - back.width) / 2;
+			//back.y = (stage.stageHeight - back.height) / 2;
 			
-			progressBar = new ProgressBar();
-			progressBar.width = stage.stageWidth / 1.5;
-			progressBar.x = (stage.stageWidth - progressBar.width) / 2;
-			progressBar.y = stage.stageHeight - 200;
-			addChild(progressBar);
+			//progressBar = new ProgressBar();
+			//progressBar.width = stage.stageWidth / 1.5;
+			//progressBar.x = (stage.stageWidth - progressBar.width) / 2;
+			//progressBar.y = stage.stageHeight - 200;
+			//addChild(progressBar);
 			
 			texturesStore.addEventListener(Event.COMPLETE, hereGo);
 			texturesStore.addEventListener('progress', onLoadProgress);
@@ -69,11 +65,11 @@ package
 			r['overallProgress'] = progress? progress.bytesLoaded:0
 			*/
 			
-			var r:Object = texturesStore.getLoadingInfo();
+			//var r:Object = texturesStore.getLoadingInfo();
 			
-			var twe:Tween = new Tween(progressBar, 0.2);
-			twe.animate('value', r.overallProgress);
-			Starling.current.juggler.add(twe);
+			//var twe:Tween = new Tween(progressBar, 0.2);
+			//twe.animate('value', r.overallProgress);
+			//Starling.current.juggler.add(twe);
 		}
 		
 		private function hereGo(e:*):void 

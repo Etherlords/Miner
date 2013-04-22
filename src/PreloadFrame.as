@@ -1,5 +1,6 @@
 package
 {
+	import flash.display.Bitmap;
 	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
 	import flash.events.Event;
@@ -11,6 +12,7 @@ package
 	 */
 	public class PreloadFrame extends MovieClip
 	{
+		private var bg:Bitmap;
 		
 		public function PreloadFrame()
 		{
@@ -19,7 +21,8 @@ package
 		
 		private function initilize():void
 		{
-			
+			bg = new Bitmap(MinimalAsset.bg_load);
+			addChild(bg);
 			addEventListener(Event.ENTER_FRAME, onFrame);
 		}
 		
@@ -30,7 +33,9 @@ package
 			if (framesLoaded == totalFrames)
 			{
 				removeEventListener(Event.ENTER_FRAME, onFrame);
-				graphics.clear();
+				
+				removeChild(bg);
+				
 				nextFrame();
 				
 				complete();
@@ -41,11 +46,7 @@ package
 			}
 			
 			var percent:Number = root.loaderInfo.bytesLoaded / root.loaderInfo.bytesTotal;
-			graphics.beginFill(0xFFFFFF);
-			graphics.drawRect(0, 0, stage.stageWidth * percent, stage.stageHeight);
-			graphics.endFill();
 			
-			trace(root.loaderInfo.bytesLoaded, root.loaderInfo.bytesTotal);
 		}
 		
 		private function complete():void
