@@ -166,14 +166,7 @@ package
 			this._originalDPI = scaledDPI;
 			if(this._scaleToDPI)
 			{
-				if(DeviceCapabilities.isTablet(Starling.current.nativeStage))
-				{
-					this._originalDPI = 72//ORIGINAL_DPI_IPAD_RETINA;
-				}
-				else
-				{
-					this._originalDPI = ORIGINAL_DPI_IPHONE_RETINA;
-				}
+    			this._originalDPI = DeviceCapabilities.dpi//ORIGINAL_DPI_IPAD_RETINA;
 			}
 			
 
