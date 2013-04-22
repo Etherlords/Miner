@@ -25,8 +25,8 @@ package view.theme
 			
 			
 			super(container)
-			progressBackground = MinimalAsset.preloaderBgTexture;
-			progress = MinimalAsset.preloaderTexture;
+			//progressBackground = MinimalAsset.preloaderBgTexture;
+			//progress = MinimalAsset.preloaderTexture;
 			
 			this.setInitializerForClass(ProgressBar, progressBarInitializer);
 		}
