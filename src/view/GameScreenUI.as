@@ -150,7 +150,7 @@ package view
 			minesCount.addElements(mineIcon, minesOnFieldValue);
 			fieldContainer.addElements(fieldIcon, openedFieldsValue);
 			
-			uiPanel = new AlignContainer(0, isLand ? AlignContainer.RIGHT:AlignContainer.BOTTOM);
+			uiPanel = new AlignContainer(5, isLand ? AlignContainer.RIGHT:AlignContainer.BOTTOM);
 			
 			uiPanel.addElements(timer, minesCount, fieldContainer);
 			
@@ -170,7 +170,8 @@ package view
 				if(updateStrategy.hasOwnProperty(fieldName))
 					updateStrategy[fieldName]();
 					
-			uiPanel.flatten();
+			align();
+			//uiPanel.flatten();
 		}
 		
 		private function aligneToIconY(icon:DisplayObject, alignElement:DisplayObject):void
@@ -181,6 +182,7 @@ package view
 		
 		private function aligneToX(icon:DisplayObject, alignElement:DisplayObject):void
 		{
+			
 			alignElement.x = icon.x + (icon.width - alignElement.width) / 2;
 			//alignElement.y = icon.y + (icon.height - alignElement.height) / 2;
 		}
@@ -192,7 +194,7 @@ package view
 			
 			if(!stage)
 				return;
-			
+				
 			fullScreen.x = 5;
 			fullScreen.y = stage.stageHeight - 5 - fullScreen.height;
 			
@@ -201,8 +203,7 @@ package view
 			
 			maxWidth = backButton.x + backButton.width + 5;
 			
-			trace(Math.max(timerIcon.width, timerValue.getTextBoudns().width));
-			
+			uiPanel.align();
 			uiPanel.y = 10;
 			
 			if (CellConstants.APPLICATION_HEIGHT > CellConstants.APPLICATION_WIDTH)
