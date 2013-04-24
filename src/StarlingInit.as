@@ -37,7 +37,7 @@ package
 				onAdded();
 				else
 					addEventListener(Event.ADDED_TO_STAGE, onAdded);
-			//addChild(new TheMiner()); 
+			//addChild(new TheMiner());
 		}
 		
 		private function onAdded(e:Event = null):void
