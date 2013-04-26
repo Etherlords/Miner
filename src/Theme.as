@@ -39,7 +39,7 @@ package
 		protected static const ORIGINAL_DPI_IPHONE_RETINA:int = 326;
 		protected static const ORIGINAL_DPI_IPAD_RETINA:int = 264;
 		protected static const DEFAULT_SCALE9_GRID:Rectangle = new Rectangle(5, 5, 22, 22);
-		protected static const BUTTON_SCALE9_GRID:Rectangle = new Rectangle(5, 5, 302, 32);
+		protected static const BUTTON_SCALE9_GRID:Rectangle = new Rectangle(7, 7, 2, 2);
 		protected static const BUTTON_SELECTED_SCALE9_GRID:Rectangle = new Rectangle(8, 8, 44, 44);
 		protected static const BACK_BUTTON_SCALE3_REGION1:Number = 24;
 		protected static const BACK_BUTTON_SCALE3_REGION2:Number = 6;
