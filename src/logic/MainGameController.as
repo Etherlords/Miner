@@ -29,8 +29,6 @@ package logic
 	import view.components.Alert;
 	import view.MainGaimView;
 	
-	
-	
 	/**
 	 * ...
 	 * @author Nikro
@@ -289,9 +287,10 @@ package logic
 		{
 			var jindex:int;
 			var index:int;
-			for (index = 0; index < mineField.fieldWidth; index++)
+			
+			for (index = mineField.fieldWidth - 1; index != -1; --index)
 				{
-					for (jindex = 0; jindex < mineField.fieldHeight; jindex++)
+					for (jindex = mineField.fieldHeight - 1; jindex != -1; --jindex)
 					{
 						
 						if (mineField.viewField[index][jindex].fieldStatus == -1)
@@ -411,36 +410,41 @@ package logic
 			
 			if (limitFlag)
 				return;
+				
+			var jIsntZero:Boolean = j != 0;
+			var iIsntZero:Boolean = i != 0;
+			var iIsntLast:Boolean = i != mineField.fieldWidth - 1;
+			var jInstLast:Boolean = j != mineField.fieldWidth - 1;
 			
-			if (j != 0)
+			if (jIsntZero)
 				foundOpenNeighbors(i, j - 1, openSpace);
 			
-			if (i != 0)
+			if (iIsntZero)
 				foundOpenNeighbors(i - 1, j, openSpace);
 			
-			if (j != mineField.fieldWidth - 1)
+			if (jInstLast)
 				foundOpenNeighbors(i, j + 1, openSpace);
 			
-			if (i != mineField.fieldHeight - 1)
+			if (iIsntLast)
 				foundOpenNeighbors(i + 1, j, openSpace);
 		
 		
-			if (i != 0 && j != 0)
+			if (iIsntZero && jIsntZero)
 			{
 				foundOpenNeighbors(i - 1, j - 1, openSpace );
 			}
 
-			if (i != mineField.fieldWidth - 1 && j != mineField.fieldWidth - 1)
+			if (iIsntLast && jInstLast)
 			{
 				foundOpenNeighbors(i + 1, j + 1, openSpace );
 			}
 
-			if (i != mineField.fieldWidth - 1 && j != 0)
+			if (iIsntLast && jIsntZero)
 			{
 				foundOpenNeighbors(i + 1, j - 1, openSpace );
 			}
 
-			if (i != 0 && j != mineField.fieldWidth - 1)
+			if (iIsntZero && j != mineField.fieldWidth - 1)
 			{
 				foundOpenNeighbors(i - 1, j + 1, openSpace );
 			}
