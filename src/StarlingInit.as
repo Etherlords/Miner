@@ -1,7 +1,6 @@
 package
 {
 	import flash.desktop.*;
-	import flash.display.BitmapData;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.display.StageDisplayState;
@@ -14,8 +13,6 @@ package
 	import flash.system.Capabilities;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
-	import flash.ui.Mouse;
-	import flash.ui.MouseCursorData;
 	import model.CellConstants;
 	import starling.core.Starling;
 	import starling.utils.RectangleUtil;
@@ -69,14 +66,8 @@ package
 			
 			var scaleFactor:int = viewPort.width < stageWidth ? 1 : 2;
 			
-			var cursor:MouseCursorData = new MouseCursorData();
-			cursor.data = new <BitmapData>[new BitmapData(1, 1, true, 0x01000000)];
-			Mouse.registerCursor('noCursor', cursor);
-			
 			mStarling = new Starling(MainStarlingScene, stage, viewPort, null, Context3DRenderMode.AUTO, 'baseline');
 			GlobalUIContext.starlingInstance = mStarling;
-			//stage.addEventListener(Event.RESIZE, onFullScreen);
-			//stage.addEventListener(FullScreenEvent.FULL_SCREEN, fullScreenEvent);
 			
 			mStarling.simulateMultitouch = false;
 			mStarling.enableErrorChecking = false;
