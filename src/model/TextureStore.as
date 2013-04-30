@@ -95,12 +95,9 @@ package model
 		
 		private function allComplete():void 
 		{
-		
 			texturesAtlas = new TextureAtlas(Texture.fromBitmapData(unpackedFiles.getItem('asset.png')), unpackedFiles.getItem('asset.xml'))
 			var theme:Theme = new Theme(texturesAtlas);
-			
-			
-			
+
 			var texture:Texture = texturesAtlas.getTexture('a_LCDNova_0');
 			
 			var xml:XML = XML(unpackedFiles.getItem('a_LCDNova.fnt'));
@@ -120,7 +117,6 @@ package model
 			dispatchEvent(new Event(Event.COMPLETE));
 			
 			isInited = true;
-			
 		}
 	}
 

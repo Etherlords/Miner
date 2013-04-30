@@ -6,6 +6,7 @@ package
 	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.utils.getDefinitionByName;
+	import view.components.progressBar.ProgressBar;
 	
 	/**
 	 * ...
@@ -13,7 +14,9 @@ package
 	 */
 	public class PreloadFrame extends MovieClip
 	{
+		private var inited:Boolean = false;
 		private var bg:Bitmap;
+		private var progress:ProgressBar;
 		
 		public function PreloadFrame()
 		{
@@ -22,37 +25,52 @@ package
 		
 		private function initilize():void
 		{
+			progress = new ProgressBar();
+			progress.maxWidth = stage.stageWidth - 100;
+			progress.progressModel.bgPattern = MinimalAsset.preloader_bg;
+			progress.progressModel.progressPattern = MinimalAsset.preloader;;
+			progress.x = 50;
+			progress.y = stage.stageHeight - stage.stageHeight/4;
+			
 			bg = new Bitmap(MinimalAsset.bg_load);
 			addChild(bg);
+			addChild(progress);
 			addEventListener(Event.ENTER_FRAME, onFrame);
 		}
 		
 		private function onFrame(e:Event):void
 		{
-			graphics.clear();
+			var percent:Number = root.loaderInfo.bytesLoaded / root.loaderInfo.bytesTotal;
+			progress.progressModel.progress = percent;
+			progress.update();
 			
 			if (framesLoaded == totalFrames)
 			{
-				removeEventListener(Event.ENTER_FRAME, onFrame);
+				//
 				
-				removeChild(bg);
+				if(!inited)
+					complete();
 				
-				nextFrame();
+				progress.alpha -= 0.025;
+				bg.alpha = progress.alpha;
 				
-				complete();
+				if (progress.alpha <= 0)
+				{
+					removeEventListener(Event.ENTER_FRAME, onFrame);
+					removeChild(bg);
+					removeChild(progress);
+				}
 				
 				
 				return;
-				
 			}
 			
-			var percent:Number = root.loaderInfo.bytesLoaded / root.loaderInfo.bytesTotal;
 			
 		}
 		
 		private function complete():void
 		{
-			
+			inited = true;
 			var mainClass:Class = Class(getDefinitionByName('StarlingInit'));
 			if (mainClass)
 			{

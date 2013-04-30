@@ -32,6 +32,7 @@ package
 		
 		public function StarlingInit()
 		{
+			new ApplicationBootstrap().launch();
 			
 			if (stage)
 				onAdded();
