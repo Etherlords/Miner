@@ -1,4 +1,4 @@
-package  
+package  asset
 {
 	import flash.display.BitmapData;
 	/**
@@ -19,6 +19,10 @@ package
 		[Embed(source = "/../asset/bg_load.jpg")]
 		public static var loadBgSource:Class;
 		public static var bg_load:BitmapData = new loadBgSource().bitmapData;
+		
+		[Embed(source = "/../asset/fonts/a_LCDNova.ttf", fontName = "a_LCDNova", mimeType = "application/x-font", embedAsCFF = "false")]
+		protected static const LCD_NOVA_FONT:Class;
+
 	
 	}
 

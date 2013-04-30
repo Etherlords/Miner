@@ -36,43 +36,13 @@ package
 			new ApplicationBootstrap().launch();
 			inject(this);
 			
-			//new ProgressBarInitilizer()
-			
-			//back = new Image(MinimalAsset.loadBgTexture);
-			//addChild(back);
-			
-			//back.x = (stage.stageWidth - back.width) / 2;
-			//back.y = (stage.stageHeight - back.height) / 2;
-			
-			//progressBar = new ProgressBar();
-			//progressBar.width = stage.stageWidth / 1.5;
-			//progressBar.x = (stage.stageWidth - progressBar.width) / 2;
-			//progressBar.y = stage.stageHeight - 200;
-			//addChild(progressBar);
-			
-			texturesStore.addEventListener(Event.COMPLETE, hereGo);
-			texturesStore.addEventListener('progress', onLoadProgress);
-			texturesStore.preload();
-			
+			if (texturesStore.isInited)
+				hereGo()
+			else
+				texturesStore.addEventListener(Event.COMPLETE, hereGo);
 		}
 		
-		private function onLoadProgress(e:*):void 
-		{
-			/*r['percent'] = progress? progress.bytesLoaded / progress.bytesTotal : 0;
-			r['currentlyLoad'] = currentFiled;
-			r['bytesTottal'] = progress? progress.bytesTotal:0
-			r['bytesLoaded'] = progress? progress.bytesLoaded:0
-			r['overallProgress'] = progress? progress.bytesLoaded:0
-			*/
-			
-			//var r:Object = texturesStore.getLoadingInfo();
-			
-			//var twe:Tween = new Tween(progressBar, 0.2);
-			//twe.animate('value', r.overallProgress);
-			//Starling.current.juggler.add(twe);
-		}
-		
-		private function hereGo(e:*):void 
+		private function hereGo(e:* = null):void 
 		{
 			var b:BoomParticle = new BoomParticle();
 			

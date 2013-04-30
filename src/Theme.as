@@ -33,8 +33,6 @@ package
 	{
 	
 		
-		[Embed(source="/../asset/fonts/a_LCDNova.ttf",fontName="a_LCDNova",mimeType="application/x-font",embedAsCFF="false")]
-		protected static const LCD_NOVA_FONT:Class;
 		
 		protected static const ORIGINAL_DPI_IPHONE_RETINA:int = 326;
 		protected static const ORIGINAL_DPI_IPAD_RETINA:int = 264;

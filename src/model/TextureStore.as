@@ -1,12 +1,11 @@
 package model 
 {
+	import asset.GameAsset;
+	import core.collections.SimpleMap;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
-	import flash.events.ProgressEvent;
-	import flash.net.URLLoader;
-	import flash.net.URLLoaderDataFormat;
-	import flash.net.URLRequest;
-	import flash.system.Capabilities;
+	import org.as3commons.zip.Zip;
+	import org.as3commons.zip.ZipFile;
 	import starling.text.BitmapFont;
 	import starling.text.TextField;
 	import starling.textures.Texture;
@@ -23,9 +22,16 @@ package model
 	 */
 	public class TextureStore extends EventDispatcher
 	{
+		public var isInited:Boolean = false;
+		
 		private var texturesAtlas:TextureAtlas;
+		private var zip:Zip;
+		
+		private var unpackedFiles:SimpleMap = new SimpleMap();
 		
 		public static var numbers:Array = [];
+		
+		private var decoders:Object = { 'fnt':XMLDecoder, 'xml':XMLDecoder, 'jpg':PngDecoder, 'png':PngDecoder, 'atf':ATFDecoder};
 		
 		public static const LOAD_BG:String = 'bg_load.jpg';
 		public static const START_BG:String = 'bg_start.jpg';
@@ -33,144 +39,71 @@ package model
 		public static const GAME_BG:String = 'bg_game.jpg';
 		public static const GAME_BG_C:String = 'bg_game_c.jpg';
 		
-		private var toLoad:Array = [
-										'a_LCDNova.fnt', 'asset.xml', 'bg_start.jpg', 'bg_load.jpg', 'bg_menu.jpg', 'bg_game.jpg'
-																	, 'bg_start_c.jpg', 'bg_load_c.jpg'			  , 'bg_game_c.jpg'
-									];
-		private var files:Object = { };
-		private var decoders:Object = { 'fnt':XMLDecoder, 'xml':XMLDecoder, 'jpg':PngDecoder, 'png':PngDecoder, 'atf':ATFDecoder};
-		private var toDecode:Number;
-		private var assetName:String;
-		private var assetFormat:String;
-		private var currentFiled:String;
-		private var progress:ProgressEvent;
-		private var tottalFilesCount:Number
+		public function TextureStore() 
+		{
+			super();
+			
+			initilize();
+		}
+		
+		private function initilize():void 
+		{
+			zip = GameAsset.getZip();
+			prepareAsset();
+		}
+		
+		private function prepareAsset():void 
+		{
+			var fileFirmat:String;
+			var file:ZipFile;
+			for (var i:int = 0; i < zip.getFileCount(); ++i)
+			{
+				file = zip.getFileAt(i);
+				
+				fileFirmat = file.filename.split('.')[1];
+				
+				var decoder:IDecoder = new decoders[fileFirmat];
+				decoder.addEventListener(Event.COMPLETE, Delegate.create(onDecoded, file.filename, decoder));
+				decoder.decode(file.content);
+				
+			}
+		}
+		
+		private function onDecoded(filename:String, decoder:IDecoder):void 
+		{
+			unpackedFiles.addItem(filename, decoder.data);
+			
+			if (unpackedFiles.length == zip.getFileCount())
+				allComplete();
+		}
 		
 		public function getTexture(name:String):Texture
 		{
 			var texture:Texture = texturesAtlas.getTexture(name)
 			if (!texture)
 			{
-				if (files[name])
+				if (zip.getFileByName(name))
 				{
-					texture = Texture.fromBitmapData(files[name]);
+					
+					
+					texture = Texture.fromBitmapData(unpackedFiles.getItem(name));
 				}
 			}
 			
 			return texture;
 		}
 		
-		public function preload():void
-		{
-			assetName = 'asset';
-			assetFormat = ''
-			
-			var version:Array = Capabilities.version.split(' ')[1].split(',');
-	
-			if (false)//version[0] == 11 && version[1] >= 4 && Security.sandboxType != Security.APPLICATION)
-			{
-				assetFormat = '.atf';
-			}
-			else
-			{
-				assetFormat = '.png';
-			}
-			
-			toLoad.push(assetName+assetFormat);
-			toDecode = toLoad.length;
-			tottalFilesCount = toLoad.length;
-			load();
-		}
-		
-		private function load():void
-		{
-			if (toLoad.length == 0)
-			{
-				loadingComplete()
-				return;
-			}
-				
-				
-			currentFiled = toLoad.pop();
-			var r:URLRequest = new URLRequest(currentFiled);
-			
-			var loader:URLLoader = new URLLoader(r);
-			loader.dataFormat = URLLoaderDataFormat.BINARY;
-			loader.addEventListener(Event.COMPLETE, Delegate.create(onLoaded, currentFiled, loader));
-			loader.addEventListener(ProgressEvent.PROGRESS, Delegate.create(onProgress, currentFiled, loader));
-		}
-		
-		private function onProgress(e:ProgressEvent, f:String, loader:URLLoader):void
-		{
-			progress = e;
-		}
-		
-		
-		public function getLoadingInfo():Object
-		{
-			var r:Object = { };
-			r['percent'] = progress? progress.bytesLoaded / progress.bytesTotal : 0;
-			r['currentlyLoad'] = currentFiled;
-			r['bytesTottal'] = progress? progress.bytesTotal:0
-			r['bytesLoaded'] = progress? progress.bytesLoaded:0
-			r['overallProgress'] = (tottalFilesCount - toLoad.length) / tottalFilesCount ;
-			
-			return r;
-		}
-		
-		private function loadingComplete():void 
-		{
-			
-			for (var file:String in files)
-			{
-				
-				var format:String = file.split('.')[1];
-				var decoder:IDecoder = new decoders[format] as IDecoder;
-				
-				decoder.addEventListener(Event.COMPLETE, Delegate.create(onFileDecoded, decoder, file))
-				decoder.decode(files[file]);
-			}
-		}
-		
-		private function onFileDecoded(decoder:IDecoder, file:String):void 
-		{
-			files[file] = decoder.data;
-			toDecode--;
-			decoder.destroy();
-			
-			if (toDecode == 0)
-				allComplete();
-		}
-		
-		private function onLoaded(e:*, f:String, loader:URLLoader):void 
-		{
-			files[f] = loader.data;
-			load();
-			
-			dispatchEvent(new Event('progress'));
-		}
-		
 		private function allComplete():void 
 		{
-			var assetSource:String = assetName + assetFormat;
-			var assetSettings:String = assetName + '.xml';
-			if(files.hasOwnProperty(assetFormat == '.atf'))
-			{
-				trace('create atf atlas');
-				texturesAtlas = new TextureAtlas(Texture.fromAtfData(files[assetSource]), files[assetSettings]);
-			}
-			else
-			{
-				trace('create bitmap atlas');
-				texturesAtlas = new TextureAtlas(Texture.fromBitmapData(files[assetSource]), files[assetSettings])
-				var theme:Theme = new Theme(texturesAtlas);
-			}
+		
+			texturesAtlas = new TextureAtlas(Texture.fromBitmapData(unpackedFiles.getItem('asset.png')), unpackedFiles.getItem('asset.xml'))
+			var theme:Theme = new Theme(texturesAtlas);
 			
 			
 			
-			var texture:Texture = texturesAtlas.getTexture('a_LCDNova_0');// getTexture("DesyrelTexture");
+			var texture:Texture = texturesAtlas.getTexture('a_LCDNova_0');
 			
-			var xml:XML = XML(files['a_LCDNova.fnt']);
+			var xml:XML = XML(unpackedFiles.getItem('a_LCDNova.fnt'));
 			var bitmapFont:BitmapFont = new BitmapFont(texture, xml)
 			bitmapFont.smoothing = TextureSmoothing.TRILINEAR;
 			TextField.registerBitmapFont(bitmapFont);
@@ -184,14 +117,10 @@ package model
 				numbers.push(Texture.fromTexture(key));
 			}
 			
-			trace('preload complete');
 			dispatchEvent(new Event(Event.COMPLETE));
 			
-		}
-		
-		public function TextureStore() 
-		{
-			super();
+			isInited = true;
+			
 		}
 	}
 

@@ -26,6 +26,7 @@
     <class path="..\modules\fms\src\main\actionscript" />
     <class path="..\modules\license\src\main\actionscript" />
     <class path="..\libs" />
+    <class path="..\asset" />
   </classpaths>
   <!-- Build options -->
   <build>
@@ -61,6 +62,7 @@
   <!-- SWC Libraries -->
   <libraryPaths>
     <element path="..\libs\ane\licensing.swc" />
+    <element path="lib\as3commons-zip-1.0.0-SNAPSHOT.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

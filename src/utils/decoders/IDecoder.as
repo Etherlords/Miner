@@ -6,6 +6,14 @@ package utils.decoders
 	 * ...
 	 * @author 
 	 */
+	
+	/**
+	 * Decoder complete 
+	 * @eventType	flash.events.Event.COMPLETE
+	 */
+	[Event(name = "complete", type = "flash.events.Event")] 
+	
+	
 	public interface IDecoder 
 	{
 		function addEventListener(type:String, listener:Function):void
