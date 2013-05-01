@@ -1,6 +1,5 @@
 package
 {
-	import asset.GameAsset;
 	import flash.desktop.*;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
@@ -15,7 +14,6 @@ package
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import model.CellConstants;
-	import org.as3commons.zip.Zip;
 	import starling.core.Starling;
 	import starling.utils.RectangleUtil;
 	import starling.utils.ScaleMode;
