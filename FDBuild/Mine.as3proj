@@ -51,7 +51,7 @@
     <option linkReport="" />
     <option loadExterns="" />
     <option staticLinkRSL="True" />
-    <option additional="-keep-as3-metadata+=Inject" />
+    <option additional="-keep-as3-metadata+=Inject,Moderator" />
     <option compilerConstants="" />
     <option minorVersion="" />
   </build>
