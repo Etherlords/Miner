@@ -124,7 +124,7 @@ package
 		}
 		
 		private function onFullScreen(e:Event):void
-		{
+		{ 
 			try
 			{
 				if (!Starling.current.root)
