@@ -112,7 +112,7 @@ package
 		{
 			if (e.fullScreen)
 			{
-				var scale:Number = stage.fullScreenHeight / 768; 
+				var scale:Number = stage.fullScreenHeight / 768;
 				stage.fullScreenSourceRect = new Rectangle(0, 0, 1024 * scale, 768 * scale);
 				mStarling.antiAliasing = 16
 			}
