@@ -24,7 +24,7 @@ import core.ioc.Context;
 
             var licenseService:LicenseService = new LicenseService();
 
-			context.addObjectToContext(textureStore, 'identinjection');
+			context.addObjectToContext(textureStore);
 			context.addObjectToContext(licenseService);
 			
 			context.init();
