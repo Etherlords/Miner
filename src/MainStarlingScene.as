@@ -20,7 +20,7 @@ package
 		
 		public function MainStarlingScene()
 		{
-			super();
+			super(); 
 			
 			addEventListener(Event.ADDED_TO_STAGE, onAdded); 
 		}
