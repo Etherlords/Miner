@@ -55,17 +55,7 @@ package logic
 		{
 			if (!isActivated)
 				return;
-			
-			/*viewInstance.fullScreen.removeEventListener(TouchEvent.TOUCH, onFullScreen);
-			viewInstance.backButton.removeEventListener(TouchEvent.TOUCH, backToStartScreen);
-			viewInstance.removeEventListener('MineCellClicked', mineFieldClicked);
-			viewInstance.removeEventListener('MineCellRightClicked', flagCell);
-			viewInstance.stage.removeEventListener(TouchEvent.TOUCH, trachMouse);
-			endGameAlert.removeEventListener('restart', reset);
-			gameTimer.removeEventListener(TimerEvent.TIMER, onSecondDelay);
-			viewInstance.removeEventListener('MineCellClicked', mineFieldClicked);
-			viewInstance.removeEventListener('MineCellRightClicked', flagCell);
-				*/
+				
 			gameTimer.stop();
 			viewInstance.deactivate()
 			
@@ -85,8 +75,6 @@ package logic
 			var lowestSide:Number = Math.min(CellConstants.APPLICATION_HEIGHT, CellConstants.APPLICATION_WIDTH);
 			var largestFieldSide:Number = mineField.fieldWidth > mineField.fieldHeight? mineField.fieldWidth:mineField.fieldHeight
 			CellConstants.MINE_FIELD_GABARITE = Math.ceil(lowestSide / largestFieldSide );
-			trace('CellConstants.MINE_FIELD_GABARITE', CellConstants.MINE_FIELD_GABARITE);
-			//CellConstants.MINE_FIELD_GABARITE *= 8.5 / largestFieldSide;
 			
 			gameModel.minesCount = SettingsModel.instance.minesCount;
 			gameModel.totalField = mineField.fieldWidth * mineField.fieldHeight;
@@ -102,12 +90,8 @@ package logic
 			var initilize:Boolean = !viewInstance
 			
 			if (initilize)
-			{
 				viewInstance = new MainGaimView();
 				
-			
-			}
-			
 			setViewComponent(viewInstance);
 			
 			super.activate(instance);
@@ -120,7 +104,6 @@ package logic
 		
 		private function flagCell(e:Event):void 
 		{
-		
 			if (e.data.j >= mineField.fieldHeight || e.data.i >= mineField.fieldWidth)
 				return
 			
@@ -142,13 +125,11 @@ package logic
 		
 		private function mineFieldClicked(e:Event):void 
 		{
-			calcOpenSpace(e.data.i, e.data.j);
-			
+			calcOpenSpace(e.data.i, e.data.j);	
 		}
 		
 		private function postInitilize():void 
 		{
-			
 			keyController = new KeyBoardController(GlobalUIContext.vectorStage);
 			keyController.registerKeyDownReaction(Keyboard.BACK, backToStartScreen);
 			keyController.registerKeyDownReaction(Keyboard.MENU, backToStartScreen);
@@ -158,30 +139,18 @@ package logic
 			cursorParticle.emitterX = GlobalUIContext.vectorStage.mouseX;
 			cursorParticle.emitterY = GlobalUIContext.vectorStage.mouseY;
 			
-			
-			
-			
-			trace('viewInstance.fullScreen');
 			viewInstance.fullScreen.addEventListener(Event.TRIGGERED, onFullScreen);
 			viewInstance.backButton.addEventListener(Event.TRIGGERED, backToStartScreen);
 			
-			
-			
-			
 			gameBuilder = new MineFieldBuilder();
-			
-			
+
 			reset();
 			
 			viewInstance.initilize(mineField, gameModel);
-			
-			
+
 			viewInstance.addEventListener('MineCellClicked', mineFieldClicked);
 			viewInstance.addEventListener('MineCellRightClicked', flagCell);
 			viewInstance.stage.addEventListener(TouchEvent.TOUCH, trachMouse);
-			
-			//viewInstance.stage.addChild(cursorParticle);
-			
 		}
 		
 		private function backToStartScreen(e:Event = null):void 
@@ -198,7 +167,6 @@ package logic
 		
 		private function onFullScreen(e:Event):void 
 		{
-			
 			if(GlobalUIContext.vectorStage.displayState == StageDisplayState.NORMAL)
 				GlobalUIContext.vectorStage.displayState = StageDisplayState.FULL_SCREEN
 			else
@@ -207,13 +175,9 @@ package logic
 		 
 		override protected function initilize():void
 		{
-
 			endGameAlert = new Alert()
 			
 			endGameAlert.addEventListener('restart', reset);
-			
-			
-			
 			mineField = new MineFieldModel();
 			gameModel = new GameModel();
 			
