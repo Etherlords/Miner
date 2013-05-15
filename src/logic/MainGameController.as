@@ -290,7 +290,7 @@ package logic
 			else
 			{
 				shakeTween(view);
-			}  
+			}
 			
 			showAllMines();
 			
