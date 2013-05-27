@@ -6,12 +6,12 @@
     <movie input="" />
     <movie path="bin\MobileMine.swf" />
     <movie fps="60" />
-    <movie width="480" />
-    <movie height="762" />
+    <movie width="444" />
+    <movie height="600" />
     <movie version="3" />
     <movie minorVersion="6" />
     <movie platform="AIR Mobile" />
-    <movie background="#FFFFFF" />
+    <movie background="#000000" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
@@ -57,11 +57,13 @@
   </includeLibraries>
   <!-- SWC Libraries -->
   <libraryPaths>
-    <!-- example: <element path="..." /> -->
+    <element path="lib\as3commons-zip-1.0.0-SNAPSHOT.swc" />
+    <element path="bin\com.adobe.Vibration.ane" />
+    <element path="lib\VibrationActionScriptLibrary.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
-    <!-- example: <element path="..." /> -->
+    <element path="lib\com.adobe.Vibration.ane" />
   </externalLibraryPaths>
   <!-- Runtime Shared Libraries -->
   <rslPaths>

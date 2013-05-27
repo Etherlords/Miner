@@ -71,13 +71,13 @@ package
 			mStarling = new Starling(MainStarlingScene, stage, viewPort, null, Context3DRenderMode.AUTO, 'baseline');
 			GlobalUIContext.starlingInstance = mStarling;
 			
-			mStarling.simulateMultitouch = false;
+			mStarling.simulateMultitouch = true;
 			mStarling.enableErrorChecking = false;
-			mStarling.antiAliasing = 16;
+			mStarling.antiAliasing = 4;
 			
 			mStarling.start();
 			
-			mStarling.showStats = false;
+			mStarling.showStats = true;
 			mStarling.showStatsAt('right', 'bottom');
 			
 			mStarling.stage3D.addEventListener(Event.CONTEXT3D_CREATE, onContextCreated);

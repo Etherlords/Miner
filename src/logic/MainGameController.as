@@ -1,5 +1,6 @@
 package logic
 {
+	import com.adobe.nativeExtensions.Vibration;
 	import core.scene.AbstractSceneController;
 	import core.ui.KeyBoardController;
 	import flash.display.StageDisplayState;
@@ -131,8 +132,8 @@ package logic
 		private function postInitilize():void 
 		{
 			keyController = new KeyBoardController(GlobalUIContext.vectorStage);
-			keyController.registerKeyDownReaction(Keyboard.BACK, backToStartScreen);
-			keyController.registerKeyDownReaction(Keyboard.MENU, backToStartScreen);
+			keyController.registerKeyDownReaction(Keyboard.BACK, backToStartScreen, true);
+			keyController.registerKeyDownReaction(Keyboard.MENU, backToStartScreen, true);
 			
 			cursorParticle = new CursorParticle();
 			
@@ -155,7 +156,8 @@ package logic
 		
 		private function backToStartScreen(e:Event = null):void 
 		{
-			exit();
+			if(isActivated)
+				exit();
 		}
 		
 		private function trachMouse(e:TouchEvent):void 
@@ -289,47 +291,54 @@ package logic
 			}
 			else
 			{
-				shakeTween(view);
+				shakeTween(GlobalUIContext.starlingInstance.viewPort);
 			}
 			
 			showAllMines();
 			
 		}
 		
-		private function shakeTween( item:DisplayObject ):void 
+		private function shakeTween( item:Object ):void 
 		{
-			item.filter = new BlurFilter(0, 0);
+			/*item.filter = new BlurFilter(0, 0);
 			
 			var blurTween:Tween = new Tween(item.filter, 0.1);
 			blurTween.animate('blurX', item.y + (1 + Math.random() * 2));
 			blurTween.animate('blurY', item.y + (1 + Math.random() * 2));
-			blurTween.repeatCount = 6;
+			blurTween.repeatCount = 6;*/
 			
 			var shake:Tween = new Tween(item, 0.1, Transitions.EASE_IN_BOUNCE);
-			shake.animate('y', item.y + (1 + Math.random() * 2));
-			shake.animate('x', item.x + (1 + Math.random() * 2));
-			shake.delay = 0;
-			shake.repeatCount = 6;
+			shake.animate('y', item.y + (-15 + Math.random() * 30));
+			shake.animate('x', item.x + (-15 + Math.random() * 30));
+			//shake.delay = 0.0;
+			shake.repeatCount = 8;
 			
 			var shake2:Tween = new Tween(item, 0.1);
-			shake2.animate('y', item.y+(Math.random()*0));
-			shake2.animate('x', item.x + (Math.random() * 0));
+			shake2.animate('y', item.y + (-5 + Math.random() * 10));
+			shake2.animate('x', item.x + (-5 + Math.random() * 10));
 			shake.delay = 0.05;
 			shake.repeatCount = 8;
 			shake.onComplete = Delegate.create(onFinishTween, item);
 			
+			
 			GlobalUIContext.starlingInstance.juggler.add(shake);
 			GlobalUIContext.starlingInstance.juggler.add(shake2);
-			GlobalUIContext.starlingInstance.juggler.add(blurTween);
 			
-		   function onFinishTween(item:DisplayObject):void
+			var vibe:Vibration;
+			if(Vibration.isSupported){
+				 vibe = new Vibration();
+				 vibe.vibrate(1000);
+			}
+			//GlobalUIContext.starlingInstance.juggler.add(blurTween);
+			
+		   function onFinishTween(item:Object):void
 		   {
 			  
-				var blurTweenOut:Tween = new Tween(item.filter, 0.1);
-				blurTweenOut.animate('blurX', 0);
-				blurTweenOut.animate('blurY', 0);
+				//var blurTweenOut:Tween = new Tween(item.filter, 0.1);
+				//blurTweenOut.animate('blurX', 0);
+				//blurTweenOut.animate('blurY', 0);
 				
-			   GlobalUIContext.starlingInstance.juggler.add(blurTweenOut);
+			   //GlobalUIContext.starlingInstance.juggler.add(blurTweenOut);
 			
 			   item.x = 0;
 			   item.y = 0;

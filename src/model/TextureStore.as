@@ -98,7 +98,7 @@ package model
 			texturesAtlas = new TextureAtlas(Texture.fromBitmapData(unpackedFiles.getItem('asset.png')), unpackedFiles.getItem('asset.xml'))
 			var theme:Theme = new Theme(texturesAtlas);
 
-			var texture:Texture = texturesAtlas.getTexture('a_LCDNova_0');
+			/*var texture:Texture = texturesAtlas.getTexture('a_LCDNova_0');
 			
 			var xml:XML = XML(unpackedFiles.getItem('a_LCDNova.fnt'));
 			var bitmapFont:BitmapFont = new BitmapFont(texture, xml)
@@ -113,7 +113,7 @@ package model
 				
 				numbers.push(Texture.fromTexture(key));
 			}
-			
+			*/
 			dispatchEvent(new Event(Event.COMPLETE));
 			
 			isInited = true;

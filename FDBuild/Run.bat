@@ -58,7 +58,7 @@ goto end
 :ios-install
 echo Installing application for testing on iOS (%DEBUG_IP%)
 echo.
-call adt -installApp -platform ios -package "%OUTPUT%"
+call adt -installApp -platform ios -package "%OUTPUT%" "-extdir lib/"
 if errorlevel 1 goto installfail
 
 echo Now manually start application on device

@@ -1,5 +1,6 @@
 package view 
 {
+	import feathers.controls.Label;
 	import starling.filters.ColorMatrixFilter;
 	import model.CellConstants;
 	import model.MineFieldCellModel;
@@ -23,9 +24,10 @@ package view
 		private static const FLAG_TEXTURE:String = 'flag'
 		
 		public var cellModel:MineFieldCellModel;
-		private var lable:Image;
+		private var lable:Label;
 		
-		private var lableColors:Array = [0x0033FF, 0x222277, 0x0000EE, 0x33A3FF, 0x33CC00, 0x00AA00, 0xB6CC00, 0xF7CC00, 0xFF0000]; 
+		private var lableColors:Array = ["#0033FF", "#222277", "#0000EE", "#33A3FF", "#33CC00", "#00AA00", "#B6CC00", "#F7CC00", "#FF0000"]; 
+		//private var lableColors:Array = [0x0033FF, 0x222277, 0x0000EE, 0x33A3FF, 0x33CC00, 0x00AA00, 0xB6CC00, 0xF7CC00, 0xFF0000]; 
 		
 		private var updateMap:Object;
 		private var background:Image;
@@ -49,7 +51,7 @@ package view
 			updateMap = null;
 			background.dispose();
 			flag.dispose();
-			unflatten();
+			
 			
 			super.dispose();
 		}
@@ -74,14 +76,19 @@ package view
 			
 			scaleFactor = CellConstants.MINE_FIELD_GABARITE / background.width;
 			
-			lable = new Image(TextureStore.numbers[0]);
+			
+			
+			lable = new Label();
+			lable.height = 26;
+			lable.width = 26;
+			
 			flag = new Image(textureStore.getTexture(FLAG_TEXTURE));
 			addChild(background);
 			
 			
 			background.smoothing = TextureSmoothing.TRILINEAR;
 			flag.smoothing = TextureSmoothing.TRILINEAR;
-			lable.smoothing = TextureSmoothing.TRILINEAR;
+			//lable.smoothing = TextureSmoothing.TRILINEAR;
 			
 			lable.touchable = false;
 			flag.touchable = false;
@@ -101,7 +108,7 @@ package view
 		
 		private function alignUI():void
 		{
-			lable.x = (CellConstants.MINE_FIELD_GABARITE - lable.width) / 2;
+			lable.x = (CellConstants.MINE_FIELD_GABARITE - lable.width) / 2 + 2;
 			lable.y = (CellConstants.MINE_FIELD_GABARITE - lable.height) / 2 - 2;
 		}
 		
@@ -131,7 +138,7 @@ package view
 				showMine();
 			}
 			
-			//flatten();
+			flatten();
 			
 		}
 		
@@ -141,8 +148,9 @@ package view
 			if (cellModel.fieldStatus != CellConstants.OPEN_FIELD && cellModel.fieldStatus != CellConstants.MINED_FIELD)
 			{
 				
-				lable.texture = TextureStore.numbers[cellModel.fieldStatus];
-				lable.color = lableColors[cellModel.fieldStatus];
+				lable.text = '<font color="'+lableColors[cellModel.fieldStatus]+'">' + cellModel.fieldStatus.toString() + '</font>';
+				//lable.texture = TextureStore.numbers[cellModel.fieldStatus];
+				//lable.color = lableColors[cellModel.fieldStatus];
 				
 				//lable.filter = new ColorMatrixFilter();
 				
@@ -191,7 +199,7 @@ package view
 			if(contains(lable))
 				this.setChildIndex(lable, this.numChildren - 1);
 				
-			//flatten();
+			flatten();
 		}
 		
 	}

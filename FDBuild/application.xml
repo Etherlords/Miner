@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <application xmlns="http://ns.adobe.com/air/application/3.6">
-  <id>air.AirMobileBuild</id>
+  <id>Two.steps.from.space</id>
   <versionNumber>0.1</versionNumber>
   <supportedProfiles>mobileDevice</supportedProfiles>
-  <filename>AirMobileBuild</filename>
-  <name>AirMobileBuild</name>
+  <filename>II Steps from space</filename>
+  <name>Two steps from space</name>
   <android>
     <manifestAdditions><![CDATA[<manifest android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="8" />
+	<uses-permission android:name="android.permission.VIBRATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-feature android:required="true" android:name="android.hardware.touchscreen.multitouch" />
 </manifest>]]></manifestAdditions>
@@ -31,8 +32,8 @@
     <requestedDisplayResolution>high</requestedDisplayResolution>
   </iPhone>
   <initialWindow>
-    <title>AirMobileBuild</title>
-    <content>MobileMine.swf</content>
+    <title>II steps from space</title>
+    <content>Mine.swf</content>
     <visible>true</visible>
     <fullScreen>true</fullScreen>
     <!--<autoOrients>false</autoOrients>-->
@@ -59,4 +60,10 @@
 	Android manifest documentation:
 	http://developer.android.com/guide/topics/manifest/manifest-intro.html
 	-->
+  <copyright>Etherlords</copyright>
+  <versionLabel>Prerelease</versionLabel>
+  <extensions>
+    <extensionID>com.adobe.Vibration</extensionID>
+  </extensions>
+  <supportedLanguages>en</supportedLanguages>
 </application>

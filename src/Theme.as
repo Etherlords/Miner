@@ -184,14 +184,14 @@ package
 			const semiboldFontNames:String = "a_LCDNova";
 
 			
-			if(Starling.handleLostContext)
+			/*if(Starling.handleLostContext)
 			{
 				this.atlasBitmapData = atlasBitmapData;
 			}
 			else
 			{
 				atlasBitmapData.dispose();
-			}
+			}*/
 
 			
 			alertStyle = new StyleSheet();
@@ -210,9 +210,9 @@ package
 			
 		
 			
-			this.alertTextFormat = new TextFormat(semiboldFontNames, 27 * this.scale, 0xAAA7A5);
-			this.buttonTextFormat = new TextFormat(semiboldFontNames, 27 * this.scale, 0xAAA7A5);
-			this.buttonTextFormatDown = new TextFormat(semiboldFontNames, 27 * this.scale, 0xBE651C);
+			this.alertTextFormat = new TextFormat(semiboldFontNames, 27 , 0xAAA7A5);
+			this.buttonTextFormat = new TextFormat(semiboldFontNames, 27 , 0xAAA7A5);
+			this.buttonTextFormatDown = new TextFormat(semiboldFontNames, 27, 0xBE651C);
 			
 			this.buttonUpSkinTextures = new Scale9Textures(this.atlas.getTexture("big_button_normal"), BUTTON_SCALE9_GRID);
 			this.buttonDownSkinTextures = new Scale9Textures(this.atlas.getTexture("big_button_down"), BUTTON_SCALE9_GRID);
@@ -258,9 +258,9 @@ package
 			//skinSelector.setValueForState(this.buttonSelectedDisabledSkinTextures, Button.STATE_DISABLED, true);
 			skinSelector.displayObjectProperties =
 			{
-				width: 312 * this.scale,
-				height: 42 * this.scale,
-				textureScale: this.scale
+				width: 312, //* this.scale,
+				height: 42 //* this.scale,
+				//textureScale: this.scale
 			};
 			button.stateToSkinFunction = skinSelector.updateValue;
 			this.baseButtonInitializer(button);
@@ -279,7 +279,7 @@ package
 			button.downLabelProperties.embedFonts = true;
 			button.labelFactory = f
 
-			button.paddingTop = 5 * this.scale;
+			button.paddingTop = 5 //* this.scale;
 			//button.paddingLeft = button.paddingRight = 16 * this.scale;
 			//button.gap = 12 * this.scale;
 			//button.minWidth = button.minHeight = 60 * this.scale;

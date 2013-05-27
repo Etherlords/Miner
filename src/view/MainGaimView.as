@@ -121,16 +121,17 @@ package view
 			if (!mineFieldInstance)
 				return;
 			
-			removeChild(mineFieldInstance);
+			
 			
 			while (mineFieldInstance.numChildren != 0)
 			{
 				var child:MineFieldCellView = mineFieldInstance.getChildAt(0) as MineFieldCellView;
 				
-				mineFieldInstance.removeChildAt(0);
-				child.dispose();
-				
+				mineFieldInstance.removeChildAt(0, true);
 			}
+			
+			removeChild(mineFieldInstance, true);
+			
 			mineFieldInstance.dispose();
 			mineFieldInstance = null;
 		}

@@ -4,10 +4,10 @@
   <output>
     <movie outputType="Application" />
     <movie input="" />
-    <movie path="..\bin\Mine.swf" />
-    <movie fps="60" />
-    <movie width="1024" />
-    <movie height="768" />
+    <movie path="bin\Mine.swf" />
+    <movie fps="30" />
+    <movie width="600" />
+    <movie height="1024" />
     <movie version="11" />
     <movie minorVersion="5" />
     <movie platform="Flash Player" />

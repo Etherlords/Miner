@@ -13,12 +13,12 @@ package view.components
 		public static const RIGHT:uint = 0;
 		public static const BOTTOM:uint = 1;
 		
-		private var elements:Vector.<DisplayObject> = new Vector.<DisplayObject>;
+		protected var elements:Vector.<DisplayObject> = new Vector.<DisplayObject>;
 		
-		private var alignStrategy:Function;
-		private var padding:Number;
-		private var alignType:uint;
-		private var usingFlatten:Boolean;
+		protected var alignStrategy:Function;
+		protected var padding:Number;
+		protected var alignType:uint;
+		protected var usingFlatten:Boolean;
 		
 		public function AlignContainer(padding:Number = 0, align:uint = RIGHT, usingFlatten:Boolean = false ) 
 		{
@@ -75,8 +75,17 @@ package view.components
 		
 		private function placeElement(element:DisplayObject, anchorn:Point):void
 		{
-			element.x = anchorn.x;
-			element.y = anchorn.y;
+			if (element.x != anchorn.x)
+			{
+				
+				element.x = anchorn.x;
+			}
+				
+			if (element.y != anchorn.y)
+			{
+				
+				element.y = anchorn.y;
+			}
 		}
 		
 		private function alignToBottom(element:DisplayObject, anchorn:Point):void
@@ -88,7 +97,7 @@ package view.components
 		private function alignToRight(element:DisplayObject, anchorn:Point):void
 		{
 			placeElement(element, anchorn);
-			anchorn.x += element.width + padding;
+			anchorn.x += Math.floor(element.width) + padding;
 		}
 		
 	}

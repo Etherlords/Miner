@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://texturepacker.com-->
-<!-- $TexturePacker:SmartUpdate:a14b20ac1c65a54d8a5c60e0847c534b$ -->
+<!-- $TexturePacker:SmartUpdate:3544fe7a408ee54195ee3366470dbabb$ -->
 <TextureAtlas imagePath="asset.png">
-    <SubTexture name="a_LCDNova_0" x="2" y="2" width="256" height="256"/>
-    <SubTexture name="big_button_down" x="260" y="2" width="16" height="16"/>
-    <SubTexture name="big_button_normal" x="278" y="2" width="16" height="16"/>
-    <SubTexture name="cell_bomb" x="296" y="2" width="85" height="85"/>
-    <SubTexture name="cell_down" x="383" y="2" width="85" height="85"/>
-    <SubTexture name="cell_normal" x="2" y="260" width="85" height="85"/>
-    <SubTexture name="flag" x="89" y="260" width="85" height="85"/>
-    <SubTexture name="gnomemines" x="176" y="260" width="85" height="85"/>
-    <SubTexture name="gnomepanelclock" x="263" y="260" width="64" height="64"/>
-    <SubTexture name="starParticle" x="329" y="260" width="64" height="64"/>
+    <SubTexture name="big_button_down" x="190" y="173" width="16" height="16"/>
+    <SubTexture name="big_button_normal" x="173" y="173" width="16" height="16"/>
+    <SubTexture name="cell_bomb" x="87" y="173" width="85" height="85"/>
+    <SubTexture name="cell_down" x="1" y="173" width="85" height="85"/>
+    <SubTexture name="cell_normal" x="87" y="87" width="85" height="85"/>
+    <SubTexture name="flag" x="1" y="87" width="85" height="85"/>
+    <SubTexture name="gnomemines" x="131" y="1" width="85" height="85"/>
+    <SubTexture name="gnomepanelclock" x="66" y="1" width="64" height="64"/>
+    <SubTexture name="starParticle" x="1" y="1" width="64" height="64"/>
 </TextureAtlas>

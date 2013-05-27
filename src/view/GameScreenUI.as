@@ -12,6 +12,7 @@ package view
 	import starling.events.Event;
 	import ui.scoreboard.ScoreboardStarling;
 	import view.components.AlignContainer;
+	import view.components.AlignContainerExt;
 	import view.components.ClockIcon;
 	
 	/**
@@ -39,6 +40,8 @@ package view
 		private var viewComponentPosition:Point = new Point(0, 0);
 		private var uiPanel:AlignContainer;
 		private var fieldIcon:Image;
+		private var timer:AlignContainer;
+		private var minesCount:AlignContainer;
 		public var maxWidth:Number;
 		
 		public function GameScreenUI(gameModel:GameModel = null) 
@@ -127,8 +130,8 @@ package view
 		private function craeteUI():void 
 		{
 			var isLand:Boolean = CellConstants.APPLICATION_HEIGHT > CellConstants.APPLICATION_WIDTH;
-			var timer:AlignContainer = new AlignContainer(0, AlignContainer.BOTTOM);
-			var minesCount:AlignContainer = new AlignContainer(0, AlignContainer.BOTTOM);
+			timer = new AlignContainerExt(0, AlignContainer.BOTTOM);
+			minesCount = new AlignContainer(0, AlignContainer.BOTTOM);
 			var fieldContainer:AlignContainer = new AlignContainer(0, AlignContainer.BOTTOM);
 			
 			
@@ -150,12 +153,12 @@ package view
 			minesCount.addElements(mineIcon, minesOnFieldValue);
 			fieldContainer.addElements(fieldIcon, openedFieldsValue);
 			
-			uiPanel = new AlignContainer(5, isLand ? AlignContainer.RIGHT:AlignContainer.BOTTOM);
+			uiPanel = new AlignContainer(isLand? (CellConstants.APPLICATION_WIDTH-(timer.width+minesCount.width+fieldContainer.width))/3:5, isLand ? AlignContainer.RIGHT:AlignContainer.BOTTOM);
 			
 			uiPanel.addElements(timer, minesCount, fieldContainer);
 			
 			addChild(uiPanel);
-			addChild(fullScreen);
+			//addChild(fullScreen);
 			addChild(backButton);
 		}
 		
@@ -180,10 +183,14 @@ package view
 			alignElement.y = icon.y + (icon.height - alignElement.height) / 2;
 		}
 		
-		private function aligneToX(icon:DisplayObject, alignElement:DisplayObject):void
+		private function aligneToX(icon:DisplayObject, alignElement:DisplayObject, what:String = ''):void
 		{
+			var x:Number = icon.x + (Math.floor(icon.width) - Math.floor(alignElement.width)) / 2;
 			
-			alignElement.x = icon.x + (icon.width - alignElement.width) / 2;
+			if (Math.abs(x-alignElement.x) > 1)
+			{
+				alignElement.x = x;
+			}
 			//alignElement.y = icon.y + (icon.height - alignElement.height) / 2;
 		}
 		
@@ -195,17 +202,17 @@ package view
 			if(!stage)
 				return;
 				
-			fullScreen.x = 5;
-			fullScreen.y = stage.stageHeight - 5 - fullScreen.height;
+			//fullScreen.x = 5;
+			//fullScreen.y = stage.stageHeight - 5 - fullScreen.height;
 			
 			backButton.x = 5;
-			backButton.y = fullScreen.y - backButton.height - 5;
+			backButton.y = stage.stageHeight - 5 - backButton.height;
 			
 			maxWidth = backButton.x + backButton.width + 5;
 			
 			uiPanel.align();
 			uiPanel.y = 10;
-			
+
 			if (CellConstants.APPLICATION_HEIGHT > CellConstants.APPLICATION_WIDTH)
 			{
 				//uiPanel.x = (CellConstants.APPLICATION_WIDTH - uiPanel.width) / 2;
@@ -215,9 +222,11 @@ package view
 				//minesOnFieldValue.align();
 				//timerValue.align();
 				
-				aligneToX(timerValue, timerIcon);
-				aligneToX(minesOnFieldValue, mineIcon);
-				aligneToX(openedFieldsValue, fieldIcon);
+				//aligneToX(timerValue, timerIcon, 'timer');
+				aligneToX(timerIcon, timerValue);
+				aligneToX(minesOnFieldValue, mineIcon, 'mines');
+				aligneToX(openedFieldsValue, fieldIcon, 'openmines');
+				uiPanel.x = (CellConstants.APPLICATION_WIDTH - uiPanel.width) / 2;
 				
 			}
 			else

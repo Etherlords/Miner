@@ -27,12 +27,19 @@ package
 		{
 			progress = new ProgressBar();
 			progress.maxWidth = stage.stageWidth - 100;
+			
 			progress.progressModel.bgPattern = MinimalAsset.preloader_bg;
-			progress.progressModel.progressPattern = MinimalAsset.preloader;;
-			progress.x = 50;
-			progress.y = stage.stageHeight - stage.stageHeight/4;
+			progress.progressModel.progressPattern = MinimalAsset.preloader;
+			
+			progress.x = (stage.stageWidth - progress.maxWidth) / 2;
+			
+			progress.y = stage.stageHeight - stage.stageHeight / 4;
 			
 			bg = new Bitmap(MinimalAsset.bg_load);
+			bg.x = (stage.stageWidth - bg.width) / 2;
+			bg.y = (stage.stageHeight - bg.height) / 2;
+			
+			
 			addChild(bg);
 			addChild(progress);
 			addEventListener(Event.ENTER_FRAME, onFrame);
@@ -46,8 +53,6 @@ package
 			
 			if (framesLoaded == totalFrames)
 			{
-				//
-				
 				if(!inited)
 					complete();
 				

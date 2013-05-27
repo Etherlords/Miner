@@ -25,7 +25,7 @@ package logic
 	public class StartScreenController extends AbstractSceneController 
 	{
 		private var viewInstance:StartScreenView;
-		private var cursorParticle:CursorParticle;
+		private var cursors:Vector.<CursorParticle> = new Vector.<CursorParticle>
 		
 		private var fieldSizes:Array =	 [9, 	16, 	22, 	35, 	40,	 	50,		60,		70, 	80, 	90, 	100];
 		private var defaultMines:Array = [10,	 40, 	90, 	180, 	250, 	420, 	612, 	880, 	1200, 	1620, 	2100];
@@ -46,7 +46,7 @@ package logic
 		
 		private function postInitilize():void 
 		{
-			cursorParticle = new CursorParticle();
+			
 			
 			var cursorData:MouseCursorData = new MouseCursorData();
 			cursorData.data = new <BitmapData>[new BitmapData(1, 1, true, 0x01000000)];
@@ -59,14 +59,12 @@ package logic
 			
 			viewInstance.addChild(stars);
 			
+			craeteCursor(0, 0);
+			
 			stars.y = -10;
 			
 			this.viewInstance.stage.addEventListener(TouchEvent.TOUCH, onTouch);
 			
-			viewInstance.addChild(cursorParticle);
-			
-			cursorParticle.emitterX = GlobalUIContext.vectorStage.mouseX;
-			cursorParticle.emitterY = GlobalUIContext.vectorStage.mouseY;
 			
 			viewInstance.startGameButton.addEventListener(Event.TRIGGERED, startGame);
 			viewInstance.left.addEventListener(Event.TRIGGERED, changeGameModeLeft);
@@ -161,11 +159,31 @@ package logic
 			super.exit();
 		}
 		
+		private function craeteCursor(x:Number, y:Number):void
+		{
+			var cursorParticle:CursorParticle = new CursorParticle();
+			
+			viewInstance.addChild(cursorParticle);
+			
+			cursorParticle.emitterX = x;
+			cursorParticle.emitterY = y;
+			
+			cursors.push(cursorParticle)
+		}
+		
 		private function onTouch(e:TouchEvent):void 
 		{
-		
-				cursorParticle.emitterX = e.touches[0].globalX
-				cursorParticle.emitterY = e.touches[0].globalY
+			
+			for (var i:int = 0; i < e.touches.length; i++)
+			{
+				if (cursors.length - 1 < i)
+					craeteCursor(e.touches[i].globalX, e.touches[i].globalY);
+					
+				var cursorParticle:CursorParticle = cursors[i];
+				
+				cursorParticle.emitterX = e.touches[i].globalX
+				cursorParticle.emitterY = e.touches[i].globalY
+			}
 			
 		}
 		
