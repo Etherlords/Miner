@@ -7,7 +7,9 @@ buildscript {
 subprojects {
 
     apply plugin: 'gradlefx'
-
+	apply plugin: 'ideafx'
+	apply plugin: 'flashbuilder'
+	
     additionalCompilerOptions << '-keep-as3-metadata+=Inject'
 
     flexHome = System.getenv()['FLEX_HOME']
